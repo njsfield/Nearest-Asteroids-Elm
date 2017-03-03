@@ -9001,7 +9001,7 @@ var _elm_lang$http$Http$stringPart = _elm_lang$http$Http$StringPart;
 var _user$project$Model$initialModel = {
 	asteroids: {
 		ctor: '::',
-		_0: {name: '(2017 BU6)', referenceId: '3767006'},
+		_0: {name: '(2017 BU6)', minsize: 2.34324e-2, referenceId: '3767006'},
 		_1: {ctor: '[]'}
 	},
 	asteroidsErr: ''
@@ -9010,21 +9010,40 @@ var _user$project$Model$Model = F2(
 	function (a, b) {
 		return {asteroids: a, asteroidsErr: b};
 	});
-var _user$project$Model$Asteroid = F2(
-	function (a, b) {
-		return {name: a, referenceId: b};
+var _user$project$Model$Asteroid = F3(
+	function (a, b, c) {
+		return {name: a, minsize: b, referenceId: c};
 	});
 
 var _user$project$Update$nasaUrl = 'https://api.nasa.gov/neo/rest/v1/feed?start_date=2017-03-02&api_key=3NW9wqg2QvSWpj4WAFj3tTQYTK85Hj1UEqKsoRo4';
+var _user$project$Update$speedDecoder = A2(
+	_elm_lang$core$Json_Decode$at,
+	{
+		ctor: '::',
+		_0: 'estimated_diameter',
+		_1: {
+			ctor: '::',
+			_0: 'kilometers',
+			_1: {
+				ctor: '::',
+				_0: 'estimated_diameter_min',
+				_1: {ctor: '[]'}
+			}
+		}
+	},
+	_elm_lang$core$Json_Decode$float);
 var _user$project$Update$asteroidDecoder = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 	'neo_reference_id',
 	_elm_lang$core$Json_Decode$string,
-	A3(
-		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-		'name',
-		_elm_lang$core$Json_Decode$string,
-		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Model$Asteroid)));
+	A2(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$custom,
+		_user$project$Update$speedDecoder,
+		A3(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+			'name',
+			_elm_lang$core$Json_Decode$string,
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Model$Asteroid))));
 var _user$project$Update$asteroidListDecoder = _elm_lang$core$Json_Decode$list(_user$project$Update$asteroidDecoder);
 var _user$project$Update$firstValue = function (dateList) {
 	var dateKeys = _elm_lang$core$Dict$keys(dateList);
@@ -9064,7 +9083,12 @@ var _user$project$Update$update = F2(
 				_elm_lang$core$Platform_Cmd_ops['!'],
 				_elm_lang$core$Native_Utils.update(
 					model,
-					{asteroidsErr: 'something went wrong'}),
+					{
+						asteroidsErr: A2(
+							_elm_lang$core$Basics_ops['++'],
+							'something went wrong',
+							_elm_lang$core$Basics$toString(_p0._0._0))
+					}),
 				{ctor: '[]'});
 		}
 	});
