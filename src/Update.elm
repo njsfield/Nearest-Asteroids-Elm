@@ -52,7 +52,7 @@ firstValue : Dict String (List a) -> List a
 firstValue dateList =
     let
         dateKeys =
-            Dict.keys dateList
+            keys dateList
 
         firstDate =
             M.withDefault "" (L.head dateKeys)
