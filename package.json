@@ -1,0 +1,14 @@
+{
+  "name": "elm-nearest-asteroids",
+  "version": "0.0.1",
+  "description": "A Visual Representation Of Todays Nearest Asteroids From Earth",
+  "dependencies": {
+    "elm": "^0.18.0"
+  },
+  "scripts": {
+    "elm-install": "node_modules/.bin/elm-package install -y",
+    "postinstall": "npm run elm-install",
+    "build": "elm-live src/NearestAsteroids.elm --open --pushstate --output=public/js/main.js",
+    "make": "node_modules/.bin/"
+  }
+}
