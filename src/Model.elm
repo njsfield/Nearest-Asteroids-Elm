@@ -4,13 +4,13 @@ import Dict exposing (Dict)
 
 
 type alias Model =
-    { asteroids : AsteroidDict
+    { asteroids : AsteroidList
     , asteroidsErr : String
     }
 
 
-type alias AsteroidDict =
-    Dict String (List Asteroid)
+type alias AsteroidList =
+    List Asteroid
 
 
 type alias Asteroid =
@@ -21,6 +21,6 @@ type alias Asteroid =
 
 initialModel : Model
 initialModel =
-    { asteroids = Dict.fromList [ ( "03-03-2017", [ { name = "(2017 BU6)", referenceId = "3767006" } ] ) ]
+    { asteroids = [ { name = "(2017 BU6)", referenceId = "3767006" } ]
     , asteroidsErr = ""
     }

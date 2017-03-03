@@ -8999,20 +8999,11 @@ var _elm_lang$http$Http$StringPart = F2(
 var _elm_lang$http$Http$stringPart = _elm_lang$http$Http$StringPart;
 
 var _user$project$Model$initialModel = {
-	asteroids: _elm_lang$core$Dict$fromList(
-		{
-			ctor: '::',
-			_0: {
-				ctor: '_Tuple2',
-				_0: '03-03-2017',
-				_1: {
-					ctor: '::',
-					_0: {name: '(2017 BU6)', referenceId: '3767006'},
-					_1: {ctor: '[]'}
-				}
-			},
-			_1: {ctor: '[]'}
-		}),
+	asteroids: {
+		ctor: '::',
+		_0: {name: '(2017 BU6)', referenceId: '3767006'},
+		_1: {ctor: '[]'}
+	},
 	asteroidsErr: ''
 };
 var _user$project$Model$Model = F2(
@@ -9034,8 +9025,22 @@ var _user$project$Update$asteroidDecoder = A3(
 		'name',
 		_elm_lang$core$Json_Decode$string,
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Model$Asteroid)));
-var _user$project$Update$asteroidListDecoder = _elm_lang$core$Json_Decode$dict(
-	_elm_lang$core$Json_Decode$list(_user$project$Update$asteroidDecoder));
+var _user$project$Update$asteroidListDecoder = _elm_lang$core$Json_Decode$list(_user$project$Update$asteroidDecoder);
+var _user$project$Update$firstValue = function (dateList) {
+	var dateKeys = _elm_lang$core$Dict$keys(dateList);
+	var firstDate = A2(
+		_elm_lang$core$Maybe$withDefault,
+		'',
+		_elm_lang$core$List$head(dateKeys));
+	return A2(
+		_elm_lang$core$Maybe$withDefault,
+		{ctor: '[]'},
+		A2(_elm_lang$core$Dict$get, firstDate, dateList));
+};
+var _user$project$Update$datesDecoder = A2(
+	_elm_lang$core$Json_Decode$map,
+	_user$project$Update$firstValue,
+	_elm_lang$core$Json_Decode$dict(_user$project$Update$asteroidListDecoder));
 var _user$project$Update$resultsDecoder = A2(
 	_elm_lang$core$Json_Decode$at,
 	{
@@ -9043,7 +9048,7 @@ var _user$project$Update$resultsDecoder = A2(
 		_0: 'near_earth_objects',
 		_1: {ctor: '[]'}
 	},
-	_user$project$Update$asteroidListDecoder);
+	_user$project$Update$datesDecoder);
 var _user$project$Update$update = F2(
 	function (msg, model) {
 		var _p0 = msg;

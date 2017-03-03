@@ -1,13 +1,16 @@
 module Update exposing (..)
 
 import Model exposing (..)
-import Json.Decode exposing (..)
+import Json.Decode as D exposing (..)
 import Json.Decode.Pipeline exposing (..)
 import Http
+import Maybe as M exposing (..)
+import Dict exposing (..)
+import List as L exposing (..)
 
 
 type Msg
-    = AsteroidRequest (Result Http.Error AsteroidDict)
+    = AsteroidRequest (Result Http.Error AsteroidList)
 
 
 init : ( Model, Cmd Msg )
@@ -31,14 +34,39 @@ getAsteroids =
         |> Http.send AsteroidRequest
 
 
-resultsDecoder : Decoder AsteroidDict
+resultsDecoder : Decoder (List Asteroid)
 resultsDecoder =
-    at [ "near_earth_objects" ] asteroidListDecoder
+    D.at [ "near_earth_objects" ] datesDecoder
 
 
-asteroidListDecoder : Decoder AsteroidDict
+datesDecoder : Decoder (List Asteroid)
+datesDecoder =
+    D.map firstValue (D.dict asteroidListDecoder)
+
+
+
+-- |> asteroidListDecoder
+
+
+firstValue : Dict String (List a) -> List a
+firstValue dateList =
+    let
+        dateKeys =
+            Dict.keys dateList
+
+        firstDate =
+            M.withDefault "" (L.head dateKeys)
+    in
+        M.withDefault [] (Dict.get firstDate dateList)
+
+
+asteroidListDecoder : Decoder (List Asteroid)
 asteroidListDecoder =
-    dict (list asteroidDecoder)
+    D.list asteroidDecoder
+
+
+
+--@TODO : Add fields
 
 
 asteroidDecoder : Decoder Asteroid
