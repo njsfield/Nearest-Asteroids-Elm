@@ -6,6 +6,9 @@ import View exposing (..)
 import Html exposing (..)
 
 
+-- main: @TODO. Replace getAsteroids with getDate Cmd
+
+
 main : Program Never Model Msg
 main =
     program
