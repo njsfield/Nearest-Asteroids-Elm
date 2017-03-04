@@ -41,19 +41,19 @@ resultsDecoder =
 
 datesDecoder : Decoder (List Asteroid)
 datesDecoder =
-    D.map firstDateList (dict asteroidListDecoder)
+    D.map firstDictList (dict asteroidListDecoder)
 
 
-firstDateList : Dict String (List a) -> List a
-firstDateList dateList =
+firstDictList : Dict String (List a) -> List a
+firstDictList dictList =
     let
-        dateKeys =
-            keys dateList
+        dictKeys =
+            keys dictList
 
-        firstDate =
-            withDefault "" (head dateKeys)
+        firstKey =
+            withDefault "" (head dictKeys)
     in
-        withDefault [] (get firstDate dateList)
+        withDefault [] (get firstKey dictList)
 
 
 asteroidListDecoder : Decoder (List Asteroid)

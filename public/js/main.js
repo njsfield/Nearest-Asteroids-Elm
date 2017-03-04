@@ -9045,20 +9045,20 @@ var _user$project$Update$asteroidDecoder = A3(
 			_elm_lang$core$Json_Decode$string,
 			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Model$Asteroid))));
 var _user$project$Update$asteroidListDecoder = _elm_lang$core$Json_Decode$list(_user$project$Update$asteroidDecoder);
-var _user$project$Update$firstDateList = function (dateList) {
-	var dateKeys = _elm_lang$core$Dict$keys(dateList);
-	var firstDate = A2(
+var _user$project$Update$firstDictList = function (dictList) {
+	var dictKeys = _elm_lang$core$Dict$keys(dictList);
+	var firstKey = A2(
 		_elm_lang$core$Maybe$withDefault,
 		'',
-		_elm_lang$core$List$head(dateKeys));
+		_elm_lang$core$List$head(dictKeys));
 	return A2(
 		_elm_lang$core$Maybe$withDefault,
 		{ctor: '[]'},
-		A2(_elm_lang$core$Dict$get, firstDate, dateList));
+		A2(_elm_lang$core$Dict$get, firstKey, dictList));
 };
 var _user$project$Update$datesDecoder = A2(
 	_elm_lang$core$Json_Decode$map,
-	_user$project$Update$firstDateList,
+	_user$project$Update$firstDictList,
 	_elm_lang$core$Json_Decode$dict(_user$project$Update$asteroidListDecoder));
 var _user$project$Update$resultsDecoder = A2(
 	_elm_lang$core$Json_Decode$at,
