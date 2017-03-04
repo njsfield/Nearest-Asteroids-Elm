@@ -3,12 +3,34 @@
   "version": "0.0.1",
   "description": "A Visual Representation Of Todays Nearest Asteroids From Earth",
   "dependencies": {
-    "elm": "^0.18.0"
+    "elm": "^0.18.0",
+    "tachyons-custom": "^4.5.4"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.7.3",
+    "elm-live": "^2.7.4",
+    "postcss-clean": "^1.0.2",
+    "postcss-cli": "^2.6.0",
+    "postcss-custom-media": "^5.0.1",
+    "postcss-custom-properties": "^5.0.2",
+    "postcss-import": "^9.1.0"
   },
   "scripts": {
-    "elm-install": "node_modules/.bin/elm-package install -y",
+    "elm-install": "elm-package install -y",
     "postinstall": "npm run elm-install",
-    "build": "elm-live src/NearestAsteroids.elm --open --pushstate --output=public/js/main.js",
-    "make": "node_modules/.bin/"
-  }
+    "make": "node_modules/.bin/",
+    "watch": "npm run watch:elm & npm run watch:css",
+    "watch:elm": "elm-live src/elm/Main.elm --output=public/main.js --dir=public --open --pushstate",
+    "watch:css": "postcss --watch --config ./postcss-config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/njsfield/Nearest-Asteroids-Elm.git"
+  },
+  "author": "Nick Field",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/njsfield/Nearest-Asteroids-Elm/issues"
+  },
+  "homepage": "https://github.com/njsfield/Nearest-Asteroids-Elm#readme"
 }
