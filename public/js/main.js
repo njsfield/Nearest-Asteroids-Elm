@@ -9001,7 +9001,7 @@ var _elm_lang$http$Http$stringPart = _elm_lang$http$Http$StringPart;
 var _user$project$Model$initialModel = {
 	asteroids: {
 		ctor: '::',
-		_0: {name: '(2017 BU6)', minsize: 2.34324e-2, referenceId: '3767006'},
+		_0: {name: '(2017 BU6)', minsize: 2.34324e-2, speed: '0.234', missDistance: '0.342'},
 		_1: {ctor: '[]'}
 	},
 	asteroidsErr: ''
@@ -9010,40 +9010,84 @@ var _user$project$Model$Model = F2(
 	function (a, b) {
 		return {asteroids: a, asteroidsErr: b};
 	});
-var _user$project$Model$Asteroid = F3(
-	function (a, b, c) {
-		return {name: a, minsize: b, referenceId: c};
+var _user$project$Model$Asteroid = F4(
+	function (a, b, c, d) {
+		return {name: a, minsize: b, speed: c, missDistance: d};
 	});
 
+var _user$project$NasaKeys$neokeys = {name: 'name', neo: 'near_earth_objects', close: 'close_approach_data', estdiam: 'estimated_diameter', estdiammin: 'estimated_diameter_min', rvel: 'relative_velocity', kph: 'kilometers_per_hour', miss: 'miss_distance', k: 'kilometers'};
+
 var _user$project$Update$nasaUrl = 'https://api.nasa.gov/neo/rest/v1/feed?start_date=2017-03-02&api_key=3NW9wqg2QvSWpj4WAFj3tTQYTK85Hj1UEqKsoRo4';
+var _user$project$Update$listHeadDecoder = function (nextDecoder) {
+	return A2(
+		_elm_lang$core$Json_Decode$map,
+		function (lst) {
+			return A2(
+				_elm_lang$core$Maybe$withDefault,
+				'',
+				_elm_lang$core$List$head(lst));
+		},
+		_elm_lang$core$Json_Decode$list(nextDecoder));
+};
+var _user$project$Update$closeApproachDecoder = function (depthList) {
+	return A2(
+		_elm_lang$core$Json_Decode$at,
+		{
+			ctor: '::',
+			_0: 'close_approach_data',
+			_1: {ctor: '[]'}
+		},
+		_user$project$Update$listHeadDecoder(
+			A2(_elm_lang$core$Json_Decode$at, depthList, _elm_lang$core$Json_Decode$string)));
+};
 var _user$project$Update$minsizeDecoder = A2(
 	_elm_lang$core$Json_Decode$at,
 	{
 		ctor: '::',
-		_0: 'estimated_diameter',
+		_0: _user$project$NasaKeys$neokeys.estdiam,
 		_1: {
 			ctor: '::',
-			_0: 'kilometers',
+			_0: _user$project$NasaKeys$neokeys.k,
 			_1: {
 				ctor: '::',
-				_0: 'estimated_diameter_min',
+				_0: _user$project$NasaKeys$neokeys.estdiammin,
 				_1: {ctor: '[]'}
 			}
 		}
 	},
 	_elm_lang$core$Json_Decode$float);
-var _user$project$Update$asteroidDecoder = A3(
-	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-	'neo_reference_id',
-	_elm_lang$core$Json_Decode$string,
+var _user$project$Update$asteroidDecoder = A2(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$custom,
+	_user$project$Update$closeApproachDecoder(
+		{
+			ctor: '::',
+			_0: _user$project$NasaKeys$neokeys.miss,
+			_1: {
+				ctor: '::',
+				_0: _user$project$NasaKeys$neokeys.k,
+				_1: {ctor: '[]'}
+			}
+		}),
 	A2(
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$custom,
-		_user$project$Update$minsizeDecoder,
-		A3(
-			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-			'name',
-			_elm_lang$core$Json_Decode$string,
-			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Model$Asteroid))));
+		_user$project$Update$closeApproachDecoder(
+			{
+				ctor: '::',
+				_0: _user$project$NasaKeys$neokeys.rvel,
+				_1: {
+					ctor: '::',
+					_0: _user$project$NasaKeys$neokeys.kph,
+					_1: {ctor: '[]'}
+				}
+			}),
+		A2(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$custom,
+			_user$project$Update$minsizeDecoder,
+			A3(
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+				_user$project$NasaKeys$neokeys.name,
+				_elm_lang$core$Json_Decode$string,
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Model$Asteroid)))));
 var _user$project$Update$asteroidListDecoder = _elm_lang$core$Json_Decode$list(_user$project$Update$asteroidDecoder);
 var _user$project$Update$firstDictList = function (dictList) {
 	var dictKeys = _elm_lang$core$Dict$keys(dictList);
@@ -9064,7 +9108,7 @@ var _user$project$Update$resultsDecoder = A2(
 	_elm_lang$core$Json_Decode$at,
 	{
 		ctor: '::',
-		_0: 'near_earth_objects',
+		_0: _user$project$NasaKeys$neokeys.neo,
 		_1: {ctor: '[]'}
 	},
 	_user$project$Update$datesDecoder);

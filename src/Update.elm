@@ -4,9 +4,10 @@ import Model exposing (..)
 import Json.Decode as D exposing (..)
 import Json.Decode.Pipeline exposing (..)
 import Http
-import Maybe as M exposing (..)
+import Maybe exposing (..)
 import Dict exposing (..)
-import List as L exposing (..)
+import List exposing (..)
+import NasaKeys exposing (neokeys)
 
 
 type Msg
@@ -36,7 +37,7 @@ getAsteroids =
 
 resultsDecoder : Decoder (List Asteroid)
 resultsDecoder =
-    at [ "near_earth_objects" ] datesDecoder
+    at [ neokeys.neo ] datesDecoder
 
 
 datesDecoder : Decoder (List Asteroid)
@@ -64,14 +65,25 @@ asteroidListDecoder =
 asteroidDecoder : Decoder Asteroid
 asteroidDecoder =
     decode Asteroid
-        |> required "name" string
+        |> required neokeys.name string
         |> custom minsizeDecoder
-        |> required "neo_reference_id" string
+        |> custom (closeApproachDecoder [ neokeys.rvel, neokeys.kph ])
+        |> custom (closeApproachDecoder [ neokeys.miss, neokeys.k ])
 
 
 minsizeDecoder : Decoder Float
 minsizeDecoder =
-    at [ "estimated_diameter", "kilometers", "estimated_diameter_min" ] float
+    at [ neokeys.estdiam, neokeys.k, neokeys.estdiammin ] float
+
+
+closeApproachDecoder : List String -> Decoder String
+closeApproachDecoder depthList =
+    at [ neokeys.closedate ] (listHeadDecoder (at depthList string))
+
+
+listHeadDecoder : Decoder String -> Decoder String
+listHeadDecoder nextDecoder =
+    D.map (\lst -> withDefault "" (head lst)) (list nextDecoder)
 
 
 nasaUrl : String
