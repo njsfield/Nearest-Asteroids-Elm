@@ -37,12 +37,7 @@ getAsteroids =
 
 resultsDecoder : Decoder (List Asteroid)
 resultsDecoder =
-    at [ neokeys.neo ] datesDecoder
-
-
-datesDecoder : Decoder (List Asteroid)
-datesDecoder =
-    D.map firstDictList (dict asteroidListDecoder)
+    at [ neokeys.neo ] (D.map firstDictList (dict (list asteroidDecoder)))
 
 
 firstDictList : Dict String (List a) -> List a
@@ -55,11 +50,6 @@ firstDictList dictList =
             withDefault "" (head dictKeys)
     in
         withDefault [] (get firstKey dictList)
-
-
-asteroidListDecoder : Decoder (List Asteroid)
-asteroidListDecoder =
-    list asteroidDecoder
 
 
 asteroidDecoder : Decoder Asteroid

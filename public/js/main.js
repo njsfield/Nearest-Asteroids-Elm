@@ -9015,7 +9015,7 @@ var _user$project$Model$Asteroid = F4(
 		return {name: a, minsize: b, speed: c, missDistance: d};
 	});
 
-var _user$project$NasaKeys$neokeys = {name: 'name', neo: 'near_earth_objects', close: 'close_approach_data', estdiam: 'estimated_diameter', estdiammin: 'estimated_diameter_min', rvel: 'relative_velocity', kph: 'kilometers_per_hour', miss: 'miss_distance', k: 'kilometers'};
+var _user$project$NasaKeys$neokeys = {name: 'name', neo: 'near_earth_objects', closedate: 'close_approach_data', estdiam: 'estimated_diameter', estdiammin: 'estimated_diameter_min', rvel: 'relative_velocity', kph: 'kilometers_per_hour', miss: 'miss_distance', k: 'kilometers'};
 
 var _user$project$Update$nasaUrl = 'https://api.nasa.gov/neo/rest/v1/feed?start_date=2017-03-02&api_key=3NW9wqg2QvSWpj4WAFj3tTQYTK85Hj1UEqKsoRo4';
 var _user$project$Update$listHeadDecoder = function (nextDecoder) {
@@ -9034,7 +9034,7 @@ var _user$project$Update$closeApproachDecoder = function (depthList) {
 		_elm_lang$core$Json_Decode$at,
 		{
 			ctor: '::',
-			_0: 'close_approach_data',
+			_0: _user$project$NasaKeys$neokeys.closedate,
 			_1: {ctor: '[]'}
 		},
 		_user$project$Update$listHeadDecoder(
@@ -9100,10 +9100,6 @@ var _user$project$Update$firstDictList = function (dictList) {
 		{ctor: '[]'},
 		A2(_elm_lang$core$Dict$get, firstKey, dictList));
 };
-var _user$project$Update$datesDecoder = A2(
-	_elm_lang$core$Json_Decode$map,
-	_user$project$Update$firstDictList,
-	_elm_lang$core$Json_Decode$dict(_user$project$Update$asteroidListDecoder));
 var _user$project$Update$resultsDecoder = A2(
 	_elm_lang$core$Json_Decode$at,
 	{
@@ -9111,7 +9107,11 @@ var _user$project$Update$resultsDecoder = A2(
 		_0: _user$project$NasaKeys$neokeys.neo,
 		_1: {ctor: '[]'}
 	},
-	_user$project$Update$datesDecoder);
+	A2(
+		_elm_lang$core$Json_Decode$map,
+		_user$project$Update$firstDictList,
+		_elm_lang$core$Json_Decode$dict(
+			_elm_lang$core$Json_Decode$list(_user$project$Update$asteroidDecoder))));
 var _user$project$Update$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
