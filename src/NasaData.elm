@@ -1,7 +1,7 @@
-module NasaKeys exposing (neokeys)
+module NasaData exposing (neoKeys, nasaUrl)
 
 
-neokeys =
+neoKeys =
     { name = "name"
     , neo = "near_earth_objects"
     , closedate = "close_approach_data"
@@ -12,3 +12,13 @@ neokeys =
     , miss = "miss_distance"
     , k = "kilometers"
     }
+
+
+apiKey : String
+apiKey =
+    "3NW9wqg2QvSWpj4WAFj3tTQYTK85Hj1UEqKsoRo4"
+
+
+nasaUrl : String
+nasaUrl =
+    "https://api.nasa.gov/neo/rest/v1/feed?start_date=2017-03-02&api_key=" ++ apiKey

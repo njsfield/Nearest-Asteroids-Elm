@@ -7,7 +7,7 @@ import Http
 import Maybe exposing (..)
 import Dict exposing (..)
 import List exposing (..)
-import NasaKeys exposing (neokeys)
+import NasaData exposing (neoKeys, nasaUrl)
 
 
 type Msg
@@ -37,7 +37,7 @@ getAsteroids =
 
 resultsDecoder : Decoder (List Asteroid)
 resultsDecoder =
-    at [ neokeys.neo ] (D.map firstDictList (dict (list asteroidDecoder)))
+    at [ neoKeys.neo ] (D.map firstDictList (dict (list asteroidDecoder)))
 
 
 firstDictList : Dict String (List a) -> List a
@@ -55,27 +55,22 @@ firstDictList dictList =
 asteroidDecoder : Decoder Asteroid
 asteroidDecoder =
     decode Asteroid
-        |> required neokeys.name string
+        |> required neoKeys.name string
         |> custom minsizeDecoder
-        |> custom (closeApproachDecoder [ neokeys.rvel, neokeys.kph ])
-        |> custom (closeApproachDecoder [ neokeys.miss, neokeys.k ])
+        |> custom (closeApproachDecoder [ neoKeys.rvel, neoKeys.kph ])
+        |> custom (closeApproachDecoder [ neoKeys.miss, neoKeys.k ])
 
 
 minsizeDecoder : Decoder Float
 minsizeDecoder =
-    at [ neokeys.estdiam, neokeys.k, neokeys.estdiammin ] float
+    at [ neoKeys.estdiam, neoKeys.k, neoKeys.estdiammin ] float
 
 
 closeApproachDecoder : List String -> Decoder String
 closeApproachDecoder depthList =
-    at [ neokeys.closedate ] (listHeadDecoder (at depthList string))
+    at [ neoKeys.closedate ] (listHeadDecoder (at depthList string))
 
 
 listHeadDecoder : Decoder String -> Decoder String
 listHeadDecoder nextDecoder =
     D.map (\lst -> withDefault "" (head lst)) (list nextDecoder)
-
-
-nasaUrl : String
-nasaUrl =
-    "https://api.nasa.gov/neo/rest/v1/feed?start_date=2017-03-02&api_key=3NW9wqg2QvSWpj4WAFj3tTQYTK85Hj1UEqKsoRo4"

@@ -9015,9 +9015,10 @@ var _user$project$Model$Asteroid = F4(
 		return {name: a, minsize: b, speed: c, missDistance: d};
 	});
 
-var _user$project$NasaKeys$neokeys = {name: 'name', neo: 'near_earth_objects', closedate: 'close_approach_data', estdiam: 'estimated_diameter', estdiammin: 'estimated_diameter_min', rvel: 'relative_velocity', kph: 'kilometers_per_hour', miss: 'miss_distance', k: 'kilometers'};
+var _user$project$NasaData$apiKey = '3NW9wqg2QvSWpj4WAFj3tTQYTK85Hj1UEqKsoRo4';
+var _user$project$NasaData$nasaUrl = A2(_elm_lang$core$Basics_ops['++'], 'https://api.nasa.gov/neo/rest/v1/feed?start_date=2017-03-02&api_key=', _user$project$NasaData$apiKey);
+var _user$project$NasaData$neoKeys = {name: 'name', neo: 'near_earth_objects', closedate: 'close_approach_data', estdiam: 'estimated_diameter', estdiammin: 'estimated_diameter_min', rvel: 'relative_velocity', kph: 'kilometers_per_hour', miss: 'miss_distance', k: 'kilometers'};
 
-var _user$project$Update$nasaUrl = 'https://api.nasa.gov/neo/rest/v1/feed?start_date=2017-03-02&api_key=3NW9wqg2QvSWpj4WAFj3tTQYTK85Hj1UEqKsoRo4';
 var _user$project$Update$listHeadDecoder = function (nextDecoder) {
 	return A2(
 		_elm_lang$core$Json_Decode$map,
@@ -9034,7 +9035,7 @@ var _user$project$Update$closeApproachDecoder = function (depthList) {
 		_elm_lang$core$Json_Decode$at,
 		{
 			ctor: '::',
-			_0: _user$project$NasaKeys$neokeys.closedate,
+			_0: _user$project$NasaData$neoKeys.closedate,
 			_1: {ctor: '[]'}
 		},
 		_user$project$Update$listHeadDecoder(
@@ -9044,13 +9045,13 @@ var _user$project$Update$minsizeDecoder = A2(
 	_elm_lang$core$Json_Decode$at,
 	{
 		ctor: '::',
-		_0: _user$project$NasaKeys$neokeys.estdiam,
+		_0: _user$project$NasaData$neoKeys.estdiam,
 		_1: {
 			ctor: '::',
-			_0: _user$project$NasaKeys$neokeys.k,
+			_0: _user$project$NasaData$neoKeys.k,
 			_1: {
 				ctor: '::',
-				_0: _user$project$NasaKeys$neokeys.estdiammin,
+				_0: _user$project$NasaData$neoKeys.estdiammin,
 				_1: {ctor: '[]'}
 			}
 		}
@@ -9061,10 +9062,10 @@ var _user$project$Update$asteroidDecoder = A2(
 	_user$project$Update$closeApproachDecoder(
 		{
 			ctor: '::',
-			_0: _user$project$NasaKeys$neokeys.miss,
+			_0: _user$project$NasaData$neoKeys.miss,
 			_1: {
 				ctor: '::',
-				_0: _user$project$NasaKeys$neokeys.k,
+				_0: _user$project$NasaData$neoKeys.k,
 				_1: {ctor: '[]'}
 			}
 		}),
@@ -9073,10 +9074,10 @@ var _user$project$Update$asteroidDecoder = A2(
 		_user$project$Update$closeApproachDecoder(
 			{
 				ctor: '::',
-				_0: _user$project$NasaKeys$neokeys.rvel,
+				_0: _user$project$NasaData$neoKeys.rvel,
 				_1: {
 					ctor: '::',
-					_0: _user$project$NasaKeys$neokeys.kph,
+					_0: _user$project$NasaData$neoKeys.kph,
 					_1: {ctor: '[]'}
 				}
 			}),
@@ -9085,10 +9086,9 @@ var _user$project$Update$asteroidDecoder = A2(
 			_user$project$Update$minsizeDecoder,
 			A3(
 				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-				_user$project$NasaKeys$neokeys.name,
+				_user$project$NasaData$neoKeys.name,
 				_elm_lang$core$Json_Decode$string,
 				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Model$Asteroid)))));
-var _user$project$Update$asteroidListDecoder = _elm_lang$core$Json_Decode$list(_user$project$Update$asteroidDecoder);
 var _user$project$Update$firstDictList = function (dictList) {
 	var dictKeys = _elm_lang$core$Dict$keys(dictList);
 	var firstKey = A2(
@@ -9104,7 +9104,7 @@ var _user$project$Update$resultsDecoder = A2(
 	_elm_lang$core$Json_Decode$at,
 	{
 		ctor: '::',
-		_0: _user$project$NasaKeys$neokeys.neo,
+		_0: _user$project$NasaData$neoKeys.neo,
 		_1: {ctor: '[]'}
 	},
 	A2(
@@ -9142,7 +9142,7 @@ var _user$project$Update$AsteroidRequest = function (a) {
 var _user$project$Update$getAsteroids = A2(
 	_elm_lang$http$Http$send,
 	_user$project$Update$AsteroidRequest,
-	A2(_elm_lang$http$Http$get, _user$project$Update$nasaUrl, _user$project$Update$resultsDecoder));
+	A2(_elm_lang$http$Http$get, _user$project$NasaData$nasaUrl, _user$project$Update$resultsDecoder));
 var _user$project$Update$init = {ctor: '_Tuple2', _0: _user$project$Model$initialModel, _1: _user$project$Update$getAsteroids};
 
 var _user$project$View$view = function (model) {
