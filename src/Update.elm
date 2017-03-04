@@ -41,11 +41,11 @@ resultsDecoder =
 
 datesDecoder : Decoder (List Asteroid)
 datesDecoder =
-    D.map firstValue (dict asteroidListDecoder)
+    D.map firstDateList (dict asteroidListDecoder)
 
 
-firstValue : Dict String (List a) -> List a
-firstValue dateList =
+firstDateList : Dict String (List a) -> List a
+firstDateList dateList =
     let
         dateKeys =
             keys dateList
@@ -65,12 +65,12 @@ asteroidDecoder : Decoder Asteroid
 asteroidDecoder =
     decode Asteroid
         |> required "name" string
-        |> custom speedDecoder
+        |> custom minsizeDecoder
         |> required "neo_reference_id" string
 
 
-speedDecoder : Decoder Float
-speedDecoder =
+minsizeDecoder : Decoder Float
+minsizeDecoder =
     at [ "estimated_diameter", "kilometers", "estimated_diameter_min" ] float
 
 

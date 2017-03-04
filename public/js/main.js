@@ -9016,7 +9016,7 @@ var _user$project$Model$Asteroid = F3(
 	});
 
 var _user$project$Update$nasaUrl = 'https://api.nasa.gov/neo/rest/v1/feed?start_date=2017-03-02&api_key=3NW9wqg2QvSWpj4WAFj3tTQYTK85Hj1UEqKsoRo4';
-var _user$project$Update$speedDecoder = A2(
+var _user$project$Update$minsizeDecoder = A2(
 	_elm_lang$core$Json_Decode$at,
 	{
 		ctor: '::',
@@ -9038,14 +9038,14 @@ var _user$project$Update$asteroidDecoder = A3(
 	_elm_lang$core$Json_Decode$string,
 	A2(
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$custom,
-		_user$project$Update$speedDecoder,
+		_user$project$Update$minsizeDecoder,
 		A3(
 			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 			'name',
 			_elm_lang$core$Json_Decode$string,
 			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Model$Asteroid))));
 var _user$project$Update$asteroidListDecoder = _elm_lang$core$Json_Decode$list(_user$project$Update$asteroidDecoder);
-var _user$project$Update$firstValue = function (dateList) {
+var _user$project$Update$firstDateList = function (dateList) {
 	var dateKeys = _elm_lang$core$Dict$keys(dateList);
 	var firstDate = A2(
 		_elm_lang$core$Maybe$withDefault,
@@ -9058,7 +9058,7 @@ var _user$project$Update$firstValue = function (dateList) {
 };
 var _user$project$Update$datesDecoder = A2(
 	_elm_lang$core$Json_Decode$map,
-	_user$project$Update$firstValue,
+	_user$project$Update$firstDateList,
 	_elm_lang$core$Json_Decode$dict(_user$project$Update$asteroidListDecoder));
 var _user$project$Update$resultsDecoder = A2(
 	_elm_lang$core$Json_Decode$at,
