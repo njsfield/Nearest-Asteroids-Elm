@@ -9143,7 +9143,6 @@ var _user$project$Update$getAsteroids = A2(
 	_elm_lang$http$Http$send,
 	_user$project$Update$AsteroidRequest,
 	A2(_elm_lang$http$Http$get, _user$project$NasaData$nasaUrl, _user$project$Update$resultsDecoder));
-var _user$project$Update$init = {ctor: '_Tuple2', _0: _user$project$Model$initialModel, _1: _user$project$Update$getAsteroids};
 
 var _user$project$View$view = function (model) {
 	return A2(
@@ -9186,7 +9185,7 @@ var _user$project$View$view = function (model) {
 var _user$project$Main$main = _elm_lang$html$Html$program(
 	{
 		update: _user$project$Update$update,
-		init: _user$project$Update$init,
+		init: {ctor: '_Tuple2', _0: _user$project$Model$initialModel, _1: _user$project$Update$getAsteroids},
 		view: _user$project$View$view,
 		subscriptions: function (_p0) {
 			return _elm_lang$core$Platform_Sub$none;

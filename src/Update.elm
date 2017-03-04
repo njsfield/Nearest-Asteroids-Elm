@@ -14,11 +14,6 @@ type Msg
     = AsteroidRequest (Result Http.Error AsteroidList)
 
 
-init : ( Model, Cmd Msg )
-init =
-    ( initialModel, getAsteroids )
-
-
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of

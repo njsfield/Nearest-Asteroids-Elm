@@ -10,7 +10,7 @@ main : Program Never Model Msg
 main =
     program
         { update = update
-        , init = init
+        , init = ( initialModel, getAsteroids )
         , view = view
         , subscriptions = \_ -> Sub.none
         }
