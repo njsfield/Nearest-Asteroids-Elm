@@ -1,5 +1,7 @@
 module NasaData exposing (neoKeys, nasaUrl)
 
+-- neoKeys: matched JSON keys for shorthand purposes, used in Update
+
 
 neoKeys =
     { name = "name"
@@ -14,9 +16,17 @@ neoKeys =
     }
 
 
+
+-- apiKey: Appended to the naseUrl
+
+
 apiKey : String
 apiKey =
     "3NW9wqg2QvSWpj4WAFj3tTQYTK85Hj1UEqKsoRo4"
+
+
+
+-- nasaUrl: used in Update when fetching json. @TODO: add functionality to append real Date
 
 
 nasaUrl : String

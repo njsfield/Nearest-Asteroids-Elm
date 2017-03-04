@@ -1,5 +1,7 @@
 module Model exposing (..)
 
+-- Model: @TODO: Add date & setting Types
+
 
 type alias Model =
     { asteroids : AsteroidList
@@ -17,6 +19,10 @@ type alias Asteroid =
     , speed : String
     , missDistance : String
     }
+
+
+
+-- initialModel: @TODO build larger default example
 
 
 initialModel : Model
