@@ -1,12 +1,10 @@
 module Update exposing (..)
 
 import Model exposing (..)
-import Json.Decode as D exposing (..)
+import Json.Decode as Json exposing (..)
 import Json.Decode.Pipeline exposing (..)
 import Http
-import Maybe exposing (..)
 import Dict exposing (..)
-import List exposing (..)
 import Helpers.NasaData exposing (neoKeys, buildNasaUrl)
 import Helpers.FormatDate exposing (formatDate)
 import Date exposing (Date)
@@ -85,7 +83,7 @@ getAsteroids date =
 
 resultsDecoder : Decoder (List Asteroid)
 resultsDecoder =
-    at [ neoKeys.neo ] (D.map firstDictList (dict (list asteroidDecoder)))
+    at [ neoKeys.neo ] (Json.map firstDictList (dict (list asteroidDecoder)))
 
 
 
@@ -98,12 +96,12 @@ firstDictList : Dict String (List a) -> List a
 firstDictList dictList =
     let
         dictKeys =
-            keys dictList
+            Dict.keys dictList
 
         firstKey =
-            withDefault "" (head dictKeys)
+            Maybe.withDefault "" (List.head dictKeys)
     in
-        withDefault [] (get firstKey dictList)
+        Maybe.withDefault [] (Dict.get firstKey dictList)
 
 
 
@@ -152,7 +150,7 @@ closeApproachDecoder depthList =
 
 listHeadDecoder : Decoder String -> Decoder String
 listHeadDecoder nextDecoder =
-    D.map (\lst -> withDefault "" (head lst)) (list nextDecoder)
+    Json.map (\lst -> Maybe.withDefault "" (List.head lst)) (list nextDecoder)
 
 
 
