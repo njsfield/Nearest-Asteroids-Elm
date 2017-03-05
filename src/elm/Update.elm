@@ -12,9 +12,6 @@ import Date exposing (Date)
 import Task
 
 
--- Msg: @TODO: add Date msg
-
-
 type Msg
     = AsteroidRequest (Result Http.Error AsteroidList)
     | SetDate (Maybe String)
@@ -91,6 +88,10 @@ monthToNum Month =
 
         December ->
             "12"
+
+
+
+-- Cmd to return Maybe Date
 
 
 now : Cmd Msg
