@@ -31,9 +31,13 @@ update msg model =
             { model | asteroidsErr = ("something went wrong" ++ toString err) } ! []
 
 
-getAsteroids : Cmd Msg
-getAsteroids =
-    Http.get nasaUrl resultsDecoder
+
+-- Called by update function
+
+
+getAsteroids : String -> Cmd Msg
+getAsteroids date =
+    Http.get (nasaUrl date) resultsDecoder
         |> Http.send AsteroidRequest
 
 
