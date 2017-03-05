@@ -4,7 +4,8 @@ module Model exposing (..)
 
 
 type alias Model =
-    { asteroids : AsteroidList
+    { date : String
+    , asteroids : AsteroidList
     , asteroidsErr : String
     }
 
@@ -27,7 +28,8 @@ type alias Asteroid =
 
 initialModel : Model
 initialModel =
-    { asteroids =
+    { date = "2017-03-02"
+    , asteroids =
         [ { name = "(2017 BU6)"
           , minsize = 0.0234324
           , speed = "0.234"
