@@ -1,3 +1,7 @@
 DS_Store
 node_modules/
 elm-stuff
+npm-debug.log
+
+public/style.min.css
+public/main.js
