@@ -15,6 +15,7 @@ import NasaData exposing (neoKeys, nasaUrl)
 
 type Msg
     = AsteroidRequest (Result Http.Error AsteroidList)
+    | SetDate (Maybe String)
 
 
 
@@ -24,6 +25,12 @@ type Msg
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        SetDate Nothing ->
+            ( model, (getAsteroids model.date) )
+
+        SetDate (Just date) ->
+            ( model, (getAsteroids (formatdate date)) )
+
         AsteroidRequest (Ok res) ->
             { model | asteroids = res } ! []
 
