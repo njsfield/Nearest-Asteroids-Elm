@@ -8,6 +8,8 @@ import Maybe exposing (..)
 import Dict exposing (..)
 import List exposing (..)
 import NasaData exposing (neoKeys, nasaUrl)
+import Date exposing (Date)
+import Task
 
 
 -- Msg: @TODO: add Date msg
@@ -29,7 +31,7 @@ update msg model =
             ( model, (getAsteroids model.date) )
 
         SetDate (Just date) ->
-            ( model, (getAsteroids (formatdate date)) )
+            ( model, (getAsteroids (formatDate date)) )
 
         AsteroidRequest (Ok res) ->
             { model | asteroids = res } ! []
@@ -39,7 +41,65 @@ update msg model =
 
 
 
--- Called by update function
+-- formatDate : takes a raw date and outputs it as "YYYY-MM-DD"
+
+
+formatDate : String -> String
+formatDate rawdate =
+    (toString <| Date.year date)
+        ++ "-"
+        ++ (toString <| (monthToNum (Date.month date)))
+        ++ "-"
+        ++ (toString <| Date.day date)
+
+
+monthToNum : Month -> String
+monthToNum Month =
+    case Month of
+        Jan ->
+            "01"
+
+        Feb ->
+            "02"
+
+        March ->
+            "03"
+
+        April ->
+            "04"
+
+        May ->
+            "05"
+
+        June ->
+            "06"
+
+        July ->
+            "07"
+
+        August ->
+            "08"
+
+        September ->
+            "09"
+
+        October ->
+            "10"
+
+        November ->
+            "11"
+
+        December ->
+            "12"
+
+
+now : Cmd Msg
+now =
+    Task.perform (always (SetDate Nothing)) (Just >> SetDate) Date.now
+
+
+
+-- Called by update function (with date String)
 
 
 getAsteroids : String -> Cmd Msg
