@@ -1,4 +1,4 @@
-module NasaData exposing (neoKeys, nasaUrl)
+module NasaData exposing (neoKeys, buildNasaUrl)
 
 -- neoKeys: matched JSON keys for shorthand purposes, used in Update
 

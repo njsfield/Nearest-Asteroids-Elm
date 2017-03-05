@@ -7,7 +7,7 @@ import Http
 import Maybe exposing (..)
 import Dict exposing (..)
 import List exposing (..)
-import NasaData exposing (neoKeys, nasaUrl)
+import NasaData exposing (neoKeys, buildNasaUrl)
 import Date exposing (Date)
 import Task
 
@@ -105,7 +105,7 @@ now =
 
 getAsteroids : String -> Cmd Msg
 getAsteroids date =
-    Http.get (nasaUrl date) resultsDecoder
+    Http.get (buildNasaUrl date) resultsDecoder
         |> Http.send AsteroidRequest
 
 
