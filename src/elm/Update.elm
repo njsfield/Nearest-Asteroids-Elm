@@ -14,7 +14,7 @@ import Task
 
 type Msg
     = AsteroidRequest (Result Http.Error AsteroidList)
-    | SetDate (Maybe String)
+    | SetDate (Maybe Date)
 
 
 
@@ -41,52 +41,52 @@ update msg model =
 -- formatDate : takes a raw date and outputs it as "YYYY-MM-DD"
 
 
-formatDate : String -> String
+formatDate : Date.Date -> String
 formatDate rawdate =
-    (toString <| Date.year date)
+    (toString <| Date.year rawdate)
         ++ "-"
-        ++ (toString <| (monthToNum (Date.month date)))
+        ++ (monthToNum (Date.month rawdate))
         ++ "-"
-        ++ (toString <| Date.day date)
+        ++ (toString <| Date.day rawdate)
 
 
-monthToNum : Month -> String
-monthToNum Month =
-    case Month of
-        Jan ->
+monthToNum : Date.Month -> String
+monthToNum month =
+    case month of
+        Date.Jan ->
             "01"
 
-        Feb ->
+        Date.Feb ->
             "02"
 
-        March ->
+        Date.Mar ->
             "03"
 
-        April ->
+        Date.Apr ->
             "04"
 
-        May ->
+        Date.May ->
             "05"
 
-        June ->
+        Date.Jun ->
             "06"
 
-        July ->
+        Date.Jul ->
             "07"
 
-        August ->
+        Date.Aug ->
             "08"
 
-        September ->
+        Date.Sep ->
             "09"
 
-        October ->
+        Date.Oct ->
             "10"
 
-        November ->
+        Date.Nov ->
             "11"
 
-        December ->
+        Date.Dec ->
             "12"
 
 
@@ -96,7 +96,17 @@ monthToNum Month =
 
 now : Cmd Msg
 now =
-    Task.perform (always (SetDate Nothing)) (Just >> SetDate) Date.now
+    Task.attempt processDate Date.now
+
+
+processDate : Result String Date -> Msg
+processDate result =
+    case result of
+        Ok date ->
+            SetDate (Just date)
+
+        Err _ ->
+            SetDate Nothing
 
 
 

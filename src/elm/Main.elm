@@ -15,5 +15,5 @@ main =
         { update = update
         , init = ( initialModel, now )
         , view = view
-        , subscriptions = \_ -> Sub.none
+        , subscriptions = always Sub.none
         }
