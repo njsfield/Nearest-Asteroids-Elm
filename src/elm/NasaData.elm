@@ -29,6 +29,6 @@ apiKey =
 -- nasaUrl: used in Update when fetching json. @TODO: add functionality to append real Date
 
 
-nasaUrl : String
-nasaUrl =
-    "https://api.nasa.gov/neo/rest/v1/feed?start_date=2017-03-02&api_key=" ++ apiKey
+buildNasaUrl : String -> String
+buildNasaUrl date =
+    "https://api.nasa.gov/neo/rest/v1/feed?start_date=" ++ date ++ "&api_key=" ++ apiKey
