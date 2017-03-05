@@ -7,7 +7,8 @@ import Http
 import Maybe exposing (..)
 import Dict exposing (..)
 import List exposing (..)
-import NasaData exposing (neoKeys, buildNasaUrl)
+import Helpers.NasaData exposing (neoKeys, buildNasaUrl)
+import Helpers.FormatDate exposing (formatDate)
 import Date exposing (Date)
 import Task
 
@@ -28,7 +29,11 @@ update msg model =
             ( model, (getAsteroids model.date) )
 
         SetDate (Just date) ->
-            ( model, (getAsteroids (formatDate date)) )
+            let
+                newDate =
+                    formatDate date
+            in
+                ( { model | date = newDate }, (getAsteroids newDate) )
 
         AsteroidRequest (Ok res) ->
             { model | asteroids = res } ! []
@@ -39,68 +44,20 @@ update msg model =
 
 
 -- formatDate : takes a raw date and outputs it as "YYYY-MM-DD"
-
-
-formatDate : Date.Date -> String
-formatDate rawdate =
-    (toString <| Date.year rawdate)
-        ++ "-"
-        ++ (monthToNum (Date.month rawdate))
-        ++ "-"
-        ++ (toString <| Date.day rawdate)
-
-
-monthToNum : Date.Month -> String
-monthToNum month =
-    case month of
-        Date.Jan ->
-            "01"
-
-        Date.Feb ->
-            "02"
-
-        Date.Mar ->
-            "03"
-
-        Date.Apr ->
-            "04"
-
-        Date.May ->
-            "05"
-
-        Date.Jun ->
-            "06"
-
-        Date.Jul ->
-            "07"
-
-        Date.Aug ->
-            "08"
-
-        Date.Sep ->
-            "09"
-
-        Date.Oct ->
-            "10"
-
-        Date.Nov ->
-            "11"
-
-        Date.Dec ->
-            "12"
-
-
-
--- Cmd to return Maybe Date
+-- now: Attempts Date.now, then processes the result with processDate to return a Cmd Msg
 
 
 now : Cmd Msg
 now =
-    Task.attempt processDate Date.now
+    Task.attempt processDateResult Date.now
 
 
-processDate : Result String Date -> Msg
-processDate result =
+
+-- processDate: Function to take the result of Date.now and convert it to SetDate Cmd
+
+
+processDateResult : Result String Date -> Msg
+processDateResult result =
     case result of
         Ok date ->
             SetDate (Just date)

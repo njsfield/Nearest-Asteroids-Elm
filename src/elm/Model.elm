@@ -22,10 +22,6 @@ type alias Asteroid =
     }
 
 
-
--- initialModel: @TODO build larger default example
-
-
 initialModel : Model
 initialModel =
     { date = "2017-03-02"
