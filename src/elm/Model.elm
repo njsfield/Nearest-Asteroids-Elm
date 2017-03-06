@@ -21,6 +21,7 @@ type alias Asteroid =
     , minsize : Float
     , speed : String
     , missDistance : String
+    , display : String
     }
 
 
@@ -41,6 +42,7 @@ initialModel =
           , minsize = 0.0234324
           , speed = "0.234"
           , missDistance = "0.342"
+          , display = "(2017 BU6)"
           }
         ]
     , asteroidsErr = ""
