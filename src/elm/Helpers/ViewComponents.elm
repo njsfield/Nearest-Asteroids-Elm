@@ -1,4 +1,4 @@
-module Helpers.ViewComponents exposing (viewNavigation, viewListItem)
+module Helpers.ViewComponents exposing (viewNavigation, viewListItems)
 
 import Model exposing (..)
 import Update exposing (..)
@@ -24,18 +24,23 @@ viewNavigation setting =
                 MissDistance ->
                     "Miss Distance"
     in
-        div [ class "flex" ]
+        div [ class "flex justify-center" ]
             [ button [ onClick PreviousSetting ] [ text "<" ]
             , h2 [ class "sans-serif" ] [ text settingtext ]
             , button [ onClick NextSetting ] [ text ">" ]
             ]
 
 
+viewListItems : Setting -> List Asteroid -> Html Msg
+viewListItems setting asteroids =
+    ul [] (List.map (viewListItem setting) asteroids)
+
+
 viewListItem : Setting -> Asteroid -> Html Msg
 viewListItem setting asteroid =
     let
         item =
-            (\textinput -> li [] [ text textinput ])
+            (\textinput -> li [ class "list" ] [ text textinput ])
     in
         case setting of
             Name ->
