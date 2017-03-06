@@ -7,8 +7,8 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
 
 
-viewNavigation : Setting -> Html Msg
-viewNavigation setting =
+viewNavigation : Msg -> Setting -> Msg -> Html Msg
+viewNavigation prevSettingMsg setting nextSettingMsg =
     let
         settingtext =
             case setting of
@@ -25,9 +25,9 @@ viewNavigation setting =
                     "Miss Distance"
     in
         div [ class "flex justify-center" ]
-            [ button [ onClick PreviousSetting ] [ text "<" ]
+            [ button [ onClick prevSettingMsg ] [ text "<" ]
             , h2 [ class "sans-serif" ] [ text settingtext ]
-            , button [ onClick NextSetting ] [ text ">" ]
+            , button [ onClick nextSettingMsg ] [ text ">" ]
             ]
 
 

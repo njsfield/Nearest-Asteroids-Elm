@@ -10,7 +10,7 @@ import Html.Attributes exposing (..)
 view : Model -> Html Msg
 view { setting, asteroidsErr, asteroids, date } =
     div [ class "tc mt5" ]
-        [ viewNavigation setting
+        [ viewNavigation PreviousSetting setting NextSetting
         , p [ class "sans-serif" ] [ text asteroidsErr ]
         , viewListItems setting asteroids
         , h2 [ class "sans-serif" ] [ text date ]
