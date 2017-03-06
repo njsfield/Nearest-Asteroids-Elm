@@ -9,6 +9,7 @@ import Html.Attributes exposing (..)
 view : Model -> Html Msg
 view model =
     div [ class "tc mt5" ]
-        [ p [ class "sans-serif" ] [ text model.asteroidsErr ]
+        [ h2 [ class "sans-serif" ] [ text model.date ]
+        , p [ class "sans-serif" ] [ text model.asteroidsErr ]
         , p [] [ text <| toString model.asteroids ]
         ]

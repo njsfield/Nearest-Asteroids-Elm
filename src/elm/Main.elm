@@ -6,14 +6,11 @@ import View exposing (..)
 import Html exposing (..)
 
 
--- main: @TODO. Replace getAsteroids with getDate Cmd
-
-
 main : Program Never Model Msg
 main =
     program
         { update = update
-        , init = ( initialModel, getAsteroids )
+        , init = ( initialModel, now )
         , view = view
-        , subscriptions = \_ -> Sub.none
+        , subscriptions = always Sub.none
         }
