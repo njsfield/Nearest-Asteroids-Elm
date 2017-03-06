@@ -1,4 +1,4 @@
-module Helpers.ViewSettings exposing (viewNavigation, viewListItem)
+module Helpers.ViewComponents exposing (viewNavigation, viewListItem)
 
 import Model exposing (..)
 import Update exposing (..)

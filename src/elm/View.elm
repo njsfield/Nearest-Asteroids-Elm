@@ -2,7 +2,7 @@ module View exposing (..)
 
 import Model exposing (..)
 import Update exposing (..)
-import Helpers.ViewSettings exposing (..)
+import Helpers.ViewComponents exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
