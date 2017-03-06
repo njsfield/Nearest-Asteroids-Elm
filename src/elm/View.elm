@@ -11,7 +11,7 @@ view model =
     div [ class "tc mt5" ]
         [ viewNavigation model.setting
         , p [ class "sans-serif" ] [ text model.asteroidsErr ]
-        , ul [] [ List.map viewListItem model.asteroids ]
+        , ul [] [ List.map (viewListItem model.setting model.asteroids) ]
         , h2 [ class "sans-serif" ] [ text model.date ]
         ]
 
@@ -41,6 +41,21 @@ viewNavigation setting =
         ]
 
 
-viewListItem : Asteroid -> Html Msg
-viewListItem { display } =
-    li [] [ text display ]
+viewListItem : Setting -> Asteroid -> Html Msg
+viewListItem setting asteroid =
+    let
+        item =
+            (\textinput -> li [] [ text textinput ])
+    in
+        case setting of
+            Name ->
+                item asteroid.name
+
+            MinSize ->
+                item asteroid.minsize
+
+            Speed ->
+                item asteroid.speed
+
+            MissDistance ->
+                item asteroid.missdistance
