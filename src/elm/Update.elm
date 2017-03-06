@@ -120,6 +120,7 @@ asteroidDecoder =
         |> custom minsizeDecoder
         |> custom (closeApproachDecoder [ neoKeys.rvel, neoKeys.kph ])
         |> custom (closeApproachDecoder [ neoKeys.miss, neoKeys.k ])
+        |> required neoKeys.name string
 
 
 
