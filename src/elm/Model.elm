@@ -23,6 +23,13 @@ type alias Asteroid =
     }
 
 
+type Setting
+    = Name
+    | MinSize
+    | Speed
+    | MissDistance
+
+
 initialModel : Model
 initialModel =
     { date = "2017-03-02"
