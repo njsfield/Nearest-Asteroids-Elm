@@ -25,15 +25,15 @@ viewNavigation prevSettingMsg setting nextSettingMsg =
                     "Miss Distance"
     in
         div [ class "flex justify-center" ]
-            [ button [ onClick prevSettingMsg ] [ text "<" ]
+            [ button [ class "bn pointer bg-transparent outline-0", onClick prevSettingMsg ] [ text "<" ]
             , h2 [ class "sans-serif" ] [ text settingtext ]
-            , button [ onClick nextSettingMsg ] [ text ">" ]
+            , button [ class "bn pointer bg-transparent outline-0", onClick nextSettingMsg ] [ text ">" ]
             ]
 
 
 viewListItems : Setting -> List Asteroid -> Html Msg
 viewListItems setting asteroids =
-    ul [] (List.map (viewListItem setting) asteroids)
+    ul [ class "pa0" ] (List.map (viewListItem setting) asteroids)
 
 
 viewListItem : Setting -> Asteroid -> Html Msg
