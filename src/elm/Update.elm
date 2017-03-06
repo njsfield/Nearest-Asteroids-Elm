@@ -7,6 +7,7 @@ import Http
 import Dict exposing (..)
 import Helpers.NasaData exposing (neoKeys, buildNasaUrl)
 import Helpers.FormatDate exposing (formatDate)
+import Helpers.ChangeSettings exposing (incrementSetting, decrementSetting)
 import Date exposing (Date)
 import Task
 
@@ -46,38 +47,6 @@ update msg model =
 
         PreviousSetting ->
             { model | setting = (decrementSetting model.setting) } ! []
-
-
-incrementSetting : Setting -> Setting
-incrementSetting setting =
-    case setting of
-        Name ->
-            MinSize
-
-        MinSize ->
-            Speed
-
-        Speed ->
-            MissDistance
-
-        MissDistance ->
-            Name
-
-
-decrementSetting : Setting -> Setting
-decrementSetting setting =
-    case setting of
-        Name ->
-            MissDistance
-
-        MinSize ->
-            Name
-
-        Speed ->
-            MinSize
-
-        MissDistance ->
-            Speed
 
 
 
