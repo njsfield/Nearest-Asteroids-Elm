@@ -6,7 +6,6 @@ module Model exposing (..)
 type alias Model =
     { date : String
     , setting : Setting
-    , settingtext : String
     , asteroids : AsteroidList
     , asteroidsErr : String
     }
@@ -35,7 +34,6 @@ initialModel : Model
 initialModel =
     { date = "2017-03-02"
     , setting = Name
-    , settingtext = "Name"
     , asteroids =
         [ { name = "(2017 BU6)"
           , minsize = 0.0234324
