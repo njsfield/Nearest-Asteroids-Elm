@@ -4,6 +4,7 @@ import Model exposing (..)
 import Update exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (onClick)
 
 
 view : Model -> Html Msg
@@ -11,7 +12,7 @@ view model =
     div [ class "tc mt5" ]
         [ viewNavigation model.setting
         , p [ class "sans-serif" ] [ text model.asteroidsErr ]
-        , ul [] [ List.map (viewListItem model.setting model.asteroids) ]
+        , ul [] (List.map (viewListItem model.setting) model.asteroids)
         , h2 [ class "sans-serif" ] [ text model.date ]
         ]
 
@@ -33,12 +34,11 @@ viewNavigation setting =
                 MissDistance ->
                     "Miss Distance"
     in
-        [ div [ class "flex" ]
+        div [ class "flex" ]
             [ button [ onClick PreviousSetting ] [ text "<" ]
             , h2 [ class "sans-serif" ] [ text settingtext ]
             , button [ onClick NextSetting ] [ text ">" ]
             ]
-        ]
 
 
 viewListItem : Setting -> Asteroid -> Html Msg
@@ -52,7 +52,7 @@ viewListItem setting asteroid =
                 item asteroid.name
 
             MinSize ->
-                item toString <| asteroid.minsize
+                item (toString <| asteroid.minsize)
 
             Speed ->
                 item asteroid.speed
