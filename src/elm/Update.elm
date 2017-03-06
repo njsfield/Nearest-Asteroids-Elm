@@ -45,7 +45,7 @@ update msg model =
             { model | asteroids = res } ! []
 
         AsteroidRequest (Err err) ->
-            { model | asteroidsErr = ("something went wrong" ++ toString err) } ! []
+            { model | asteroidsErr = resultErrMessage model.date initialModel.date } ! []
 
         NextSetting ->
             { model | setting = (nextSetting model.setting) } ! []
@@ -76,6 +76,15 @@ processDateResult result =
 
         Err _ ->
             SetDate Nothing
+
+
+
+-- Combine default and current date into an error message
+
+
+resultErrMessage : String -> String -> String
+resultErrMessage currentDate defaultDate =
+    "Unable to generate results for" ++ currentDate ++ ", here are results for" ++ defaultDate
 
 
 
