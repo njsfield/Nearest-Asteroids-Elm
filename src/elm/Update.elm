@@ -20,7 +20,12 @@ type Msg
 
 
 
--- Update: @TODO: Instead of Err message, model could be initialModel
+{- update:
+   1. Set Date
+   2. Handle Json Request
+   3. Handle Next/Previous Setting Msgs from UI
+   @TODO: Perhaps refactor to handle SetDate and AsteroidRequest branches before update call
+-}
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
