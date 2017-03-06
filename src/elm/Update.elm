@@ -14,6 +14,8 @@ import Task
 type Msg
     = AsteroidRequest (Result Http.Error AsteroidList)
     | SetDate (Maybe Date)
+    | NextSetting
+    | PreviousSetting
 
 
 
