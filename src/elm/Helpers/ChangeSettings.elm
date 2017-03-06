@@ -1,10 +1,10 @@
-module Helpers.ChangeSettings exposing (incrementSetting, decrementSetting)
+module Helpers.ChangeSettings exposing (nextSetting, previousSetting)
 
 import Model exposing (..)
 
 
-incrementSetting : Setting -> Setting
-incrementSetting setting =
+nextSetting : Setting -> Setting
+nextSetting setting =
     case setting of
         Name ->
             MinSize
@@ -19,8 +19,8 @@ incrementSetting setting =
             Name
 
 
-decrementSetting : Setting -> Setting
-decrementSetting setting =
+previousSetting : Setting -> Setting
+previousSetting setting =
     case setting of
         Name ->
             MissDistance

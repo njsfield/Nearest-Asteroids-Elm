@@ -7,7 +7,7 @@ import Http
 import Dict exposing (..)
 import Helpers.NasaData exposing (neoKeys, buildNasaUrl)
 import Helpers.FormatDate exposing (formatDate)
-import Helpers.ChangeSettings exposing (incrementSetting, decrementSetting)
+import Helpers.ChangeSettings exposing (nextSetting, previousSetting)
 import Date exposing (Date)
 import Task
 
@@ -43,10 +43,10 @@ update msg model =
             { model | asteroidsErr = ("something went wrong" ++ toString err) } ! []
 
         NextSetting ->
-            { model | setting = (incrementSetting model.setting) } ! []
+            { model | setting = (nextSetting model.setting) } ! []
 
         PreviousSetting ->
-            { model | setting = (decrementSetting model.setting) } ! []
+            { model | setting = (nextSetting model.setting) } ! []
 
 
 
