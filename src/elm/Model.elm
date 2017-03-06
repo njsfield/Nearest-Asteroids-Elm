@@ -5,6 +5,7 @@ module Model exposing (..)
 
 type alias Model =
     { date : String
+    , setting : Setting
     , asteroids : AsteroidList
     , asteroidsErr : String
     }
