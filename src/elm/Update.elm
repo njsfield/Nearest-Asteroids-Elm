@@ -41,6 +41,44 @@ update msg model =
         AsteroidRequest (Err err) ->
             { model | asteroidsErr = ("something went wrong" ++ toString err) } ! []
 
+        NextSetting ->
+            { model | setting = (incrementSetting model.setting) } ! []
+
+        PreviousSetting ->
+            { model | setting = (decrementSetting model.setting) } ! []
+
+
+incrementSetting : Setting -> Setting
+incrementSetting setting =
+    case setting of
+        Name ->
+            MinSize
+
+        MinSize ->
+            Speed
+
+        Speed ->
+            MissDistance
+
+        MissDistance ->
+            Name
+
+
+decrementSetting : Setting -> Setting
+decrementSetting setting =
+    case setting of
+        Name ->
+            MissDistance
+
+        MinSize ->
+            Name
+
+        Speed ->
+            MinSize
+
+        MissDistance ->
+            Speed
+
 
 
 -- formatDate : takes a raw date and outputs it as "YYYY-MM-DD"

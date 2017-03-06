@@ -52,7 +52,7 @@ viewListItem setting asteroid =
                 item asteroid.name
 
             MinSize ->
-                item asteroid.minsize
+                item toString <| asteroid.minsize
 
             Speed ->
                 item asteroid.speed
