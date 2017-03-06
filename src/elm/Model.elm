@@ -33,6 +33,7 @@ type Setting
 initialModel : Model
 initialModel =
     { date = "2017-03-02"
+    , setting = Name
     , asteroids =
         [ { name = "(2017 BU6)"
           , minsize = 0.0234324
