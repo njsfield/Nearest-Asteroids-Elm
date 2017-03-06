@@ -19,6 +19,11 @@ view model =
                 ]
           ]
         , p [ class "sans-serif" ] [ text model.asteroidsErr ]
-        , p [] [ text <| toString model.asteroids ]
+        , ul [] [ List.map viewListItem model.asteroids ]
         , h2 [ class "sans-serif" ] [ text model.date ]
         ]
+
+
+viewListItem : Asteroid -> Html Msg
+viewListItem { display } =
+    li [] [ text display ]
