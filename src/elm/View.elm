@@ -8,10 +8,10 @@ import Html.Attributes exposing (..)
 
 
 view : Model -> Html Msg
-view model =
+view { setting, asteroidsErr, asteroids, date } =
     div [ class "tc mt5" ]
-        [ viewNavigation model.setting
-        , p [ class "sans-serif" ] [ text model.asteroidsErr ]
-        , viewListItems model.setting model.asteroids
-        , h2 [ class "sans-serif" ] [ text model.date ]
+        [ viewNavigation setting
+        , p [ class "sans-serif" ] [ text asteroidsErr ]
+        , viewListItems setting asteroids
+        , h2 [ class "sans-serif" ] [ text date ]
         ]
