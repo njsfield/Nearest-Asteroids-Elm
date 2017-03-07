@@ -2,14 +2,25 @@ module View exposing (..)
 
 import Model exposing (..)
 import Update exposing (..)
+import Helpers.ViewComponents exposing (viewNavigation, viewListItems)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
 
+{-
+   view: Builds view from Model
+   1. Navigation Component, Containing Current Setting and UI buttons to toggle Next/Previous Setting
+   2. (optional) Error Message
+   3. Data Component. Displays Asteroid data
+   4. Date Compoent. Displays Current (Or Default Date)
+-}
+
+
 view : Model -> Html Msg
-view model =
+view { setting, asteroidsErr, asteroids, date } =
     div [ class "tc mt5" ]
-        [ h2 [ class "sans-serif" ] [ text model.date ]
-        , p [ class "sans-serif" ] [ text model.asteroidsErr ]
-        , p [] [ text <| toString model.asteroids ]
+        [ viewNavigation PreviousSetting setting NextSetting
+        , p [ class "sans-serif" ] [ text asteroidsErr ]
+        , viewListItems setting asteroids
+        , h2 [ class "sans-serif" ] [ text date ]
         ]

@@ -7,6 +7,7 @@ import Http
 import Dict exposing (..)
 import Helpers.NasaData exposing (neoKeys, buildNasaUrl)
 import Helpers.FormatDate exposing (formatDate)
+import Helpers.ChangeSettings exposing (nextSetting, previousSetting)
 import Date exposing (Date)
 import Task
 
@@ -14,10 +15,17 @@ import Task
 type Msg
     = AsteroidRequest (Result Http.Error AsteroidList)
     | SetDate (Maybe Date)
+    | NextSetting
+    | PreviousSetting
 
 
 
--- Update: @TODO: Instead of Err message, model could be initialModel
+{- update:
+   1. Set Date
+   2. Handle Json Request
+   3. Handle Next/Previous Setting Msgs from UI
+   @TODO: Perhaps refactor to handle SetDate and AsteroidRequest branches before update call
+-}
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -37,7 +45,13 @@ update msg model =
             { model | asteroids = res } ! []
 
         AsteroidRequest (Err err) ->
-            { model | asteroidsErr = ("something went wrong" ++ toString err) } ! []
+            { model | asteroidsErr = resultErrMessage model.date initialModel.date } ! []
+
+        NextSetting ->
+            { model | setting = (nextSetting model.setting) } ! []
+
+        PreviousSetting ->
+            { model | setting = (nextSetting model.setting) } ! []
 
 
 
@@ -62,6 +76,15 @@ processDateResult result =
 
         Err _ ->
             SetDate Nothing
+
+
+
+-- Combine default and current date into an error message
+
+
+resultErrMessage : String -> String -> String
+resultErrMessage currentDate defaultDate =
+    "Unable to generate results for" ++ currentDate ++ ", here are results for" ++ defaultDate
 
 
 

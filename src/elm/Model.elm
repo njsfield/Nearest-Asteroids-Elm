@@ -5,6 +5,7 @@ module Model exposing (..)
 
 type alias Model =
     { date : String
+    , setting : Setting
     , asteroids : AsteroidList
     , asteroidsErr : String
     }
@@ -18,18 +19,26 @@ type alias Asteroid =
     { name : String
     , minsize : Float
     , speed : String
-    , missDistance : String
+    , missdistance : String
     }
+
+
+type Setting
+    = Name
+    | MinSize
+    | Speed
+    | MissDistance
 
 
 initialModel : Model
 initialModel =
     { date = "2017-03-02"
+    , setting = Name
     , asteroids =
         [ { name = "(2017 BU6)"
           , minsize = 0.0234324
           , speed = "0.234"
-          , missDistance = "0.342"
+          , missdistance = "0.342"
           }
         ]
     , asteroidsErr = ""
