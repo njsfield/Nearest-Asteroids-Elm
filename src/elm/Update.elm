@@ -160,9 +160,25 @@ minsizeDecoder =
 -}
 
 
-closeApproachDecoder : List String -> Decoder String
+closeApproachDecoder : List String -> Decoder Float
 closeApproachDecoder depthList =
-    at [ neoKeys.closedate ] (listHeadDecoder (at depthList string))
+    at [ neoKeys.closedate ] (listHeadDecoder (at depthList stringToFloat))
+
+
+stringToFloat : Decoder Float
+stringToFloat =
+    string
+        |> andThen floatDecode
+
+
+floatDecode : String -> Decoder Float
+floatDecode x =
+    case String.toFloat x of
+        Ok n ->
+            succeed n
+
+        Err e ->
+            fail e
 
 
 
@@ -171,9 +187,9 @@ closeApproachDecoder depthList =
 -}
 
 
-listHeadDecoder : Decoder String -> Decoder String
+listHeadDecoder : Decoder Float -> Decoder Float
 listHeadDecoder nextDecoder =
-    Json.map (\lst -> Maybe.withDefault "" (List.head lst)) (list nextDecoder)
+    Json.map (\lst -> Maybe.withDefault 0 (List.head lst)) (list nextDecoder)
 
 
 
