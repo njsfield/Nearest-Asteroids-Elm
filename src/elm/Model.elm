@@ -18,8 +18,8 @@ type alias AsteroidList =
 type alias Asteroid =
     { name : String
     , minsize : Float
-    , speed : String
-    , missdistance : String
+    , speed : Float
+    , missdistance : Float
     }
 
 
@@ -37,8 +37,8 @@ initialModel =
     , asteroids =
         [ { name = "(2017 BU6)"
           , minsize = 0.0234324
-          , speed = "0.234"
-          , missdistance = "0.342"
+          , speed = 0.234
+          , missdistance = 0.342
           }
         ]
     , asteroidsErr = ""
