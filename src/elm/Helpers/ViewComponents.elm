@@ -1,4 +1,4 @@
-module Helpers.ViewComponents exposing (viewNavigation, viewListItems, asteroidSvg)
+module Helpers.ViewComponents exposing (viewNavigation, asteroidSvg)
 
 import Model exposing (..)
 import Svg exposing (svg, circle, text_, text, g)
@@ -42,41 +42,6 @@ viewNavigation prevSettingMsg setting nextSettingMsg =
             , h2 [ class "sans-serif" ] [ Html.text settingtext ]
             , button [ class "bn pointer bg-transparent outline-0", onClick nextSettingMsg ] [ Html.text ">" ]
             ]
-
-
-
-{- viewListItems: (Temporary), takes a setting and list of asteroid types, outputs a unordered list
-   with asteroid settings nested
--}
-
-
-viewListItems : Setting -> List Asteroid -> Html Msg
-viewListItems setting asteroids =
-    ul [ class "pa0" ] (List.map (viewListItem setting) asteroids)
-
-
-
-{- viewListItem: (Temporary), Takes a Setting, an Asteroid and outputs the relevant field in a list element -}
-
-
-viewListItem : Setting -> Asteroid -> Html Msg
-viewListItem setting asteroid =
-    let
-        item =
-            (\textinput -> li [ class "list" ] [ Html.text textinput ])
-    in
-        case setting of
-            Name ->
-                item asteroid.name
-
-            MinSize ->
-                item (toString asteroid.minsize)
-
-            Speed ->
-                item (toString asteroid.speed)
-
-            MissDistance ->
-                item (toString asteroid.missdistance)
 
 
 

@@ -2,7 +2,7 @@ module View exposing (..)
 
 import Model exposing (..)
 import Update exposing (..)
-import Helpers.ViewComponents exposing (viewNavigation, viewListItems, asteroidSvg)
+import Helpers.ViewComponents exposing (viewNavigation, asteroidSvg)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
