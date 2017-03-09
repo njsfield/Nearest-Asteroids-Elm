@@ -1,6 +1,11 @@
 module Helpers.ViewComponents exposing (viewNavigation, viewListItems)
 
 import Model exposing (..)
+import Svg exposing (svg)
+
+
+-- import Svg.Attributes exposing (..)
+
 import Update exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
