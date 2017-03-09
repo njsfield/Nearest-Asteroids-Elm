@@ -55,16 +55,13 @@ asteroidSettingValues setting asteroids =
             List.map .name asteroids
 
         MinSize ->
-            List.map .minsize asteroids
-                |> List.map toString
+            List.map (\x -> x.minsize |> toString) asteroids
 
         Speed ->
-            List.map .speed asteroids
-                |> List.map toString
+            List.map (\x -> x.speed |> toString) asteroids
 
         MissDistance ->
-            List.map .missdistance asteroids
-                |> List.map toString
+            List.map (\x -> x.missdistance |> toString) asteroids
 
 
 
