@@ -2,7 +2,7 @@ module View exposing (..)
 
 import Model exposing (..)
 import Update exposing (..)
-import Helpers.ViewComponents exposing (viewNavigation, viewListItems)
+import Helpers.ViewComponents exposing (viewNavigation, viewListItems, asteroidSvg)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
@@ -21,6 +21,6 @@ view { setting, asteroidsErr, asteroids, date, grid } =
     div [ class "tc mt5" ]
         [ viewNavigation PreviousSetting setting NextSetting
         , p [ class "sans-serif" ] [ text asteroidsErr ]
-        , viewListItems setting asteroids
+        , asteroidSvg setting asteroids grid
         , h2 [ class "sans-serif" ] [ text date ]
         ]

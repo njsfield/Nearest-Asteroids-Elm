@@ -1,7 +1,8 @@
-module Helpers.ViewComponents exposing (viewNavigation, viewListItems)
+module Helpers.ViewComponents exposing (viewNavigation, viewListItems, asteroidSvg)
 
 import Model exposing (..)
-import Svg exposing (svg)
+import Svg exposing (svg, circle, text_, text, g)
+import Svg.Attributes exposing (viewBox, fill, cx, cy, r, stroke, textAnchor, x, y, fontSize)
 
 
 -- import Svg.Attributes exposing (..)
@@ -37,9 +38,9 @@ viewNavigation prevSettingMsg setting nextSettingMsg =
                     "Miss Distance"
     in
         div [ class "flex justify-center" ]
-            [ button [ class "bn pointer bg-transparent outline-0", onClick prevSettingMsg ] [ text "<" ]
-            , h2 [ class "sans-serif" ] [ text settingtext ]
-            , button [ class "bn pointer bg-transparent outline-0", onClick nextSettingMsg ] [ text ">" ]
+            [ button [ class "bn pointer bg-transparent outline-0", onClick prevSettingMsg ] [ Html.text "<" ]
+            , h2 [ class "sans-serif" ] [ Html.text settingtext ]
+            , button [ class "bn pointer bg-transparent outline-0", onClick nextSettingMsg ] [ Html.text ">" ]
             ]
 
 
@@ -62,7 +63,7 @@ viewListItem : Setting -> Asteroid -> Html Msg
 viewListItem setting asteroid =
     let
         item =
-            (\textinput -> li [ class "list" ] [ text textinput ])
+            (\textinput -> li [ class "list" ] [ Html.text textinput ])
     in
         case setting of
             Name ->
@@ -76,3 +77,74 @@ viewListItem setting asteroid =
 
             MissDistance ->
                 item (toString asteroid.missdistance)
+
+
+
+-- Returns List of values based on aetting
+
+
+asteroidSettingValues : Setting -> AsteroidList -> List String
+asteroidSettingValues setting asteroids =
+    case setting of
+        Name ->
+            List.map .name asteroids
+
+        MinSize ->
+            List.map .minsize asteroids
+                |> List.map toString
+
+        Speed ->
+            List.map .speed asteroids
+                |> List.map toString
+
+        MissDistance ->
+            List.map .missdistance asteroids
+                |> List.map toString
+
+
+
+-- x = 300, y = 100
+
+
+asteroidSvg : Setting -> List Asteroid -> Grid -> Html Msg
+asteroidSvg setting asteroids ( x, y ) =
+    let
+        grid =
+            ( x, y )
+
+        svgViewBox =
+            "-50 0 " ++ (toString (x + 50)) ++ " " ++ (toString y)
+
+        values =
+            asteroidSettingValues setting asteroids
+
+        total =
+            List.length values
+
+        indexedAsteroids =
+            List.indexedMap (,) values
+    in
+        svg
+            [ viewBox svgViewBox ]
+            (List.map
+                (\item -> asteroidCircle item total grid)
+                indexedAsteroids
+            )
+
+
+asteroidCircle : ( Int, String ) -> Int -> Grid -> Svg.Svg msg
+asteroidCircle ( index, value ) total ( xGrid, yGrid ) =
+    let
+        xPos =
+            toString (((toFloat index) / (toFloat total)) * (toFloat xGrid))
+
+        yPos =
+            toString ((toFloat yGrid) / 2.0)
+
+        circleSize =
+            toString ((toFloat yGrid) / (toFloat total) * 2)
+    in
+        g []
+            [ circle [ fill "#dddddd", cx xPos, cy yPos, r circleSize ] []
+            , text_ [ x xPos, y yPos, textAnchor "middle", fontSize "30%" ] [ Svg.text (value) ]
+            ]

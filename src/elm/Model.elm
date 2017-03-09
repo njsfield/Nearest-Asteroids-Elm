@@ -38,7 +38,7 @@ type alias Grid =
 initialModel : Model
 initialModel =
     { date = "2017-03-02"
-    , grid = ( 300, 100 )
+    , grid = ( 500, 100 )
     , setting = Name
     , asteroids =
         [ { name = "(2017 BU6)"
