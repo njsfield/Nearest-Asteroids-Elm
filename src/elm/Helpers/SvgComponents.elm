@@ -3,28 +3,9 @@ module Helpers.SvgComponents exposing (asteroidSvg)
 import Model exposing (..)
 import Update exposing (..)
 import Html exposing (..)
+import Helpers.ChangeSettings exposing (stringValuesFromSetting)
 import Svg exposing (svg, circle, text_, text, g)
 import Svg.Attributes exposing (viewBox, fill, cx, cy, r, stroke, textAnchor, x, y, fontSize)
-
-
--- asteroidSettingValues: Returns List of String values from Asteroid, depending on Setting
-
-
-asteroidSettingValues : Setting -> AsteroidList -> List String
-asteroidSettingValues setting asteroids =
-    case setting of
-        Name ->
-            List.map .name asteroids
-
-        MinSize ->
-            List.map (\x -> x.minsize |> toString) asteroids
-
-        Speed ->
-            List.map (\x -> x.speed |> toString) asteroids
-
-        MissDistance ->
-            List.map (\x -> x.missdistance |> toString) asteroids
-
 
 
 {- asteroidSvg: Takes a setting, a list of asteroids, and a grid
@@ -39,7 +20,7 @@ asteroidSvg setting asteroids ( x, y ) =
             "-50 0 " ++ (toString (x + 50)) ++ " " ++ (toString y)
 
         values =
-            asteroidSettingValues setting asteroids
+            stringValuesFromSetting setting asteroids
 
         total =
             List.length values

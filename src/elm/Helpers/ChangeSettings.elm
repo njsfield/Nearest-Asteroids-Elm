@@ -1,4 +1,4 @@
-module Helpers.ChangeSettings exposing (nextSetting, previousSetting)
+module Helpers.ChangeSettings exposing (nextSetting, previousSetting, stringValuesFromSetting)
 
 import Model exposing (..)
 
@@ -40,3 +40,25 @@ previousSetting setting =
 
         MissDistance ->
             Speed
+
+
+
+{- stringValuesFromSetting: Takes a Setting and list of Asteroids.
+   Outputs string formatted values based on setting
+-}
+
+
+stringValuesFromSetting : Setting -> AsteroidList -> List String
+stringValuesFromSetting setting asteroids =
+    case setting of
+        Name ->
+            List.map .name asteroids
+
+        MinSize ->
+            List.map (\x -> x.minsize |> toString) asteroids
+
+        Speed ->
+            List.map (\x -> x.speed |> toString) asteroids
+
+        MissDistance ->
+            List.map (\x -> x.missdistance |> toString) asteroids
