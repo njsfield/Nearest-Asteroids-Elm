@@ -2,7 +2,8 @@ module View exposing (..)
 
 import Model exposing (..)
 import Update exposing (..)
-import Helpers.ViewComponents exposing (viewNavigation, asteroidSvg)
+import Helpers.HtmlComponents exposing (viewNavigation)
+import Helpers.SvgComponents exposing (asteroidSvg)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
