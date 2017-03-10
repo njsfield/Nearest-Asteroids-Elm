@@ -3,9 +3,33 @@ module Helpers.SvgComponents exposing (asteroidSvg)
 import Model exposing (..)
 import Update exposing (..)
 import Html exposing (..)
-import Helpers.ChangeSettings exposing (stringValuesFromSetting)
 import Svg exposing (svg, circle, text_, text, g)
-import Svg.Attributes exposing (viewBox, fill, cx, cy, r, stroke, textAnchor, x, y, fontSize)
+import Svg.Attributes as Attrs exposing (viewBox, fill, cx, cy, r, stroke, textAnchor, x, y, fontSize)
+
+
+type alias AsteroidSvgData =
+    { display : String
+    , x : Float
+    , y : Float
+    , r : Float
+    }
+
+
+type alias X =
+    String
+
+
+type alias Y =
+    String
+
+
+type alias R =
+    String
+
+
+type alias Display =
+    String
+
 
 
 {- asteroidSvg: Takes a setting, a list of asteroids, and a grid
@@ -17,22 +41,19 @@ asteroidSvg : Setting -> List Asteroid -> Grid -> Html Msg
 asteroidSvg setting asteroids ( x, y ) =
     let
         svgViewBox =
-            "-50 0 " ++ (toString (x + 50)) ++ " " ++ (toString y)
+            "-50 0 " ++ (toString (x + 100)) ++ " " ++ (toString y)
 
         values =
-            stringValuesFromSetting setting asteroids
+            mapValuesFromSetting setting asteroids
 
         total =
             List.length values
-
-        indexedAsteroids =
-            List.indexedMap (,) values
     in
         svg
-            [ viewBox svgViewBox ]
+            [ Attrs.viewBox svgViewBox ]
             (List.map
-                (\item -> asteroidCircle item total ( x, y ))
-                indexedAsteroids
+                (\item -> dataGroup item ( x, y ))
+                values
             )
 
 
@@ -43,19 +64,74 @@ asteroidSvg setting asteroids ( x, y ) =
 -}
 
 
-asteroidCircle : ( Int, String ) -> Int -> Grid -> Svg.Svg msg
-asteroidCircle ( index, value ) total ( xGrid, yGrid ) =
+dataGroup : AsteroidSvgData -> Grid -> Svg.Svg msg
+dataGroup { display, x, y, r } ( w, h ) =
     let
-        xPos =
-            toString <| ((toFloat index) / (toFloat total)) * (toFloat xGrid)
+        xScaled =
+            toString <| x * toFloat w
 
-        yPos =
-            toString <| (toFloat yGrid) / 2.0
+        yScaled =
+            toString <| y * toFloat h
 
-        circleSize =
-            toString <| (toFloat yGrid) / (toFloat total) * 2
+        rScaled =
+            toString <| round <| r * toFloat w
     in
         g []
-            [ circle [ fill "#dddddd", cx xPos, cy yPos, r circleSize ] []
-            , text_ [ x xPos, y yPos, textAnchor "middle", fontSize "30%" ] [ Svg.text (value) ]
+            [ svgCircle xScaled yScaled rScaled
+            , svgText xScaled yScaled display
             ]
+
+
+svgCircle : X -> Y -> R -> Svg.Svg msg
+svgCircle x y r =
+    circle [ fill "#dddddd", Attrs.cx x, Attrs.cy y, Attrs.r r ] []
+
+
+svgText : X -> Y -> Display -> Svg.Svg msg
+svgText x y value =
+    text_ [ Attrs.x x, Attrs.y y, textAnchor "middle", fontSize "30%" ] [ Svg.text (value) ]
+
+
+mapValuesFromSetting : Setting -> AsteroidList -> List AsteroidSvgData
+mapValuesFromSetting setting asteroids =
+    case setting of
+        Name ->
+            prepareNameData <| List.map .name asteroids
+
+        MinSize ->
+            prepareNameData <| List.map (\x -> x.minsize |> toString) asteroids
+
+        Speed ->
+            prepareNameData <| List.map (\x -> x.speed |> toString) asteroids
+
+        MissDistance ->
+            prepareNameData <| List.map (\x -> x.missdistance |> toString) asteroids
+
+
+
+{- Takes an asteroid list, pulls the .name field,
+   evenly distributes x values from 0 to 1.
+   equally distributes y values as 0.5
+   equally distributes r values as 1
+-}
+
+
+prepareNameData : List String -> List AsteroidSvgData
+prepareNameData namelist =
+    let
+        indexed =
+            List.indexedMap (,) namelist
+
+        scaleBy =
+            List.length namelist - 1 |> toFloat
+
+        xList =
+            List.map (\( index, _ ) -> (toFloat index) / scaleBy) indexed
+
+        yList =
+            List.map (always 0.5) indexed
+
+        rList =
+            List.map (always (1.0 / (scaleBy * 2))) indexed
+    in
+        List.map4 AsteroidSvgData namelist xList yList rList
