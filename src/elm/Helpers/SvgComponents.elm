@@ -3,8 +3,8 @@ module Helpers.SvgComponents exposing (asteroidSvg)
 import Model exposing (..)
 import Update exposing (..)
 import Html exposing (..)
-import Svg exposing (svg, circle, text_, text, g)
-import Svg.Attributes as Attrs exposing (viewBox, fill, cx, cy, r, stroke, textAnchor, x, y, fontSize)
+import Svg exposing (..)
+import Svg.Attributes as Attrs exposing (..)
 
 
 type alias AsteroidSvgData =
@@ -32,8 +32,78 @@ type alias Display =
 
 
 
-{- asteroidSvg: Takes a setting, a list of asteroids, and a grid
-   to construct an svg with a nested set of elements built by the asteroidCircle function
+{- Takes a setting and list of Asteroids. Then calls associative functions to build
+   AsteroidSvgData (used to construct circle and text elements)
+   @TODO: build prepareMinSizeData, prepareSpeedData, and missDistanceData functions
+-}
+
+
+mapValuesFromSetting : Setting -> AsteroidList -> List AsteroidSvgData
+mapValuesFromSetting setting asteroids =
+    case setting of
+        Name ->
+            prepareNameData <| List.map .name asteroids
+
+        MinSize ->
+            -- @TODO: prepareMinSizeData function
+            prepareNameData <| List.map (\x -> x.minsize |> toString) asteroids
+
+        Speed ->
+            -- @TODO: prepareSpeedData function
+            prepareNameData <| List.map (\x -> x.speed |> toString) asteroids
+
+        MissDistance ->
+            -- @TODO: missDistanceData function
+            prepareNameData <| List.map (\x -> x.missdistance |> toString) asteroids
+
+
+
+{- prepareNameData: takes a list of string name values.
+   evenly distributes x values from 0 to 1.
+   equally distributes y values as 0.5
+   equally distributes r values as 1 / (List length * 2 - 2)
+-}
+
+
+prepareNameData : List String -> List AsteroidSvgData
+prepareNameData namelist =
+    if List.length namelist == 1 then
+        lonelyAsteroidData namelist
+    else
+        let
+            indexed =
+                List.indexedMap (,) namelist
+
+            scaleBy =
+                List.length namelist - 1 |> toFloat
+
+            xs =
+                List.map (\( index, _ ) -> (toFloat index) / scaleBy) indexed
+
+            ys =
+                List.map (always 0.5) indexed
+
+            rs =
+                List.map (always (1.0 / (scaleBy * 2))) indexed
+        in
+            List.map4 AsteroidSvgData namelist xs ys rs
+
+
+
+{- lonelyAsteroidData: called by prepareMinSizeData, prepareSpeedData, and missDistanceData functions
+   in the event that only one asteroid list item exists.
+-}
+
+
+lonelyAsteroidData : List String -> List AsteroidSvgData
+lonelyAsteroidData asteroid =
+    [ AsteroidSvgData (Maybe.withDefault "" <| List.head asteroid) 0.5 0.5 0.1 ]
+
+
+
+{- asteroidSvg: Takes a setting, a list of asteroids, and a grid.
+   calls mapValuesfromSetting to construct appropriate SVG data in AsteroidSvgData format.
+   then uses that data to build a group element composed of an svg circle and text element
 -}
 
 
@@ -58,9 +128,9 @@ asteroidSvg setting asteroids ( x, y ) =
 
 
 
-{- asteroidCircle: Uses the Index value of the tuple to scale against the x
-   value of the grid and the total number of elements.
-   Outputs a g containing the circle, and a text element containing the asteroid value
+{- dataGroup: Takes a record of AsteroidData,
+   uses it to size and position a circle shape
+   and outputs the display value into a text element
 -}
 
 
@@ -82,56 +152,27 @@ dataGroup { display, x, y, r } ( w, h ) =
             ]
 
 
-svgCircle : X -> Y -> R -> Svg.Svg msg
-svgCircle x y r =
-    circle [ fill "#dddddd", Attrs.cx x, Attrs.cy y, Attrs.r r ] []
 
-
-svgText : X -> Y -> Display -> Svg.Svg msg
-svgText x y value =
-    text_ [ Attrs.x x, Attrs.y y, textAnchor "middle", fontSize "30%" ] [ Svg.text (value) ]
-
-
-mapValuesFromSetting : Setting -> AsteroidList -> List AsteroidSvgData
-mapValuesFromSetting setting asteroids =
-    case setting of
-        Name ->
-            prepareNameData <| List.map .name asteroids
-
-        MinSize ->
-            prepareNameData <| List.map (\x -> x.minsize |> toString) asteroids
-
-        Speed ->
-            prepareNameData <| List.map (\x -> x.speed |> toString) asteroids
-
-        MissDistance ->
-            prepareNameData <| List.map (\x -> x.missdistance |> toString) asteroids
-
-
-
-{- Takes an asteroid list, pulls the .name field,
-   evenly distributes x values from 0 to 1.
-   equally distributes y values as 0.5
-   equally distributes r values as 1
+{-
+   svgCircle: Takes x and y string coordinates, and radius string value
+   to construct circle shape
+   @TODO: Add random colours
 -}
 
 
-prepareNameData : List String -> List AsteroidSvgData
-prepareNameData namelist =
-    let
-        indexed =
-            List.indexedMap (,) namelist
+svgCircle : X -> Y -> R -> Svg.Svg msg
+svgCircle x y rad =
+    circle [ fill "#dddddd", cx x, cy y, r rad ] []
 
-        scaleBy =
-            List.length namelist - 1 |> toFloat
 
-        xList =
-            List.map (\( index, _ ) -> (toFloat index) / scaleBy) indexed
 
-        yList =
-            List.map (always 0.5) indexed
+{-
+   svgText: takes x and y string coordinates, and display text string,
+   to construct text element
+   @TODO: Format font styles of display text
+-}
 
-        rList =
-            List.map (always (1.0 / (scaleBy * 2))) indexed
-    in
-        List.map4 AsteroidSvgData namelist xList yList rList
+
+svgText : X -> Y -> Display -> Svg.Svg msg
+svgText xpos ypos displaytext =
+    text_ [ x xpos, y ypos, textAnchor "middle", fontSize "30%" ] [ Svg.text (displaytext) ]

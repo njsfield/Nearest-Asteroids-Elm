@@ -32,7 +32,15 @@ type Setting
 
 
 type alias Grid =
-    ( Int, Int )
+    ( Width, Height )
+
+
+type alias Width =
+    Int
+
+
+type alias Height =
+    Int
 
 
 initialModel : Model
