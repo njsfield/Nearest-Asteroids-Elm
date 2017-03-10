@@ -190,25 +190,3 @@ floatDecode x =
 listHeadDecoder : Decoder Float -> Decoder Float
 listHeadDecoder nextDecoder =
     Json.map (\lst -> Maybe.withDefault 0 (List.head lst)) (list nextDecoder)
-
-
-
-{- example :
-
-   json =
-
-   """
-   {
-      "close_approach_date" : [
-        "{
-          "relative_velocity" {
-            "kilometers_per_hour" : "0.23"
-          }
-        }"
-      ]
-   }
-   """
-
-   decodeString (closeApproachDecoder [ neoKeys.rvel, neoKeys.kph ]) json == "0.25"
-
--}
