@@ -11,3 +11,7 @@ body {
 .h-100vh {
   height: 100vh;
 }
+
+.f60 {
+  font-size: 60%;
+}

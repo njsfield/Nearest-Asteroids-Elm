@@ -181,4 +181,4 @@ svgCircle index x y rad =
 
 svgText : X -> Y -> Display -> Svg.Svg msg
 svgText xpos ypos displaytext =
-    text_ [ x xpos, y ypos, textAnchor "middle", fontSize "60%" ] [ Svg.text (displaytext) ]
+    text_ [ x xpos, y ypos, textAnchor "middle", Attrs.class "f60 sans-serif", fill "rgb(130,130,130)" ] [ Svg.text (displaytext) ]
