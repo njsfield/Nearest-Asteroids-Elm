@@ -111,7 +111,7 @@ asteroidSvg : Setting -> List Asteroid -> Grid -> Html Msg
 asteroidSvg setting asteroids ( x, y ) =
     let
         svgViewBox =
-            "-50 0 " ++ (toString (x + 100)) ++ " " ++ (toString y)
+            "0 0 " ++ (toString x) ++ " " ++ (toString y)
 
         values =
             mapValuesFromSetting setting asteroids
@@ -120,7 +120,7 @@ asteroidSvg setting asteroids ( x, y ) =
             List.length values
     in
         svg
-            [ Attrs.viewBox svgViewBox ]
+            [ Attrs.class "svg-p overflow-visible", Attrs.viewBox svgViewBox ]
             (List.map
                 (\item -> dataGroup item ( x, y ))
                 values
