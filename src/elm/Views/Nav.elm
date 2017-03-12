@@ -5,6 +5,7 @@ import Update exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
+import Styles.Classes exposing (tachs)
 
 
 {- viewNaviation:
@@ -30,8 +31,8 @@ navigation prevSettingMsg setting nextSettingMsg =
                 MissDistance ->
                     "Miss Distance"
     in
-        div [ class "flex justify-center" ]
-            [ button [ class "bn pointer bg-transparent outline-0 washed-blue pa4", onClick prevSettingMsg ] [ Html.text "<" ]
-            , h2 [ class "sans-serif washed-blue tracked-mega fw3" ] [ Html.text settingtext ]
-            , button [ class "bn pointer bg-transparent outline-0 washed-blue pa4", onClick nextSettingMsg ] [ Html.text ">" ]
+        div [ class tachs.nav ]
+            [ button [ class tachs.navbutton, onClick prevSettingMsg ] [ Html.text "<" ]
+            , h2 [ class tachs.navtext ] [ Html.text settingtext ]
+            , button [ class tachs.navbutton, onClick nextSettingMsg ] [ Html.text ">" ]
             ]

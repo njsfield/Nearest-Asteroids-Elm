@@ -6,6 +6,7 @@ import Html exposing (..)
 import Svg exposing (..)
 import Svg.Attributes as Attrs exposing (..)
 import Styles.Colours exposing (getPastel)
+import Styles.Classes exposing (tachs)
 
 
 type alias AsteroidSvgData =
@@ -127,7 +128,7 @@ asteroidSvg setting asteroids ( x, y ) =
             List.length values
     in
         svg
-            [ Attrs.class "svg-p overflow-visible", Attrs.viewBox svgViewBox ]
+            [ Attrs.class tachs.svg, Attrs.viewBox svgViewBox ]
             (List.map
                 (\item -> dataGroup item ( x, y ))
                 values
@@ -184,7 +185,7 @@ svgText xpos ypos displaytext =
         [ x xpos
         , y ypos
         , textAnchor "middle"
-        , Attrs.class "f60 sans-serif"
-        , fill "rgb(130,130,130)"
+        , Attrs.class tachs.svgtext
+        , fill tachs.svgtextcol
         ]
         [ Svg.text (displaytext) ]

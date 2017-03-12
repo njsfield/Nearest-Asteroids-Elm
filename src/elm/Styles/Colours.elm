@@ -1,5 +1,6 @@
 module Styles.Colours exposing (getPastel)
 
+import Styles.Classes exposing (tachs)
 import Color exposing (..)
 import Array exposing (..)
 import Maybe exposing (withDefault)

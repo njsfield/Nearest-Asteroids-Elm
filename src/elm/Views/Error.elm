@@ -4,6 +4,7 @@ import Model exposing (..)
 import Update exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Styles.Classes exposing (tachs)
 
 
 {- errorHandler:
@@ -16,7 +17,7 @@ errorHandler : ErrorMessage -> Html Msg
 errorHandler errormessage =
     case errormessage of
         Error error ->
-            p [ class "sans-serif" ] [ text error ]
+            p [ class tachs.error ] [ text error ]
 
         None ->
             Html.text ""
