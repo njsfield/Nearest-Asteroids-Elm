@@ -22,6 +22,6 @@ view { setting, asteroidsErr, asteroids, date, grid } =
     div [ class "tc mt5" ]
         [ viewNavigation PreviousSetting setting NextSetting
         , p [ class "sans-serif" ] [ text asteroidsErr ]
-        , asteroidSvg setting asteroids grid
+        , div [ class "tc dib w-80 ba" ] [ asteroidSvg setting asteroids grid ]
         , h2 [ class "sans-serif" ] [ text date ]
         ]
