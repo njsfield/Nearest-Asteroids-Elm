@@ -8,7 +8,7 @@ type alias Model =
     , grid : Grid
     , setting : Setting
     , asteroids : AsteroidList
-    , asteroidsErr : String
+    , asteroidsErr : ErrorMessage
     }
 
 
@@ -43,10 +43,15 @@ type alias Height =
     Int
 
 
+type ErrorMessage
+    = Error String
+    | None
+
+
 initialModel : Model
 initialModel =
     { date = "2017-03-02"
-    , grid = ( 500, 400 )
+    , grid = ( 500, 100 )
     , setting = Name
     , asteroids =
         [ { name = "(2017 BU6)"
@@ -55,5 +60,5 @@ initialModel =
           , missdistance = 0.342
           }
         ]
-    , asteroidsErr = ""
+    , asteroidsErr = None
     }

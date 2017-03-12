@@ -1,4 +1,4 @@
-module Helpers.HtmlComponents exposing (viewNavigation)
+module Helpers.HtmlComponents exposing (viewNavigation, errorHandler)
 
 import Model exposing (..)
 import Update exposing (..)
@@ -35,3 +35,20 @@ viewNavigation prevSettingMsg setting nextSettingMsg =
             , h2 [ class "sans-serif" ] [ Html.text settingtext ]
             , button [ class "bn pointer bg-transparent outline-0", onClick nextSettingMsg ] [ Html.text ">" ]
             ]
+
+
+
+{- errorHandler:
+   Accepts ErrorMessage, returns either an error wrapped in html elt,
+   or an empty text node
+-}
+
+
+errorHandler : ErrorMessage -> Html Msg
+errorHandler errormessage =
+    case errormessage of
+        Error error ->
+            p [ class "sans-serif" ] [ text error ]
+
+        None ->
+            Html.text ""

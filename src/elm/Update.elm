@@ -32,7 +32,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         SetDate Nothing ->
-            ( model, (getAsteroids model.date) )
+            ( model, getAsteroids model.date )
 
         SetDate (Just date) ->
             let
@@ -45,7 +45,7 @@ update msg model =
             { model | asteroids = res } ! []
 
         AsteroidRequest (Err err) ->
-            { model | asteroidsErr = resultErrMessage model.date initialModel.date } ! []
+            { model | asteroidsErr = Error <| resultErrMessage model.date initialModel.date } ! []
 
         NextSetting ->
             { model | setting = (nextSetting model.setting) } ! []
