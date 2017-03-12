@@ -65,7 +65,7 @@ mapValuesFromSetting setting asteroids =
 -}
 
 
-prepareNameData : List String -> List AsteroidSvgData
+prepareNameData : List Display -> List AsteroidSvgData
 prepareNameData namelist =
     if List.length namelist == 1 then
         lonelyAsteroidData namelist
@@ -84,7 +84,7 @@ prepareNameData namelist =
                 List.map (always 0.5) indexed
 
             rs =
-                List.map (always (1.0 / (scaleBy * 2))) indexed
+                List.map (always (1.0 / (scaleBy * 2.5))) indexed
         in
             List.map4 AsteroidSvgData namelist xs ys rs
 
