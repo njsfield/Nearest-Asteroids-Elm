@@ -19,7 +19,7 @@ import Html.Attributes exposing (..)
 
 view : Model -> Html Msg
 view { setting, asteroidsErr, asteroids, date, grid } =
-    div [ class "tc mt5" ]
+    div [ class "tc page-center" ]
         [ viewNavigation PreviousSetting setting NextSetting
         , errorHandler asteroidsErr
         , div [ class "tc dib w-80 ba" ] [ asteroidSvg setting asteroids grid ]

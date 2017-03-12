@@ -2,8 +2,17 @@ body {
   margin: 0;
 }
 
-/* Margin */
+/* SVG Margin */
 
 .svg-p {
-  margin: 10%
+  margin: 10%;
+}
+
+/* V Center */
+.page-center {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
 }

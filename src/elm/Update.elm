@@ -39,7 +39,7 @@ update msg model =
                 newDate =
                     formatDate date
             in
-                ( { model | date = newDate }, (getAsteroids newDate) )
+                ( { model | date = newDate }, getAsteroids newDate )
 
         AsteroidRequest (Ok res) ->
             { model | asteroids = res } ! []
