@@ -1,11 +1,11 @@
-module Helpers.SvgComponents exposing (asteroidSvg)
+module Views.Svg exposing (asteroidSvg)
 
 import Model exposing (..)
 import Update exposing (..)
 import Html exposing (..)
 import Svg exposing (..)
 import Svg.Attributes as Attrs exposing (..)
-import Helpers.Colours exposing (getPastel)
+import Styles.Colours exposing (getPastel)
 
 
 type alias AsteroidSvgData =
@@ -175,10 +175,16 @@ svgCircle index x y rad =
 {-
    svgText: takes x and y string coordinates, and display text string,
    to construct text element
-   @TODO: Format font styles of display text
 -}
 
 
 svgText : X -> Y -> Display -> Svg.Svg msg
 svgText xpos ypos displaytext =
-    text_ [ x xpos, y ypos, textAnchor "middle", Attrs.class "f60 sans-serif", fill "rgb(130,130,130)" ] [ Svg.text (displaytext) ]
+    text_
+        [ x xpos
+        , y ypos
+        , textAnchor "middle"
+        , Attrs.class "f60 sans-serif"
+        , fill "rgb(130,130,130)"
+        ]
+        [ Svg.text (displaytext) ]

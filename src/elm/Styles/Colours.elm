@@ -1,4 +1,4 @@
-module Helpers.Colours exposing (getPastel)
+module Styles.Colours exposing (getPastel)
 
 import Color exposing (..)
 import Array exposing (..)

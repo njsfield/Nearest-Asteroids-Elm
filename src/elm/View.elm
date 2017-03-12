@@ -2,8 +2,9 @@ module View exposing (..)
 
 import Model exposing (..)
 import Update exposing (..)
-import Helpers.HtmlComponents exposing (viewNavigation, errorHandler)
-import Helpers.SvgComponents exposing (asteroidSvg)
+import Views.Error exposing (..)
+import Views.Nav exposing (..)
+import Views.Svg exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
@@ -20,7 +21,7 @@ import Html.Attributes exposing (..)
 view : Model -> Html Msg
 view { setting, asteroidsErr, asteroids, date, grid } =
     div [ class "tc w-100 h-100vh flex flex-column items-center justify-center bg-dark-blue" ]
-        [ viewNavigation PreviousSetting setting NextSetting
+        [ navigation PreviousSetting setting NextSetting
         , errorHandler asteroidsErr
         , div [ class "tc dib w-80" ] [ asteroidSvg setting asteroids grid ]
         , h2 [ class "sans-serif washed-blue tracked-mega fw3" ] [ text date ]
