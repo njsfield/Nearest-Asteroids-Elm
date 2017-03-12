@@ -106,7 +106,7 @@ getAsteroids date =
 
 resultsDecoder : Decoder (List Asteroid)
 resultsDecoder =
-    at [ neoKeys.neo ] (Json.map firstDictList (dict (list asteroidDecoder)))
+    at [ neoKeys.neo ] <| Json.map firstDictList (dict (list asteroidDecoder))
 
 
 
@@ -122,9 +122,9 @@ firstDictList dictList =
             Dict.keys dictList
 
         firstKey =
-            Maybe.withDefault "" (List.head dictKeys)
+            Maybe.withDefault "" <| List.head dictKeys
     in
-        Maybe.withDefault [] (Dict.get firstKey dictList)
+        Maybe.withDefault [] <| Dict.get firstKey dictList
 
 
 
@@ -162,7 +162,7 @@ minsizeDecoder =
 
 closeApproachDecoder : List String -> Decoder Float
 closeApproachDecoder depthList =
-    at [ neoKeys.closedate ] (listHeadDecoder (at depthList stringToFloat))
+    at [ neoKeys.closedate ] (listHeadDecoder <| at depthList stringToFloat)
 
 
 stringToFloat : Decoder Float
@@ -189,4 +189,4 @@ floatDecode x =
 
 listHeadDecoder : Decoder Float -> Decoder Float
 listHeadDecoder nextDecoder =
-    Json.map (\lst -> Maybe.withDefault 0 (List.head lst)) (list nextDecoder)
+    Json.map (\lst -> Maybe.withDefault 0 <| List.head lst) <| list nextDecoder
