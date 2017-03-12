@@ -46,7 +46,7 @@ type alias Height =
 initialModel : Model
 initialModel =
     { date = "2017-03-02"
-    , grid = ( 500, 100 )
+    , grid = ( 500, 200 )
     , setting = Name
     , asteroids =
         [ { name = "(2017 BU6)"
