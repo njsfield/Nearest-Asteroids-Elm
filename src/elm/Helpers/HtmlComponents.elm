@@ -31,9 +31,9 @@ viewNavigation prevSettingMsg setting nextSettingMsg =
                     "Miss Distance"
     in
         div [ class "flex justify-center" ]
-            [ button [ class "bn pointer bg-transparent outline-0", onClick prevSettingMsg ] [ Html.text "<" ]
-            , h2 [ class "sans-serif" ] [ Html.text settingtext ]
-            , button [ class "bn pointer bg-transparent outline-0", onClick nextSettingMsg ] [ Html.text ">" ]
+            [ button [ class "bn pointer bg-transparent outline-0 washed-blue pr4", onClick prevSettingMsg ] [ Html.text "<" ]
+            , h2 [ class "sans-serif washed-blue tracked-mega fw3" ] [ Html.text settingtext ]
+            , button [ class "bn pointer bg-transparent outline-0 washed-blue pl4", onClick nextSettingMsg ] [ Html.text ">" ]
             ]
 
 

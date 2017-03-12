@@ -5,10 +5,12 @@ import Update exposing (..)
 import Html exposing (..)
 import Svg exposing (..)
 import Svg.Attributes as Attrs exposing (..)
+import Helpers.Colours exposing (getPastel)
 
 
 type alias AsteroidSvgData =
     { display : String
+    , index : Int
     , x : Float
     , y : Float
     , r : Float
@@ -62,6 +64,7 @@ mapValuesFromSetting setting asteroids =
    evenly distributes x values from 0 to 1.
    equally distributes y values as 0.5
    equally distributes r values as 1 / (List length * 2 - 2)
+   Adds an index int to each asteroid
 -}
 
 
@@ -74,19 +77,22 @@ prepareNameData namelist =
             indexed =
                 List.indexedMap (,) namelist
 
+            indexes =
+                List.map (\( index, _ ) -> index) indexed
+
             scaleBy =
                 List.length namelist - 1 |> toFloat
 
             xs =
-                List.map (\( index, _ ) -> (toFloat index) / scaleBy) indexed
+                List.map (\x -> toFloat x / scaleBy) indexes
 
             ys =
-                List.map (always 0.5) indexed
+                List.map (always 0.5) indexes
 
             rs =
-                List.map (always (1.0 / (scaleBy * 2.5))) indexed
+                List.map (always (1.0 / (scaleBy * 2.5))) indexes
         in
-            List.map4 AsteroidSvgData namelist xs ys rs
+            List.map5 AsteroidSvgData namelist indexes xs ys rs
 
 
 
@@ -97,13 +103,14 @@ prepareNameData namelist =
 
 lonelyAsteroidData : List String -> List AsteroidSvgData
 lonelyAsteroidData asteroid =
-    [ AsteroidSvgData (Maybe.withDefault "" <| List.head asteroid) 0.5 0.5 0.1 ]
+    [ AsteroidSvgData (Maybe.withDefault "" <| List.head asteroid) 0 0.5 0.5 0.1 ]
 
 
 
 {- asteroidSvg: Takes a setting, a list of asteroids, and a grid.
    calls mapValuesfromSetting to construct appropriate SVG data in AsteroidSvgData format.
-   then uses that data to build a group element composed of an svg circle and text element
+   then uses that data to build a group element composed of an svg circle and text element.
+   Padding is applied to the svg and overflow is set to visible
 -}
 
 
@@ -135,7 +142,7 @@ asteroidSvg setting asteroids ( x, y ) =
 
 
 dataGroup : AsteroidSvgData -> Grid -> Svg.Svg msg
-dataGroup { display, x, y, r } ( w, h ) =
+dataGroup { display, index, x, y, r } ( w, h ) =
     let
         xScaled =
             toString <| x * toFloat w
@@ -147,22 +154,21 @@ dataGroup { display, x, y, r } ( w, h ) =
             toString <| round <| r * toFloat w
     in
         g []
-            [ svgCircle xScaled yScaled rScaled
+            [ svgCircle index xScaled yScaled rScaled
             , svgText xScaled yScaled display
             ]
 
 
 
 {-
-   svgCircle: Takes x and y string coordinates, and radius string value
-   to construct circle shape
-   @TODO: Add random colours
+   svgCircle: Takes the asteroid index, x and y string coordinates,
+   and radius string value to construct circle shape
 -}
 
 
-svgCircle : X -> Y -> R -> Svg.Svg msg
-svgCircle x y rad =
-    circle [ fill "#dddddd", cx x, cy y, r rad ] []
+svgCircle : Int -> X -> Y -> R -> Svg.Svg msg
+svgCircle index x y rad =
+    circle [ fill <| getPastel index, cx x, cy y, r rad ] []
 
 
 
@@ -175,4 +181,4 @@ svgCircle x y rad =
 
 svgText : X -> Y -> Display -> Svg.Svg msg
 svgText xpos ypos displaytext =
-    text_ [ x xpos, y ypos, textAnchor "middle", fontSize "30%" ] [ Svg.text (displaytext) ]
+    text_ [ x xpos, y ypos, textAnchor "middle", fontSize "60%" ] [ Svg.text (displaytext) ]
