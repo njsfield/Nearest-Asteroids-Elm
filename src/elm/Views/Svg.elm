@@ -34,6 +34,14 @@ type alias Display =
     String
 
 
+type alias Grid =
+    ( Int, Int )
+
+
+type alias Coord =
+    ( String, String )
+
+
 
 {- Takes a setting and list of Asteroids. Then calls associative functions to build
    AsteroidSvgData (used to construct circle and text elements)
@@ -115,9 +123,32 @@ lonelyAsteroidData asteroid =
 -}
 
 
-asteroidSvg : Setting -> List Asteroid -> Grid -> Html Msg
-asteroidSvg setting asteroids ( x, y ) =
+buildGrid : Orientation -> Grid
+buildGrid orientation =
+    case orientation of
+        Landscape ->
+            ( 500, 200 )
+
+        Portrait ->
+            ( 100, 300 )
+
+
+coordMap : a -> a -> Orientation -> ( a, a )
+coordMap a b orientation =
+    case orientation of
+        Landscape ->
+            ( a, b )
+
+        Portrait ->
+            ( b, a )
+
+
+asteroidSvg : Setting -> List Asteroid -> Orientation -> Html Msg
+asteroidSvg setting asteroids orientation =
     let
+        ( x, y ) =
+            buildGrid orientation
+
         svgViewBox =
             "0 0 " ++ (toString x) ++ " " ++ (toString y)
 
@@ -130,7 +161,7 @@ asteroidSvg setting asteroids ( x, y ) =
         svg
             [ Attrs.class tachs.svg, Attrs.viewBox svgViewBox ]
             (List.map
-                (\item -> dataGroup item ( x, y ))
+                (\item -> dataGroup item ( x, y ) orientation)
                 values
             )
 
@@ -142,21 +173,27 @@ asteroidSvg setting asteroids ( x, y ) =
 -}
 
 
-dataGroup : AsteroidSvgData -> Grid -> Svg.Svg msg
-dataGroup { display, index, x, y, r } ( w, h ) =
+dataGroup : AsteroidSvgData -> Grid -> Orientation -> Svg.Svg msg
+dataGroup { display, index, x, y, r } ( w, h ) orientation =
     let
+        ( a, b ) =
+            coordMap w h orientation
+
         xScaled =
-            toString <| x * toFloat w
+            toString <| x * toFloat a
 
         yScaled =
-            toString <| y * toFloat h
+            toString <| y * toFloat b
 
         rScaled =
-            toString <| round <| r * toFloat w
+            toString <| round <| r * toFloat a
+
+        coords =
+            coordMap xScaled yScaled orientation
     in
         g []
-            [ svgCircle index xScaled yScaled rScaled
-            , svgText xScaled yScaled display
+            [ svgCircle index coords rScaled
+            , svgText coords display
             ]
 
 
@@ -167,9 +204,9 @@ dataGroup { display, index, x, y, r } ( w, h ) =
 -}
 
 
-svgCircle : Int -> X -> Y -> R -> Svg.Svg msg
-svgCircle index x y rad =
-    circle [ fill <| getPastel index, cx x, cy y, r rad ] []
+svgCircle : Int -> Coord -> R -> Svg.Svg msg
+svgCircle index ( a, b ) rad =
+    circle [ fill <| getPastel index, cx a, cy b, r rad ] []
 
 
 
@@ -179,11 +216,11 @@ svgCircle index x y rad =
 -}
 
 
-svgText : X -> Y -> Display -> Svg.Svg msg
-svgText xpos ypos displaytext =
+svgText : Coord -> Display -> Svg.Svg msg
+svgText ( a, b ) displaytext =
     text_
-        [ x xpos
-        , y ypos
+        [ x a
+        , y b
         , textAnchor "middle"
         , Attrs.class tachs.svgtext
         , fill tachs.svgtextcol

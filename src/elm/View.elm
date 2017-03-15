@@ -20,10 +20,10 @@ import Html.Attributes exposing (..)
 
 
 view : Model -> Html Msg
-view { setting, asteroidsErr, asteroids, date, grid } =
+view { setting, asteroidsErr, asteroids, date, orientation } =
     div [ class tachs.main ]
         [ navigation PreviousSetting setting NextSetting
         , errorHandler asteroidsErr
-        , div [ class tachs.svgcontainer ] [ asteroidSvg setting asteroids grid ]
+        , div [ class tachs.svgcontainer ] [ asteroidSvg setting asteroids orientation ]
         , h2 [ class tachs.date ] [ text date ]
         ]
