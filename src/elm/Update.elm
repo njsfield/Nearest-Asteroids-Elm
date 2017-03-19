@@ -10,6 +10,7 @@ import Helpers.FormatDate exposing (formatDate)
 import Helpers.ChangeSettings exposing (nextSetting, previousSetting)
 import Date exposing (Date)
 import Task
+import Window exposing (..)
 
 
 type Msg
@@ -17,6 +18,7 @@ type Msg
     | SetDate (Maybe Date)
     | NextSetting
     | PreviousSetting
+    | Resize Int
 
 
 
@@ -42,16 +44,40 @@ update msg model =
                 ( { model | date = newDate }, getAsteroids newDate )
 
         AsteroidRequest (Ok res) ->
-            { model | asteroids = res } ! []
+            ( { model | asteroids = res }, getWidth )
 
         AsteroidRequest (Err err) ->
-            { model | asteroidsErr = Error <| resultErrMessage model.date initialModel.date } ! []
+            ( { model | asteroidsErr = Error <| resultErrMessage model.date initialModel.date }, getWidth )
 
         NextSetting ->
             { model | setting = (nextSetting model.setting) } ! []
 
         PreviousSetting ->
             { model | setting = (nextSetting model.setting) } ! []
+
+        Resize w ->
+            setOrientation w model ! []
+
+
+
+-- getWidth : get initial width of screen
+
+
+getWidth : Cmd Msg
+getWidth =
+    Task.perform Resize width
+
+
+
+-- setOrientation : gets window width and sets orientation in model
+
+
+setOrientation : Int -> Model -> Model
+setOrientation w model =
+    if w < 500 then
+        { model | orientation = Portrait }
+    else
+        { model | orientation = Landscape }
 
 
 
@@ -190,3 +216,13 @@ floatDecode x =
 listHeadDecoder : Decoder Float -> Decoder Float
 listHeadDecoder nextDecoder =
     Json.map (\lst -> Maybe.withDefault 0 <| List.head lst) <| list nextDecoder
+
+
+
+-- SUBSCRIPTIONS
+{- get window width on resize, pass into Resize Msg -}
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Window.resizes (\{ height, width } -> Resize width)
