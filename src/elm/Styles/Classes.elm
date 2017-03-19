@@ -3,7 +3,7 @@ module Styles.Classes exposing (tachs)
 
 tachs =
     { main = "tc w-100 vh-100 flex flex-column items-center justify-center bg-dark-blue"
-    , svgcontainer = "tc dib w-30"
+    , svgcontainer = "tc dib w-80"
     , svg = "svg-p overflow-visible"
     , date = "sans-serif washed-blue tracked-mega fw3"
     , svgtext = "f60 sans-serif"

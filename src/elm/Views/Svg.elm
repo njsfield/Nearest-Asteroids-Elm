@@ -130,7 +130,7 @@ buildGrid orientation =
             ( 500, 200 )
 
         Portrait ->
-            ( 100, 300 )
+            ( 100, 150 )
 
 
 coordMap : a -> a -> Orientation -> ( a, a )
