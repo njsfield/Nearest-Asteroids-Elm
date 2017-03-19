@@ -18,18 +18,6 @@ type alias AsteroidSvgData =
     }
 
 
-type alias X =
-    String
-
-
-type alias Y =
-    String
-
-
-type alias R =
-    String
-
-
 type alias Display =
     String
 
@@ -123,18 +111,8 @@ lonelyAsteroidData asteroid =
 -}
 
 
-buildGrid : Orientation -> Grid
-buildGrid orientation =
-    case orientation of
-        Landscape ->
-            ( 500, 200 )
-
-        Portrait ->
-            ( 100, 150 )
-
-
-coordMap : a -> a -> Orientation -> ( a, a )
-coordMap a b orientation =
+orientationMap : a -> a -> Orientation -> ( a, a )
+orientationMap a b orientation =
     case orientation of
         Landscape ->
             ( a, b )
@@ -147,7 +125,12 @@ asteroidSvg : Setting -> List Asteroid -> Orientation -> Html Msg
 asteroidSvg setting asteroids orientation =
     let
         ( x, y ) =
-            buildGrid orientation
+            case orientation of
+                Landscape ->
+                    ( 150, 50 )
+
+                Portrait ->
+                    ( 100, 150 )
 
         svgViewBox =
             "0 0 " ++ (toString x) ++ " " ++ (toString y)
@@ -177,7 +160,7 @@ dataGroup : AsteroidSvgData -> Grid -> Orientation -> Svg.Svg msg
 dataGroup { display, index, x, y, r } ( w, h ) orientation =
     let
         ( a, b ) =
-            coordMap w h orientation
+            orientationMap w h orientation
 
         xScaled =
             toString <| x * toFloat a
@@ -189,7 +172,7 @@ dataGroup { display, index, x, y, r } ( w, h ) orientation =
             toString <| round <| r * toFloat a
 
         coords =
-            coordMap xScaled yScaled orientation
+            orientationMap xScaled yScaled orientation
     in
         g []
             [ svgCircle index coords rScaled
@@ -204,7 +187,7 @@ dataGroup { display, index, x, y, r } ( w, h ) orientation =
 -}
 
 
-svgCircle : Int -> Coord -> R -> Svg.Svg msg
+svgCircle : Int -> Coord -> String -> Svg.Svg msg
 svgCircle index ( a, b ) rad =
     circle [ fill <| getPastel index, cx a, cy b, r rad ] []
 
