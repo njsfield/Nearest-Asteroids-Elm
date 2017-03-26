@@ -16,6 +16,10 @@ body {
   font-size: 60%;
 }
 
-.pa-10 {
-  padding: 10%;
+.pa-5 {
+  padding: 5%;
+}
+
+.f7 {
+  font-size: .3em;
 }
