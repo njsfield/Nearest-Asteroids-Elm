@@ -4,7 +4,7 @@ body {
 
 /* Additional Helper Classes */
 
-.svg-p {
+.ma-10 {
   margin: 10%;
 }
 
@@ -16,10 +16,11 @@ body {
   font-size: 60%;
 }
 
-.pa-5 {
-  padding: 5%;
+.pv-5 {
+  padding-top: 5%;
+  padding-bottom: 5%;
 }
 
 .f7 {
-  font-size: .3em;
+  font-size: .5em;
 }
