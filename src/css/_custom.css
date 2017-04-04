@@ -1,3 +1,26 @@
 body {
   margin: 0;
 }
+
+/* Additional Helper Classes */
+
+.ma-10 {
+  margin: 10%;
+}
+
+.h-100vh {
+  height: 100vh;
+}
+
+.f60 {
+  font-size: 60%;
+}
+
+.pv-5 {
+  padding-top: 5%;
+  padding-bottom: 5%;
+}
+
+.f7 {
+  font-size: .5em;
+}

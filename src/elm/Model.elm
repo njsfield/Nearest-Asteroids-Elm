@@ -6,8 +6,9 @@ module Model exposing (..)
 type alias Model =
     { date : String
     , setting : Setting
+    , orientation : Orientation
     , asteroids : AsteroidList
-    , asteroidsErr : String
+    , asteroidsErr : ErrorMessage
     }
 
 
@@ -30,10 +31,21 @@ type Setting
     | MissDistance
 
 
+type Orientation
+    = Landscape
+    | Portrait
+
+
+type ErrorMessage
+    = Error String
+    | None
+
+
 initialModel : Model
 initialModel =
     { date = "2017-03-02"
     , setting = Name
+    , orientation = Portrait
     , asteroids =
         [ { name = "(2017 BU6)"
           , minsize = 0.0234324
@@ -41,5 +53,5 @@ initialModel =
           , missdistance = 0.342
           }
         ]
-    , asteroidsErr = ""
+    , asteroidsErr = None
     }
