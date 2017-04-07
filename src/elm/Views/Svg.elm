@@ -261,7 +261,7 @@ asteroidSvg setting asteroids orientation =
                     ( 300, 100 )
 
                 Portrait ->
-                    ( 200, 300 )
+                    ( 200, 275 )
 
         svgViewBox =
             "0 0 " ++ (toString x) ++ " " ++ (toString y)
