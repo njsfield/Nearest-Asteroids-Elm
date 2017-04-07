@@ -44,7 +44,7 @@ update msg model =
         AsteroidRequest (Ok res) ->
             ( { model | asteroids = res }, getWidth )
 
-        AsteroidRequest (Err err) ->
+        AsteroidRequest (Err _) ->
             ( { model | asteroidsErr = Error <| resultErrMessage model.date initialModel.date }, getWidth )
 
         NextSetting ->
@@ -108,7 +108,7 @@ processDateResult result =
 
 resultErrMessage : String -> String -> String
 resultErrMessage currentDate defaultDate =
-    "Unable to generate results for" ++ currentDate ++ ", here are results for" ++ defaultDate
+    "Unable to generate results for " ++ currentDate ++ ", here are results for " ++ defaultDate
 
 
 

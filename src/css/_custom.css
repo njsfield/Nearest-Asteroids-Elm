@@ -24,3 +24,37 @@ body {
 .f7 {
   font-size: .4em;
 }
+
+.w6 {
+  width: 16rem;
+}
+
+/* MIN-MAX Markers */
+
+.minmax:before, 
+.minmax:after {
+  position: absolute;
+  font-family: arial;
+  display: block;
+  color: #646464;
+}
+
+.minmax:before {
+  content: "MIN";
+  top: -2em; right: initial; bottom: initial; left: -1.2em; 
+}
+
+.minmax:after {
+  content: "MAX";
+  top: initial; right: initial; bottom: -2em; left: -1.2em; 
+}
+
+
+@media screen and (min-width: 500px) {
+
+    .minmax:before {top: initial; right: initial; bottom: -2em; left: 0;}
+
+    .minmax:after {top: initial; right: 0; bottom: -2em; left: initial;}
+
+}
+
