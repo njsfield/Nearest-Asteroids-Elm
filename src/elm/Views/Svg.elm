@@ -18,8 +18,12 @@ type alias AsteroidSvgData =
     }
 
 
-type alias Display =
+type alias Name =
     String
+
+
+type alias Unit =
+    Float
 
 
 type alias Grid =
@@ -44,8 +48,7 @@ mapValuesFromSetting setting asteroids =
             prepareNameData <| List.map .name asteroids
 
         MinSize ->
-            -- @TODO: prepareMinSizeData function
-            prepareNameData <| List.map (\x -> x.minsize |> toString) asteroids
+            prepareMinSizeData <| List.map .minsize asteroids
 
         Speed ->
             -- @TODO: prepareSpeedData function
@@ -65,7 +68,7 @@ mapValuesFromSetting setting asteroids =
 -}
 
 
-prepareNameData : List Display -> List AsteroidSvgData
+prepareNameData : List Name -> List AsteroidSvgData
 prepareNameData namelist =
     if List.length namelist == 1 then
         lonelyAsteroidData namelist
@@ -90,6 +93,46 @@ prepareNameData namelist =
                 List.map (always (1.0 / (scaleBy * 5))) indexes
         in
             List.map5 AsteroidSvgData namelist indexes xs ys rs
+
+
+
+{- prepareMinSizeData: takes a list of min size unitvalues.
+   evenly distributes x values from 0 to 1.
+   equally distributes y values as 0.5
+   distributes r values in relation to other values,
+   using scaleMinSize helper function
+   Adds an index int to each asteroid
+-}
+
+
+prepareMinSizeData : List Unit -> List AsteroidSvgData
+prepareMinSizeData unitlist =
+    if List.length unitlist == 1 then
+        lonelyAsteroidData <| List.map toString unitlist
+    else
+        let
+            unitStringList =
+                List.map toString unitlist
+
+            indexed =
+                List.indexedMap (,) unitlist
+
+            indexes =
+                List.map (\( index, _ ) -> index) indexed
+
+            scaleBy =
+                List.length unitlist - 1 |> toFloat
+
+            xs =
+                List.map (\x -> toFloat x / scaleBy) indexes
+
+            ys =
+                List.map (always 0.5) indexes
+
+            rs =
+                List.map (always (1.0 / (scaleBy * 5))) indexes
+        in
+            List.map5 AsteroidSvgData unitStringList indexes xs ys rs
 
 
 
@@ -199,7 +242,7 @@ svgCircle index ( a, b ) rad =
 -}
 
 
-svgText : Coord -> Display -> Svg.Svg msg
+svgText : Coord -> String -> Svg.Svg msg
 svgText ( a, b ) displaytext =
     text_
         [ x a
