@@ -26,9 +26,27 @@ apiKey =
 
 
 
--- nasaUrl: takes a formatted date ("YYYY-MM-DD") and returns a Url
+-- naseUrl
+
+
+nasaUrl : String
+nasaUrl =
+    "https://api.nasa.gov/neo/rest/v1/feed?start_date="
+
+
+
+-- nasaUrl (Fail)
+
+
+nasaUrlFail : String
+nasaUrlFail =
+    "fail"
+
+
+
+-- buildNasaUrl: takes a formatted date ("YYYY-MM-DD") and returns a Url
 
 
 buildNasaUrl : String -> String
 buildNasaUrl date =
-    "https://api.nasa.gov/neo/rest/v1/feed?start_date=" ++ date ++ "&api_key=" ++ apiKey
+    nasaUrlFail ++ date ++ "&api_key=" ++ apiKey
