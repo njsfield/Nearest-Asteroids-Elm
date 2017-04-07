@@ -10135,80 +10135,56 @@ var _elm_lang$window$Window$subMap = F2(
 	});
 _elm_lang$core$Native_Platform.effectManagers['Window'] = {pkg: 'elm-lang/window', init: _elm_lang$window$Window$init, onEffects: _elm_lang$window$Window$onEffects, onSelfMsg: _elm_lang$window$Window$onSelfMsg, tag: 'sub', subMap: _elm_lang$window$Window$subMap};
 
-var _user$project$Model$Model = F5(
-	function (a, b, c, d, e) {
-		return {date: a, setting: b, orientation: c, asteroids: d, asteroidsErr: e};
+var _user$project$Data$nasaUrl = 'https://api.nasa.gov/neo/rest/v1/feed?start_date=';
+var _user$project$Data$apiKey = '3NW9wqg2QvSWpj4WAFj3tTQYTK85Hj1UEqKsoRo4';
+var _user$project$Data$buildNasaUrl = function (date) {
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		_user$project$Data$nasaUrl,
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			date,
+			A2(_elm_lang$core$Basics_ops['++'], '&api_key=', _user$project$Data$apiKey)));
+};
+var _user$project$Data$neoKeys = {name: 'name', neo: 'near_earth_objects', closedate: 'close_approach_data', estdiam: 'estimated_diameter', estdiammin: 'estimated_diameter_min', rvel: 'relative_velocity', kph: 'kilometers_per_hour', miss: 'miss_distance', k: 'kilometers'};
+
+var _user$project$Types$Model = F6(
+	function (a, b, c, d, e, f) {
+		return {date: a, setting: b, orientation: c, asteroids: d, asteroidsErr: e, loading: f};
 	});
-var _user$project$Model$Asteroid = F4(
+var _user$project$Types$Asteroid = F4(
 	function (a, b, c, d) {
 		return {name: a, minsize: b, speed: c, missdistance: d};
 	});
-var _user$project$Model$MissDistance = {ctor: 'MissDistance'};
-var _user$project$Model$Speed = {ctor: 'Speed'};
-var _user$project$Model$MinSize = {ctor: 'MinSize'};
-var _user$project$Model$Name = {ctor: 'Name'};
-var _user$project$Model$Portrait = {ctor: 'Portrait'};
-var _user$project$Model$Landscape = {ctor: 'Landscape'};
-var _user$project$Model$None = {ctor: 'None'};
-var _user$project$Model$initialModel = {
-	date: '2017-03-02',
-	setting: _user$project$Model$Name,
-	orientation: _user$project$Model$Landscape,
-	asteroids: {
-		ctor: '::',
-		_0: {name: '(2017 BU6)', minsize: 2.34324e-2, speed: 0.234, missdistance: 2.3424153234e7},
-		_1: {
-			ctor: '::',
-			_0: {name: '(2013 D6)', minsize: 5.34324e-2, speed: 0.134, missdistance: 2.5142321153e7},
-			_1: {
-				ctor: '::',
-				_0: {name: '(KK 206)', minsize: 6.6624e-2, speed: 0.194, missdistance: 3.14534234251e7},
-				_1: {
-					ctor: '::',
-					_0: {name: '(210K)', minsize: 7.6624e-2, speed: 0.394, missdistance: 4.423423415321e7},
-					_1: {
-						ctor: '::',
-						_0: {name: '(2015 44)', minsize: 3.1624e-2, speed: 0.594, missdistance: 5.4234324132e7},
-						_1: {ctor: '[]'}
-					}
-				}
-			}
-		}
-	},
-	asteroidsErr: _user$project$Model$None
-};
-var _user$project$Model$Error = function (a) {
+var _user$project$Types$AsteroidSvgData = F5(
+	function (a, b, c, d, e) {
+		return {display: a, index: b, x: c, y: d, r: e};
+	});
+var _user$project$Types$MissDistance = {ctor: 'MissDistance'};
+var _user$project$Types$Speed = {ctor: 'Speed'};
+var _user$project$Types$MinSize = {ctor: 'MinSize'};
+var _user$project$Types$Name = {ctor: 'Name'};
+var _user$project$Types$Portrait = {ctor: 'Portrait'};
+var _user$project$Types$Landscape = {ctor: 'Landscape'};
+var _user$project$Types$None = {ctor: 'None'};
+var _user$project$Types$Error = function (a) {
 	return {ctor: 'Error', _0: a};
 };
 
-var _user$project$Helpers_ChangeSettings$previousSetting = function (setting) {
-	var _p0 = setting;
-	switch (_p0.ctor) {
-		case 'Name':
-			return _user$project$Model$MissDistance;
-		case 'MinSize':
-			return _user$project$Model$Name;
-		case 'Speed':
-			return _user$project$Model$MinSize;
-		default:
-			return _user$project$Model$Speed;
-	}
-};
-var _user$project$Helpers_ChangeSettings$nextSetting = function (setting) {
-	var _p1 = setting;
-	switch (_p1.ctor) {
-		case 'Name':
-			return _user$project$Model$MinSize;
-		case 'MinSize':
-			return _user$project$Model$Speed;
-		case 'Speed':
-			return _user$project$Model$MissDistance;
-		default:
-			return _user$project$Model$Name;
-	}
+var _user$project$Model$initialModel = {
+	date: '2017-03-02',
+	setting: _user$project$Types$Name,
+	orientation: _user$project$Types$Landscape,
+	asteroids: {
+		ctor: '::',
+		_0: {name: '(2017 BU6)', minsize: 2.34324e-2, speed: 0.234, missdistance: 2.3424153234e7},
+		_1: {ctor: '[]'}
+	},
+	asteroidsErr: _user$project$Types$None,
+	loading: true
 };
 
-var _user$project$Helpers_FormatDate$monthToNumString = function (month) {
+var _user$project$Utils_FormatDate$monthToNumString = function (month) {
 	var _p0 = month;
 	switch (_p0.ctor) {
 		case 'Jan':
@@ -10237,13 +10213,13 @@ var _user$project$Helpers_FormatDate$monthToNumString = function (month) {
 			return '12';
 	}
 };
-var _user$project$Helpers_FormatDate$dayToNumString = function (day) {
+var _user$project$Utils_FormatDate$dayToNumString = function (day) {
 	return (_elm_lang$core$Native_Utils.cmp(day, 10) < 0) ? A2(
 		_elm_lang$core$Basics_ops['++'],
 		'0',
 		_elm_lang$core$Basics$toString(day)) : _elm_lang$core$Basics$toString(day);
 };
-var _user$project$Helpers_FormatDate$formatDate = function (rawdate) {
+var _user$project$Utils_FormatDate$formatDate = function (rawdate) {
 	return A2(
 		_elm_lang$core$Basics_ops['++'],
 		_elm_lang$core$Basics$toString(
@@ -10253,29 +10229,43 @@ var _user$project$Helpers_FormatDate$formatDate = function (rawdate) {
 			'-',
 			A2(
 				_elm_lang$core$Basics_ops['++'],
-				_user$project$Helpers_FormatDate$monthToNumString(
+				_user$project$Utils_FormatDate$monthToNumString(
 					_elm_lang$core$Date$month(rawdate)),
 				A2(
 					_elm_lang$core$Basics_ops['++'],
 					'-',
-					_user$project$Helpers_FormatDate$dayToNumString(
+					_user$project$Utils_FormatDate$dayToNumString(
 						_elm_lang$core$Date$day(rawdate))))));
 };
 
-var _user$project$Helpers_NasaData$nasaUrl = 'https://api.nasa.gov/neo/rest/v1/feed?start_date=';
-var _user$project$Helpers_NasaData$apiKey = '3NW9wqg2QvSWpj4WAFj3tTQYTK85Hj1UEqKsoRo4';
-var _user$project$Helpers_NasaData$buildNasaUrl = function (date) {
-	return A2(
-		_elm_lang$core$Basics_ops['++'],
-		_user$project$Helpers_NasaData$nasaUrl,
-		A2(
-			_elm_lang$core$Basics_ops['++'],
-			date,
-			A2(_elm_lang$core$Basics_ops['++'], '&api_key=', _user$project$Helpers_NasaData$apiKey)));
+var _user$project$Utils_ChangeSettings$previousSetting = function (setting) {
+	var _p0 = setting;
+	switch (_p0.ctor) {
+		case 'Name':
+			return _user$project$Types$MissDistance;
+		case 'MinSize':
+			return _user$project$Types$Name;
+		case 'Speed':
+			return _user$project$Types$MinSize;
+		default:
+			return _user$project$Types$Speed;
+	}
 };
-var _user$project$Helpers_NasaData$neoKeys = {name: 'name', neo: 'near_earth_objects', closedate: 'close_approach_data', estdiam: 'estimated_diameter', estdiammin: 'estimated_diameter_min', rvel: 'relative_velocity', kph: 'kilometers_per_hour', miss: 'miss_distance', k: 'kilometers'};
+var _user$project$Utils_ChangeSettings$nextSetting = function (setting) {
+	var _p1 = setting;
+	switch (_p1.ctor) {
+		case 'Name':
+			return _user$project$Types$MinSize;
+		case 'MinSize':
+			return _user$project$Types$Speed;
+		case 'Speed':
+			return _user$project$Types$MissDistance;
+		default:
+			return _user$project$Types$Name;
+	}
+};
 
-var _user$project$Helpers_NasaDecoder$listHeadDecoder = function (nextDecoder) {
+var _user$project$Utils_NasaDecoder$listHeadDecoder = function (nextDecoder) {
 	return A2(
 		_elm_lang$core$Json_Decode$map,
 		function (lst) {
@@ -10286,7 +10276,7 @@ var _user$project$Helpers_NasaDecoder$listHeadDecoder = function (nextDecoder) {
 		},
 		_elm_lang$core$Json_Decode$list(nextDecoder));
 };
-var _user$project$Helpers_NasaDecoder$floatDecode = function (x) {
+var _user$project$Utils_NasaDecoder$floatDecode = function (x) {
 	var _p0 = _elm_lang$core$String$toFloat(x);
 	if (_p0.ctor === 'Ok') {
 		return _elm_lang$core$Json_Decode$succeed(_p0._0);
@@ -10294,67 +10284,67 @@ var _user$project$Helpers_NasaDecoder$floatDecode = function (x) {
 		return _elm_lang$core$Json_Decode$fail(_p0._0);
 	}
 };
-var _user$project$Helpers_NasaDecoder$stringToFloat = A2(_elm_lang$core$Json_Decode$andThen, _user$project$Helpers_NasaDecoder$floatDecode, _elm_lang$core$Json_Decode$string);
-var _user$project$Helpers_NasaDecoder$closeApproachDecoder = function (depthList) {
+var _user$project$Utils_NasaDecoder$stringToFloat = A2(_elm_lang$core$Json_Decode$andThen, _user$project$Utils_NasaDecoder$floatDecode, _elm_lang$core$Json_Decode$string);
+var _user$project$Utils_NasaDecoder$closeApproachDecoder = function (depthList) {
 	return A2(
 		_elm_lang$core$Json_Decode$at,
 		{
 			ctor: '::',
-			_0: _user$project$Helpers_NasaData$neoKeys.closedate,
+			_0: _user$project$Data$neoKeys.closedate,
 			_1: {ctor: '[]'}
 		},
-		_user$project$Helpers_NasaDecoder$listHeadDecoder(
-			A2(_elm_lang$core$Json_Decode$at, depthList, _user$project$Helpers_NasaDecoder$stringToFloat)));
+		_user$project$Utils_NasaDecoder$listHeadDecoder(
+			A2(_elm_lang$core$Json_Decode$at, depthList, _user$project$Utils_NasaDecoder$stringToFloat)));
 };
-var _user$project$Helpers_NasaDecoder$minsizeDecoder = A2(
+var _user$project$Utils_NasaDecoder$minsizeDecoder = A2(
 	_elm_lang$core$Json_Decode$at,
 	{
 		ctor: '::',
-		_0: _user$project$Helpers_NasaData$neoKeys.estdiam,
+		_0: _user$project$Data$neoKeys.estdiam,
 		_1: {
 			ctor: '::',
-			_0: _user$project$Helpers_NasaData$neoKeys.k,
+			_0: _user$project$Data$neoKeys.k,
 			_1: {
 				ctor: '::',
-				_0: _user$project$Helpers_NasaData$neoKeys.estdiammin,
+				_0: _user$project$Data$neoKeys.estdiammin,
 				_1: {ctor: '[]'}
 			}
 		}
 	},
 	_elm_lang$core$Json_Decode$float);
-var _user$project$Helpers_NasaDecoder$asteroidDecoder = A2(
+var _user$project$Utils_NasaDecoder$asteroidDecoder = A2(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$custom,
-	_user$project$Helpers_NasaDecoder$closeApproachDecoder(
+	_user$project$Utils_NasaDecoder$closeApproachDecoder(
 		{
 			ctor: '::',
-			_0: _user$project$Helpers_NasaData$neoKeys.miss,
+			_0: _user$project$Data$neoKeys.miss,
 			_1: {
 				ctor: '::',
-				_0: _user$project$Helpers_NasaData$neoKeys.k,
+				_0: _user$project$Data$neoKeys.k,
 				_1: {ctor: '[]'}
 			}
 		}),
 	A2(
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$custom,
-		_user$project$Helpers_NasaDecoder$closeApproachDecoder(
+		_user$project$Utils_NasaDecoder$closeApproachDecoder(
 			{
 				ctor: '::',
-				_0: _user$project$Helpers_NasaData$neoKeys.rvel,
+				_0: _user$project$Data$neoKeys.rvel,
 				_1: {
 					ctor: '::',
-					_0: _user$project$Helpers_NasaData$neoKeys.kph,
+					_0: _user$project$Data$neoKeys.kph,
 					_1: {ctor: '[]'}
 				}
 			}),
 		A2(
 			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$custom,
-			_user$project$Helpers_NasaDecoder$minsizeDecoder,
+			_user$project$Utils_NasaDecoder$minsizeDecoder,
 			A3(
 				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-				_user$project$Helpers_NasaData$neoKeys.name,
+				_user$project$Data$neoKeys.name,
 				_elm_lang$core$Json_Decode$string,
-				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Model$Asteroid)))));
-var _user$project$Helpers_NasaDecoder$firstDictList = function (dictList) {
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Types$Asteroid)))));
+var _user$project$Utils_NasaDecoder$firstDictList = function (dictList) {
 	var dictKeys = _elm_lang$core$Dict$keys(dictList);
 	var firstKey = A2(
 		_elm_lang$core$Maybe$withDefault,
@@ -10365,18 +10355,18 @@ var _user$project$Helpers_NasaDecoder$firstDictList = function (dictList) {
 		{ctor: '[]'},
 		A2(_elm_lang$core$Dict$get, firstKey, dictList));
 };
-var _user$project$Helpers_NasaDecoder$nasaDecoder = A2(
+var _user$project$Utils_NasaDecoder$nasaDecoder = A2(
 	_elm_lang$core$Json_Decode$at,
 	{
 		ctor: '::',
-		_0: _user$project$Helpers_NasaData$neoKeys.neo,
+		_0: _user$project$Data$neoKeys.neo,
 		_1: {ctor: '[]'}
 	},
 	A2(
 		_elm_lang$core$Json_Decode$map,
-		_user$project$Helpers_NasaDecoder$firstDictList,
+		_user$project$Utils_NasaDecoder$firstDictList,
 		_elm_lang$core$Json_Decode$dict(
-			_elm_lang$core$Json_Decode$list(_user$project$Helpers_NasaDecoder$asteroidDecoder))));
+			_elm_lang$core$Json_Decode$list(_user$project$Utils_NasaDecoder$asteroidDecoder))));
 
 var _user$project$Update$resultErrMessage = F2(
 	function (currentDate, defaultDate) {
@@ -10392,9 +10382,9 @@ var _user$project$Update$setOrientation = F2(
 	function (w, model) {
 		return (_elm_lang$core$Native_Utils.cmp(w, 500) < 0) ? _elm_lang$core$Native_Utils.update(
 			model,
-			{orientation: _user$project$Model$Portrait}) : _elm_lang$core$Native_Utils.update(
+			{orientation: _user$project$Types$Portrait}) : _elm_lang$core$Native_Utils.update(
 			model,
-			{orientation: _user$project$Model$Landscape});
+			{orientation: _user$project$Types$Landscape});
 	});
 var _user$project$Update$Resize = function (a) {
 	return {ctor: 'Resize', _0: a};
@@ -10431,8 +10421,8 @@ var _user$project$Update$getAsteroids = function (date) {
 		_user$project$Update$AsteroidRequest,
 		A2(
 			_elm_lang$http$Http$get,
-			_user$project$Helpers_NasaData$buildNasaUrl(date),
-			_user$project$Helpers_NasaDecoder$nasaDecoder));
+			_user$project$Data$buildNasaUrl(date),
+			_user$project$Utils_NasaDecoder$nasaDecoder));
 };
 var _user$project$Update$update = F2(
 	function (msg, model) {
@@ -10446,7 +10436,7 @@ var _user$project$Update$update = F2(
 						_1: _user$project$Update$getAsteroids(model.date)
 					};
 				} else {
-					var newDate = _user$project$Helpers_FormatDate$formatDate(_p3._0._0);
+					var newDate = _user$project$Utils_FormatDate$formatDate(_p3._0._0);
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
@@ -10461,7 +10451,7 @@ var _user$project$Update$update = F2(
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
-							{asteroids: _p3._0._0}),
+							{asteroids: _p3._0._0, loading: false}),
 						_1: _user$project$Update$getWidth
 					};
 				} else {
@@ -10470,8 +10460,9 @@ var _user$project$Update$update = F2(
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
 							{
-								asteroidsErr: _user$project$Model$Error(
-									A2(_user$project$Update$resultErrMessage, model.date, _user$project$Model$initialModel.date))
+								asteroidsErr: _user$project$Types$Error(
+									A2(_user$project$Update$resultErrMessage, model.date, _user$project$Model$initialModel.date)),
+								loading: false
 							}),
 						_1: _user$project$Update$getWidth
 					};
@@ -10482,7 +10473,7 @@ var _user$project$Update$update = F2(
 					_elm_lang$core$Native_Utils.update(
 						model,
 						{
-							setting: _user$project$Helpers_ChangeSettings$nextSetting(model.setting)
+							setting: _user$project$Utils_ChangeSettings$nextSetting(model.setting)
 						}),
 					{ctor: '[]'});
 			case 'PreviousSetting':
@@ -10491,7 +10482,7 @@ var _user$project$Update$update = F2(
 					_elm_lang$core$Native_Utils.update(
 						model,
 						{
-							setting: _user$project$Helpers_ChangeSettings$nextSetting(model.setting)
+							setting: _user$project$Utils_ChangeSettings$nextSetting(model.setting)
 						}),
 					{ctor: '[]'});
 			default:
@@ -10502,7 +10493,7 @@ var _user$project$Update$update = F2(
 		}
 	});
 
-var _user$project$Styles_Classes$tachs = {main: 'tc w-100 vh-100 flex flex-column items-center justify-center bg-dark-blue', svgcontainer: 'tc dib w-80 pv-5 mw8 ba b--washed-blue b--dotted br-0 bt-0 relative minmax', svg: 'ma-10 overflow-visible', date: 'sans-serif washed-blue tracked-mega fw3', svgtext: 'f7 sans-serif', svgtextcol: 'rgb(130,130,130)', svgasteroid: 'hovergrow', nav: 'flex justify-center', navbutton: 'bn pointer bg-transparent outline-0 washed-blue pa4 pb0 pt0', navtext: 'sans-serif w6 washed-blue tracked-mega fw3', error: 'sans-serif red'};
+var _user$project$Styles_Classes$tachs = {main: 'tc w-100 vh-100 flex flex-column items-center justify-center bg-dark-blue', svgcontainer: 'tc dib w-80 pv-5 mw8 ba b--washed-blue b--dotted br-0 bt-0 relative minmax', svg: 'ma-10 overflow-visible', date: 'sans-serif washed-blue tracked-mega fw3', svgtext: 'f7 sans-serif', svgtextcol: 'rgb(130,130,130)', svgasteroid: 'hovergrow', nav: 'flex justify-center', navbutton: 'bn pointer bg-transparent outline-0 washed-blue pa4 pb0 pt0', navtext: 'sans-serif w6 washed-blue tracked-mega fw3', error: 'sans-serif red', loading: 'sans-serif washed-blue'};
 
 var _user$project$Views_Error$errorHandler = function (errormessage) {
 	var _p0 = errormessage;
@@ -10661,6 +10652,217 @@ var _user$project$Styles_Colours$Rgb = F4(
 		return {red: a, green: b, blue: c, alpha: d};
 	});
 
+var _user$project$Utils_FormatNumbers$formatFloat = function () {
+	var tripReg = '(?=(?:\\d{3})+(?:\\.|$))';
+	var format = function (_p0) {
+		return A2(
+			_elm_lang$core$String$join,
+			',',
+			A3(
+				_elm_lang$core$Regex$split,
+				_elm_lang$core$Regex$All,
+				_elm_lang$core$Regex$regex(tripReg),
+				_p0));
+	};
+	var decReg = '(\\d+\\.\\d{2})(\\d+)';
+	var snip = A3(
+		_elm_lang$core$Regex$replace,
+		_elm_lang$core$Regex$All,
+		_elm_lang$core$Regex$regex(decReg),
+		function (_p1) {
+			var _p2 = _p1;
+			return A2(
+				_elm_lang$core$Maybe$withDefault,
+				'',
+				A2(
+					_elm_lang$core$Maybe$withDefault,
+					_elm_lang$core$Maybe$Just('String'),
+					_elm_lang$core$List$head(_p2.submatches)));
+		});
+	return function (_p3) {
+		return format(
+			snip(
+				_elm_lang$core$Basics$toString(_p3)));
+	};
+}();
+var _user$project$Utils_FormatNumbers$kmString = function (_p4) {
+	return A3(
+		_elm_lang$core$Basics$flip,
+		F2(
+			function (x, y) {
+				return A2(_elm_lang$core$Basics_ops['++'], x, y);
+			}),
+		'km',
+		_user$project$Utils_FormatNumbers$formatFloat(_p4));
+};
+var _user$project$Utils_FormatNumbers$kmsString = function (_p5) {
+	return A3(
+		_elm_lang$core$Basics$flip,
+		F2(
+			function (x, y) {
+				return A2(_elm_lang$core$Basics_ops['++'], x, y);
+			}),
+		'/s',
+		_user$project$Utils_FormatNumbers$kmString(_p5));
+};
+
+var _user$project$Utils_SvgData$normalize = function (units) {
+	if (_elm_lang$core$Native_Utils.eq(
+		_elm_lang$core$List$length(units),
+		1)) {
+		return {
+			ctor: '::',
+			_0: 0.5,
+			_1: {ctor: '[]'}
+		};
+	} else {
+		var max = A2(
+			_elm_lang$core$Maybe$withDefault,
+			1.0,
+			_elm_lang$core$List$maximum(units));
+		var min = A2(
+			_elm_lang$core$Maybe$withDefault,
+			0.0,
+			_elm_lang$core$List$minimum(units));
+		return A2(
+			_elm_lang$core$List$map,
+			function (x) {
+				return (x - min) / (max - min);
+			},
+			units);
+	}
+};
+var _user$project$Utils_SvgData$prepData = function (dataList) {
+	if (_elm_lang$core$Native_Utils.eq(
+		_elm_lang$core$List$length(dataList),
+		1)) {
+		return {
+			ctor: '_Tuple2',
+			_0: {
+				ctor: '::',
+				_0: 1,
+				_1: {ctor: '[]'}
+			},
+			_1: 2
+		};
+	} else {
+		var scaleBy = _elm_lang$core$List$length(dataList) - 1;
+		var indexes = A2(_elm_lang$core$List$range, 0, scaleBy);
+		return {
+			ctor: '_Tuple2',
+			_0: indexes,
+			_1: _elm_lang$core$Basics$toFloat(scaleBy)
+		};
+	}
+};
+var _user$project$Utils_SvgData$nameData = function (namelist) {
+	var _p0 = _user$project$Utils_SvgData$prepData(namelist);
+	var indexes = _p0._0;
+	var scaleBy = _p0._1;
+	var xs = A2(
+		_elm_lang$core$List$map,
+		function (x) {
+			return _elm_lang$core$Basics$toFloat(x) / scaleBy;
+		},
+		indexes);
+	var ys = A2(
+		_elm_lang$core$List$map,
+		_elm_lang$core$Basics$always(0.5),
+		indexes);
+	var rs = A2(
+		_elm_lang$core$List$map,
+		_elm_lang$core$Basics$always(1.0 / (scaleBy * 5)),
+		indexes);
+	return A6(_elm_lang$core$List$map5, _user$project$Types$AsteroidSvgData, namelist, indexes, xs, ys, rs);
+};
+var _user$project$Utils_SvgData$scaleData = F2(
+	function (formatter, unitlist) {
+		var rs = A2(
+			_elm_lang$core$List$map,
+			function (x) {
+				return (x * 5.0e-2) + 5.0e-2;
+			},
+			_user$project$Utils_SvgData$normalize(unitlist));
+		var _p1 = _user$project$Utils_SvgData$prepData(unitlist);
+		var indexes = _p1._0;
+		var scaleBy = _p1._1;
+		var xs = A2(
+			_elm_lang$core$List$map,
+			function (x) {
+				return _elm_lang$core$Basics$toFloat(x) / scaleBy;
+			},
+			indexes);
+		var ys = A2(
+			_elm_lang$core$List$map,
+			_elm_lang$core$Basics$always(0.5),
+			indexes);
+		var unitStringList = A2(_elm_lang$core$List$map, formatter, unitlist);
+		return A6(_elm_lang$core$List$map5, _user$project$Types$AsteroidSvgData, unitStringList, indexes, xs, ys, rs);
+	});
+var _user$project$Utils_SvgData$spreadData = F2(
+	function (formatter, unitlist) {
+		var xs = _user$project$Utils_SvgData$normalize(unitlist);
+		var _p2 = _user$project$Utils_SvgData$prepData(unitlist);
+		var indexes = _p2._0;
+		var scaleBy = _p2._1;
+		var ys = A2(
+			_elm_lang$core$List$map,
+			function (x) {
+				return _elm_lang$core$Basics$toFloat(x) / scaleBy;
+			},
+			indexes);
+		var rs = A2(
+			_elm_lang$core$List$map,
+			_elm_lang$core$Basics$always(1.0 / (scaleBy * 5)),
+			indexes);
+		var unitStringList = A2(_elm_lang$core$List$map, formatter, unitlist);
+		return A6(_elm_lang$core$List$map5, _user$project$Types$AsteroidSvgData, unitStringList, indexes, xs, ys, rs);
+	});
+var _user$project$Utils_SvgData$mapValuesFromSetting = F2(
+	function (setting, asteroids) {
+		var _p3 = setting;
+		switch (_p3.ctor) {
+			case 'Name':
+				return _user$project$Utils_SvgData$nameData(
+					A2(
+						_elm_lang$core$List$map,
+						function (_) {
+							return _.name;
+						},
+						asteroids));
+			case 'MinSize':
+				return A2(
+					_user$project$Utils_SvgData$scaleData,
+					_user$project$Utils_FormatNumbers$kmString,
+					A2(
+						_elm_lang$core$List$map,
+						function (_) {
+							return _.minsize;
+						},
+						asteroids));
+			case 'Speed':
+				return A2(
+					_user$project$Utils_SvgData$spreadData,
+					_user$project$Utils_FormatNumbers$kmsString,
+					A2(
+						_elm_lang$core$List$map,
+						function (_) {
+							return _.speed;
+						},
+						asteroids));
+			default:
+				return A2(
+					_user$project$Utils_SvgData$spreadData,
+					_user$project$Utils_FormatNumbers$kmString,
+					A2(
+						_elm_lang$core$List$map,
+						function (_) {
+							return _.missdistance;
+						},
+						asteroids));
+		}
+	});
+
 var _user$project$Views_Svg$svgText = F2(
 	function (_p0, displaytext) {
 		var _p1 = _p0;
@@ -10759,233 +10961,20 @@ var _user$project$Views_Svg$dataGroup = F3(
 				}
 			});
 	});
-var _user$project$Views_Svg$normalize = function (units) {
-	if (_elm_lang$core$Native_Utils.eq(
-		_elm_lang$core$List$length(units),
-		1)) {
-		return {
-			ctor: '::',
-			_0: 0.5,
-			_1: {ctor: '[]'}
-		};
-	} else {
-		var max = A2(
-			_elm_lang$core$Maybe$withDefault,
-			1.0,
-			_elm_lang$core$List$maximum(units));
-		var min = A2(
-			_elm_lang$core$Maybe$withDefault,
-			0.0,
-			_elm_lang$core$List$minimum(units));
-		return A2(
-			_elm_lang$core$List$map,
-			function (x) {
-				return (x - min) / (max - min);
-			},
-			units);
-	}
-};
-var _user$project$Views_Svg$prepData = function (dataList) {
-	if (_elm_lang$core$Native_Utils.eq(
-		_elm_lang$core$List$length(dataList),
-		1)) {
-		return {
-			ctor: '_Tuple2',
-			_0: {
-				ctor: '::',
-				_0: 1,
-				_1: {ctor: '[]'}
-			},
-			_1: 2
-		};
-	} else {
-		var scaleBy = _elm_lang$core$List$length(dataList) - 1;
-		var indexes = A2(_elm_lang$core$List$range, 0, scaleBy);
-		return {
-			ctor: '_Tuple2',
-			_0: indexes,
-			_1: _elm_lang$core$Basics$toFloat(scaleBy)
-		};
-	}
-};
-var _user$project$Views_Svg$formatFloat = function () {
-	var tripReg = '(?=(?:\\d{3})+(?:\\.|$))';
-	var format = function (_p10) {
-		return A2(
-			_elm_lang$core$String$join,
-			',',
-			A3(
-				_elm_lang$core$Regex$split,
-				_elm_lang$core$Regex$All,
-				_elm_lang$core$Regex$regex(tripReg),
-				_p10));
-	};
-	var decReg = '(\\d+\\.\\d{2})(\\d+)';
-	var snip = A3(
-		_elm_lang$core$Regex$replace,
-		_elm_lang$core$Regex$All,
-		_elm_lang$core$Regex$regex(decReg),
-		function (_p11) {
-			var _p12 = _p11;
-			return A2(
-				_elm_lang$core$Maybe$withDefault,
-				'',
-				A2(
-					_elm_lang$core$Maybe$withDefault,
-					_elm_lang$core$Maybe$Just('String'),
-					_elm_lang$core$List$head(_p12.submatches)));
-		});
-	return function (_p13) {
-		return format(
-			snip(
-				_elm_lang$core$Basics$toString(_p13)));
-	};
-}();
-var _user$project$Views_Svg$kmString = function (_p14) {
-	return A3(
-		_elm_lang$core$Basics$flip,
-		F2(
-			function (x, y) {
-				return A2(_elm_lang$core$Basics_ops['++'], x, y);
-			}),
-		'km',
-		_user$project$Views_Svg$formatFloat(_p14));
-};
-var _user$project$Views_Svg$kmsString = function (_p15) {
-	return A3(
-		_elm_lang$core$Basics$flip,
-		F2(
-			function (x, y) {
-				return A2(_elm_lang$core$Basics_ops['++'], x, y);
-			}),
-		'/s',
-		_user$project$Views_Svg$kmString(_p15));
-};
-var _user$project$Views_Svg$AsteroidSvgData = F5(
-	function (a, b, c, d, e) {
-		return {display: a, index: b, x: c, y: d, r: e};
-	});
-var _user$project$Views_Svg$nameData = function (namelist) {
-	var _p16 = _user$project$Views_Svg$prepData(namelist);
-	var indexes = _p16._0;
-	var scaleBy = _p16._1;
-	var xs = A2(
-		_elm_lang$core$List$map,
-		function (x) {
-			return _elm_lang$core$Basics$toFloat(x) / scaleBy;
-		},
-		indexes);
-	var ys = A2(
-		_elm_lang$core$List$map,
-		_elm_lang$core$Basics$always(0.5),
-		indexes);
-	var rs = A2(
-		_elm_lang$core$List$map,
-		_elm_lang$core$Basics$always(1.0 / (scaleBy * 5)),
-		indexes);
-	return A6(_elm_lang$core$List$map5, _user$project$Views_Svg$AsteroidSvgData, namelist, indexes, xs, ys, rs);
-};
-var _user$project$Views_Svg$scaleData = F2(
-	function (formatter, unitlist) {
-		var rs = A2(
-			_elm_lang$core$List$map,
-			function (x) {
-				return (x * 5.0e-2) + 5.0e-2;
-			},
-			_user$project$Views_Svg$normalize(unitlist));
-		var _p17 = _user$project$Views_Svg$prepData(unitlist);
-		var indexes = _p17._0;
-		var scaleBy = _p17._1;
-		var xs = A2(
-			_elm_lang$core$List$map,
-			function (x) {
-				return _elm_lang$core$Basics$toFloat(x) / scaleBy;
-			},
-			indexes);
-		var ys = A2(
-			_elm_lang$core$List$map,
-			_elm_lang$core$Basics$always(0.5),
-			indexes);
-		var unitStringList = A2(_elm_lang$core$List$map, formatter, unitlist);
-		return A6(_elm_lang$core$List$map5, _user$project$Views_Svg$AsteroidSvgData, unitStringList, indexes, xs, ys, rs);
-	});
-var _user$project$Views_Svg$spreadData = F2(
-	function (formatter, unitlist) {
-		var xs = _user$project$Views_Svg$normalize(unitlist);
-		var _p18 = _user$project$Views_Svg$prepData(unitlist);
-		var indexes = _p18._0;
-		var scaleBy = _p18._1;
-		var ys = A2(
-			_elm_lang$core$List$map,
-			function (x) {
-				return _elm_lang$core$Basics$toFloat(x) / scaleBy;
-			},
-			indexes);
-		var rs = A2(
-			_elm_lang$core$List$map,
-			_elm_lang$core$Basics$always(1.0 / (scaleBy * 5)),
-			indexes);
-		var unitStringList = A2(_elm_lang$core$List$map, formatter, unitlist);
-		return A6(_elm_lang$core$List$map5, _user$project$Views_Svg$AsteroidSvgData, unitStringList, indexes, xs, ys, rs);
-	});
-var _user$project$Views_Svg$mapValuesFromSetting = F2(
-	function (setting, asteroids) {
-		var _p19 = setting;
-		switch (_p19.ctor) {
-			case 'Name':
-				return _user$project$Views_Svg$nameData(
-					A2(
-						_elm_lang$core$List$map,
-						function (_) {
-							return _.name;
-						},
-						asteroids));
-			case 'MinSize':
-				return A2(
-					_user$project$Views_Svg$scaleData,
-					_user$project$Views_Svg$kmString,
-					A2(
-						_elm_lang$core$List$map,
-						function (_) {
-							return _.minsize;
-						},
-						asteroids));
-			case 'Speed':
-				return A2(
-					_user$project$Views_Svg$spreadData,
-					_user$project$Views_Svg$kmsString,
-					A2(
-						_elm_lang$core$List$map,
-						function (_) {
-							return _.speed;
-						},
-						asteroids));
-			default:
-				return A2(
-					_user$project$Views_Svg$spreadData,
-					_user$project$Views_Svg$kmString,
-					A2(
-						_elm_lang$core$List$map,
-						function (_) {
-							return _.missdistance;
-						},
-						asteroids));
-		}
-	});
 var _user$project$Views_Svg$asteroidSvg = F3(
 	function (setting, asteroids, orientation) {
-		var values = A2(_user$project$Views_Svg$mapValuesFromSetting, setting, asteroids);
+		var values = A2(_user$project$Utils_SvgData$mapValuesFromSetting, setting, asteroids);
 		var total = _elm_lang$core$List$length(values);
-		var _p20 = function () {
-			var _p21 = orientation;
-			if (_p21.ctor === 'Landscape') {
+		var _p10 = function () {
+			var _p11 = orientation;
+			if (_p11.ctor === 'Landscape') {
 				return {ctor: '_Tuple2', _0: 300, _1: 100};
 			} else {
 				return {ctor: '_Tuple2', _0: 200, _1: 275};
 			}
 		}();
-		var x = _p20._0;
-		var y = _p20._1;
+		var x = _p10._0;
+		var y = _p10._1;
 		var svgViewBox = A2(
 			_elm_lang$core$Basics_ops['++'],
 			'0 0 ',
@@ -11019,10 +11008,34 @@ var _user$project$Views_Svg$asteroidSvg = F3(
 				values));
 	});
 
+var _user$project$Views_Loading$loadingView = A2(
+	_elm_lang$html$Html$div,
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$class(_user$project$Styles_Classes$tachs.main),
+		_1: {ctor: '[]'}
+	},
+	{
+		ctor: '::',
+		_0: A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class(_user$project$Styles_Classes$tachs.loading),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text('loading...'),
+				_1: {ctor: '[]'}
+			}),
+		_1: {ctor: '[]'}
+	});
+
 var _user$project$View$view = function (_p0) {
 	var _p1 = _p0;
 	var _p2 = _p1.setting;
-	return A2(
+	return _elm_lang$core$Native_Utils.eq(_p1.loading, true) ? _user$project$Views_Loading$loadingView : A2(
 		_elm_lang$html$Html$div,
 		{
 			ctor: '::',

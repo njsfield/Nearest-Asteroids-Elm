@@ -1,4 +1,4 @@
-module Helpers.NasaDecoder exposing (nasaDecoder)
+module Utils.NasaDecoder exposing (nasaDecoder)
 
 import Types exposing (..)
 import Data exposing (neoKeys)

@@ -13,4 +13,5 @@ tachs =
     , navbutton = "bn pointer bg-transparent outline-0 washed-blue pa4 pb0 pt0"
     , navtext = "sans-serif w6 washed-blue tracked-mega fw3"
     , error = "sans-serif red"
+    , loading = "sans-serif washed-blue"
     }

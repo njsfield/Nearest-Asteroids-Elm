@@ -1,255 +1,13 @@
 module Views.Svg exposing (asteroidSvg)
 
-import Model exposing (..)
+import Types exposing (..)
 import Update exposing (..)
 import Html exposing (..)
 import Svg exposing (..)
 import Svg.Attributes as Attrs exposing (..)
 import Styles.Colours exposing (getPastel)
 import Styles.Classes exposing (tachs)
-import Regex exposing (HowMany(..), regex, split, replace)
-
-
-type alias AsteroidSvgData =
-    { display : String
-    , index : Int
-    , x : Float
-    , y : Float
-    , r : Float
-    }
-
-
-type alias Name =
-    String
-
-
-type alias Unit =
-    Float
-
-
-type alias Grid =
-    ( Int, Int )
-
-
-type alias Coord =
-    ( String, String )
-
-
-
-{- Takes a setting and list of Asteroids. Then calls associative functions to build
-   AsteroidSvgData (used to construct circle and text elements)
--}
-
-
-mapValuesFromSetting : Setting -> AsteroidList -> List AsteroidSvgData
-mapValuesFromSetting setting asteroids =
-    case setting of
-        Name ->
-            nameData <| List.map .name asteroids
-
-        MinSize ->
-            scaleData kmString <| List.map .minsize asteroids
-
-        Speed ->
-            spreadData kmsString <| List.map .speed asteroids
-
-        MissDistance ->
-            spreadData kmString <| List.map .missdistance asteroids
-
-
-
--- formatFloat: formats float to comma formatted string, truncated to decimal places
-
-
-formatFloat : Unit -> String
-formatFloat =
-    let
-        decReg =
-            "(\\d+\\.\\d{2})(\\d+)"
-
-        tripReg =
-            "(?=(?:\\d{3})+(?:\\.|$))"
-
-        snip =
-            replace All
-                (regex decReg)
-                (\{ submatches } ->
-                    Maybe.withDefault "" <| Maybe.withDefault (Just "String") <| List.head submatches
-                )
-
-        format =
-            split All (regex tripReg) >> String.join ","
-    in
-        toString >> snip >> format
-
-
-
--- kmString: ammends "km" to formatFloat result
-
-
-kmString : Unit -> String
-kmString =
-    formatFloat >> flip (++) "km"
-
-
-
--- kmsString: ammends "/s" to kmString result
-
-
-kmsString : Unit -> String
-kmsString =
-    kmString >> flip (++) "/s"
-
-
-
-{- prepData: Takes a list, returns a tuple
-   containing a range list based on the list total, and a scaleBy float
--}
-
-
-prepData : List a -> ( List Int, Float )
-prepData dataList =
-    if (List.length dataList == 1) then
-        ( [ 1 ], 2 )
-    else
-        let
-            scaleBy =
-                List.length dataList - 1
-
-            indexes =
-                List.range 0 scaleBy
-        in
-            ( indexes, toFloat scaleBy )
-
-
-
-{- nameData: takes a list of string name values.
-   evenly distributes x values from 0 to 1.
-   equally distributes y values as 0.5
-   equally distributes r values as 1 / (List length * 2 - 2)
-   Adds an index int to each asteroid
--}
-
-
-nameData : List Name -> List AsteroidSvgData
-nameData namelist =
-    let
-        ( indexes, scaleBy ) =
-            prepData namelist
-
-        xs =
-            List.map (\x -> toFloat x / scaleBy) indexes
-
-        ys =
-            List.map (always 0.5) indexes
-
-        rs =
-            List.map (always (1.0 / (scaleBy * 5))) indexes
-    in
-        List.map5 AsteroidSvgData namelist indexes xs ys rs
-
-
-
-{- scaleData: takes a text formatting function,
-   a list of min size unitvalues.
-   evenly distributes x values from 0 to 1.
-   equally distributes y values as 0.5
-   distributes r values in relation to other values,
-   using scaleMinSize helper function
-   Adds an index int to each asteroid
--}
-
-
-scaleData : (Unit -> String) -> List Unit -> List AsteroidSvgData
-scaleData formatter unitlist =
-    let
-        unitStringList =
-            List.map formatter unitlist
-
-        ( indexes, scaleBy ) =
-            prepData unitlist
-
-        xs =
-            List.map (\x -> toFloat x / scaleBy) indexes
-
-        ys =
-            List.map (always 0.5) indexes
-
-        rs =
-            normalize unitlist
-                |> List.map (\x -> x * 0.05 + 0.05)
-    in
-        List.map5 AsteroidSvgData unitStringList indexes xs ys rs
-
-
-
-{- spreadData: takes a text formatting function,
-   a list of min size unitvalues.
-   normalizes x values,
-   equally distrbutes y values,
-   sets r values
-   Adds an index int to each asteroid
--}
-
-
-spreadData : (Unit -> String) -> List Unit -> List AsteroidSvgData
-spreadData formatter unitlist =
-    let
-        unitStringList =
-            List.map formatter unitlist
-
-        ( indexes, scaleBy ) =
-            prepData unitlist
-
-        xs =
-            normalize unitlist
-
-        ys =
-            List.map (\x -> toFloat x / scaleBy) indexes
-
-        rs =
-            List.map (always (1.0 / (scaleBy * 5))) indexes
-    in
-        List.map5 AsteroidSvgData unitStringList indexes xs ys rs
-
-
-
-{- normalize: helper function to normalize list of
-   float values between 0 and 1
--}
-
-
-normalize : List Unit -> List Unit
-normalize units =
-    if (List.length units == 1) then
-        [ 0.5 ]
-    else
-        let
-            min =
-                Maybe.withDefault 0.0 <| List.minimum units
-
-            max =
-                Maybe.withDefault 1.0 <| List.maximum units
-        in
-            List.map (\x -> (x - min) / (max - min)) units
-
-
-
-{- asteroidSvg: Takes a setting, a list of asteroids, and a grid.
-   calls mapValuesfromSetting to construct appropriate SVG data in AsteroidSvgData format.
-   then uses that data to build a group element composed of an svg circle and text element.
-   Padding is applied to the svg and overflow is set to visible
--}
-
-
-orientationMap : a -> a -> Orientation -> ( a, a )
-orientationMap a b orientation =
-    case orientation of
-        Landscape ->
-            ( a, b )
-
-        Portrait ->
-            ( b, a )
+import Utils.SvgData exposing (..)
 
 
 asteroidSvg : Setting -> List Asteroid -> Orientation -> Html Msg
@@ -280,11 +38,14 @@ asteroidSvg setting asteroids orientation =
             )
 
 
+orientationMap : a -> a -> Orientation -> ( a, a )
+orientationMap a b orientation =
+    case orientation of
+        Landscape ->
+            ( a, b )
 
-{- dataGroup: Takes a record of AsteroidData,
-   uses it to size and position a circle shape
-   and outputs the display value into a text element
--}
+        Portrait ->
+            ( b, a )
 
 
 dataGroup : AsteroidSvgData -> Grid -> Orientation -> Svg.Svg msg
@@ -311,23 +72,9 @@ dataGroup { display, index, x, y, r } ( w, h ) orientation =
             ]
 
 
-
-{-
-   svgCircle: Takes the asteroid index, x and y string coordinates,
-   and radius string value to construct circle shape
--}
-
-
 svgCircle : Int -> Coord -> String -> Svg.Svg msg
 svgCircle index ( a, b ) rad =
     circle [ fill <| getPastel index, cx a, cy b, r rad ] []
-
-
-
-{-
-   svgText: takes x and y string coordinates, and display text string,
-   to construct text element
--}
 
 
 svgText : Coord -> String -> Svg.Svg msg

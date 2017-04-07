@@ -1,6 +1,4 @@
-module Helpers.NasaData exposing (neoKeys, buildNasaUrl)
-
--- neoKeys: matched JSON keys for shorthand purposes, used in Update
+module Data exposing (neoKeys, buildNasaUrl)
 
 
 neoKeys =
@@ -16,26 +14,14 @@ neoKeys =
     }
 
 
-
--- apiKey: Appended to the naseUrl
-
-
 apiKey : String
 apiKey =
     "3NW9wqg2QvSWpj4WAFj3tTQYTK85Hj1UEqKsoRo4"
 
 
-
--- naseUrl
-
-
 nasaUrl : String
 nasaUrl =
     "https://api.nasa.gov/neo/rest/v1/feed?start_date="
-
-
-
--- buildNasaUrl: takes a formatted date ("YYYY-MM-DD") and returns a Url
 
 
 buildNasaUrl : String -> String

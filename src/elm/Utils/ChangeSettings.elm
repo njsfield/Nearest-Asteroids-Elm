@@ -1,9 +1,6 @@
-module Helpers.ChangeSettings exposing (nextSetting, previousSetting)
+module Utils.ChangeSettings exposing (nextSetting, previousSetting)
 
-import Model exposing (..)
-
-
--- nextSetting: Called by NextSetting Msg in Update to increment setting
+import Types exposing (..)
 
 
 nextSetting : Setting -> Setting
@@ -20,10 +17,6 @@ nextSetting setting =
 
         MissDistance ->
             Name
-
-
-
--- previousSetting: Called by PreviousSetting Msg in Update to decrement setting
 
 
 previousSetting : Setting -> Setting

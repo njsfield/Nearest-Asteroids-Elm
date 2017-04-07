@@ -1,4 +1,4 @@
-module Helpers.FormatDate exposing (formatDate)
+module Utils.FormatDate exposing (formatDate)
 
 import Date exposing (Date)
 

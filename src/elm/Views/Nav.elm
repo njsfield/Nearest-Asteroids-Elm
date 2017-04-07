@@ -1,17 +1,11 @@
 module Views.Nav exposing (navigation)
 
-import Model exposing (..)
+import Types exposing (..)
 import Update exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
 import Styles.Classes exposing (tachs)
-
-
-{- viewNaviation:
-   Takes PreviousSetting (Msg), Setting (Setting) and NextSetting (Msg)
-   And outputs a UI component (with flexbox styles).
--}
 
 
 navigation : Msg -> Setting -> Msg -> Html Msg
