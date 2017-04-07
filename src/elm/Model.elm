@@ -45,7 +45,7 @@ initialModel : Model
 initialModel =
     { date = "2017-03-02"
     , setting = Name
-    , orientation = Portrait
+    , orientation = Landscape
     , asteroids =
         [ { name = "(2017 BU6)"
           , minsize = 0.0234324
