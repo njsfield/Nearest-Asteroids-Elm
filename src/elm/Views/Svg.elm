@@ -44,20 +44,20 @@ mapValuesFromSetting : Setting -> AsteroidList -> List AsteroidSvgData
 mapValuesFromSetting setting asteroids =
     case setting of
         Name ->
-            prepareNameData <| List.map .name asteroids
+            nameData <| List.map .name asteroids
 
         MinSize ->
-            prepareScaleData <| List.map .minsize asteroids
+            scaleData <| List.map .minsize asteroids
 
         Speed ->
-            prepareSpreadData <| List.map .speed asteroids
+            spreadData <| List.map .speed asteroids
 
         MissDistance ->
-            prepareSpreadData <| List.map .missdistance asteroids
+            spreadData <| List.map .missdistance asteroids
 
 
 
-{- prepareNameData: takes a list of string name values.
+{- nameData: takes a list of string name values.
    evenly distributes x values from 0 to 1.
    equally distributes y values as 0.5
    equally distributes r values as 1 / (List length * 2 - 2)
@@ -65,35 +65,32 @@ mapValuesFromSetting setting asteroids =
 -}
 
 
-prepareNameData : List Name -> List AsteroidSvgData
-prepareNameData namelist =
-    if List.length namelist == 1 then
-        lonelyAsteroidData namelist
-    else
-        let
-            indexed =
-                List.indexedMap (,) namelist
+nameData : List Name -> List AsteroidSvgData
+nameData namelist =
+    let
+        indexed =
+            List.indexedMap (,) namelist
 
-            indexes =
-                List.map (\( index, _ ) -> index) indexed
+        indexes =
+            List.map (\( index, _ ) -> index) indexed
 
-            scaleBy =
-                List.length namelist - 1 |> toFloat
+        scaleBy =
+            List.length namelist - 1 |> toFloat
 
-            xs =
-                List.map (\x -> toFloat x / scaleBy) indexes
+        xs =
+            List.map (\x -> toFloat x / scaleBy) indexes
 
-            ys =
-                List.map (always 0.5) indexes
+        ys =
+            List.map (always 0.5) indexes
 
-            rs =
-                List.map (always (1.0 / (scaleBy * 5))) indexes
-        in
-            List.map5 AsteroidSvgData namelist indexes xs ys rs
+        rs =
+            List.map (always (1.0 / (scaleBy * 5))) indexes
+    in
+        List.map5 AsteroidSvgData namelist indexes xs ys rs
 
 
 
-{- prepareScaleData: takes a list of min size unitvalues.
+{- scaleData: takes a list of min size unitvalues.
    evenly distributes x values from 0 to 1.
    equally distributes y values as 0.5
    distributes r values in relation to other values,
@@ -102,39 +99,36 @@ prepareNameData namelist =
 -}
 
 
-prepareScaleData : List Unit -> List AsteroidSvgData
-prepareScaleData unitlist =
-    if List.length unitlist == 1 then
-        lonelyAsteroidData <| List.map toString unitlist
-    else
-        let
-            unitStringList =
-                List.map toString unitlist
+scaleData : List Unit -> List AsteroidSvgData
+scaleData unitlist =
+    let
+        unitStringList =
+            List.map toString unitlist
 
-            indexed =
-                List.indexedMap (,) unitlist
+        indexed =
+            List.indexedMap (,) unitlist
 
-            indexes =
-                List.map (\( index, _ ) -> index) indexed
+        indexes =
+            List.map (\( index, _ ) -> index) indexed
 
-            scaleBy =
-                List.length unitlist - 1 |> toFloat
+        scaleBy =
+            List.length unitlist - 1 |> toFloat
 
-            xs =
-                List.map (\x -> toFloat x / scaleBy) indexes
+        xs =
+            List.map (\x -> toFloat x / scaleBy) indexes
 
-            ys =
-                List.map (always 0.5) indexes
+        ys =
+            List.map (always 0.5) indexes
 
-            rs =
-                normalize unitlist
-                    |> List.map (\x -> x * 0.05 + 0.05)
-        in
-            List.map5 AsteroidSvgData unitStringList indexes xs ys rs
+        rs =
+            normalize unitlist
+                |> List.map (\x -> x * 0.05 + 0.05)
+    in
+        List.map5 AsteroidSvgData unitStringList indexes xs ys rs
 
 
 
-{- prepareSpreadData: takes a list of min size unitvalues.
+{- spreadData: takes a list of min size unitvalues.
    normalizes x values,
    equally distrbutes y values,
    sets r values
@@ -142,34 +136,31 @@ prepareScaleData unitlist =
 -}
 
 
-prepareSpreadData : List Unit -> List AsteroidSvgData
-prepareSpreadData unitlist =
-    if List.length unitlist == 1 then
-        lonelyAsteroidData <| List.map toString unitlist
-    else
-        let
-            unitStringList =
-                List.map toString unitlist
+spreadData : List Unit -> List AsteroidSvgData
+spreadData unitlist =
+    let
+        unitStringList =
+            List.map toString unitlist
 
-            indexed =
-                List.indexedMap (,) unitlist
+        indexed =
+            List.indexedMap (,) unitlist
 
-            indexes =
-                List.map (\( index, _ ) -> index) indexed
+        indexes =
+            List.map (\( index, _ ) -> index) indexed
 
-            scaleBy =
-                List.length unitlist - 1 |> toFloat
+        scaleBy =
+            List.length unitlist - 1 |> toFloat
 
-            xs =
-                normalize unitlist
+        xs =
+            normalize unitlist
 
-            ys =
-                List.map (\x -> toFloat x / scaleBy) indexes
+        ys =
+            List.map (\x -> toFloat x / scaleBy) indexes
 
-            rs =
-                List.map (always (1.0 / (scaleBy * 5))) indexes
-        in
-            List.map5 AsteroidSvgData unitStringList indexes xs ys rs
+        rs =
+            List.map (always (1.0 / (scaleBy * 5))) indexes
+    in
+        List.map5 AsteroidSvgData unitStringList indexes xs ys rs
 
 
 
@@ -179,26 +170,15 @@ prepareSpreadData unitlist =
 
 
 normalize : List Unit -> List Unit
-normalize unitlist =
+normalize units =
     let
         min =
-            Maybe.withDefault 0.0 <| List.minimum unitlist
+            Maybe.withDefault 0.0 <| List.minimum units
 
         max =
-            Maybe.withDefault 1.0 <| List.maximum unitlist
+            Maybe.withDefault 1.0 <| List.maximum units
     in
-        List.map (\x -> (x - min) / (max - min)) unitlist
-
-
-
-{- lonelyAsteroidData: called by prepareMinSizeData, prepareSpeedData, and missDistanceData functions
-   in the event that only one asteroid list item exists.
--}
-
-
-lonelyAsteroidData : List String -> List AsteroidSvgData
-lonelyAsteroidData asteroid =
-    [ AsteroidSvgData (Maybe.withDefault "" <| List.head asteroid) 0 0.5 0.5 0.1 ]
+        List.map (\x -> (x - min) / (max - min)) units
 
 
 
