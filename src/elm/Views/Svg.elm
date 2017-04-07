@@ -7,6 +7,7 @@ import Svg exposing (..)
 import Svg.Attributes as Attrs exposing (..)
 import Styles.Colours exposing (getPastel)
 import Styles.Classes exposing (tachs)
+import Regex exposing (HowMany(..), regex, split, replace)
 
 
 type alias AsteroidSvgData =
@@ -47,28 +48,57 @@ mapValuesFromSetting setting asteroids =
             nameData <| List.map .name asteroids
 
         MinSize ->
-            scaleData sizeString <| List.map .minsize asteroids
+            scaleData kmString <| List.map .minsize asteroids
 
         Speed ->
-            spreadData speedString <| List.map .speed asteroids
+            spreadData kmsString <| List.map .speed asteroids
 
         MissDistance ->
-            spreadData missString <| List.map .missdistance asteroids
+            spreadData kmString <| List.map .missdistance asteroids
 
 
-sizeString : String -> String
-sizeString str =
-    str
+
+-- formatFloat: formats float to comma formatted string, truncated to decimal places
 
 
-speedString : String -> String
-speedString str =
-    str
+formatFloat : Unit -> String
+formatFloat =
+    let
+        decReg =
+            "(\\d+\\.\\d{2})(\\d+)"
+
+        tripReg =
+            "(?=(?:\\d{3})+(?:\\.|$))"
+
+        snip =
+            replace All
+                (regex decReg)
+                (\{ submatches } ->
+                    Maybe.withDefault "" <| Maybe.withDefault (Just "String") <| List.head submatches
+                )
+
+        format =
+            split All (regex tripReg) >> String.join ","
+    in
+        toString >> snip >> format
 
 
-missString : String -> String
-missString str =
-    str
+
+-- kmString: ammends "km" to formatFloat result
+
+
+kmString : Unit -> String
+kmString =
+    formatFloat >> flip (++) "km"
+
+
+
+-- kmsString: ammends "/s" to kmString result
+
+
+kmsString : Unit -> String
+kmsString =
+    kmString >> flip (++) "/s"
 
 
 
@@ -130,11 +160,11 @@ nameData namelist =
 -}
 
 
-scaleData : (String -> String) -> List Unit -> List AsteroidSvgData
+scaleData : (Unit -> String) -> List Unit -> List AsteroidSvgData
 scaleData formatter unitlist =
     let
         unitStringList =
-            List.map (toString >> formatter) unitlist
+            List.map formatter unitlist
 
         ( indexes, scaleBy ) =
             prepData unitlist
@@ -162,11 +192,11 @@ scaleData formatter unitlist =
 -}
 
 
-spreadData : (String -> String) -> List Unit -> List AsteroidSvgData
+spreadData : (Unit -> String) -> List Unit -> List AsteroidSvgData
 spreadData formatter unitlist =
     let
         unitStringList =
-            List.map (toString >> formatter) unitlist
+            List.map formatter unitlist
 
         ( indexes, scaleBy ) =
             prepData unitlist
