@@ -305,7 +305,7 @@ dataGroup { display, index, x, y, r } ( w, h ) orientation =
         coords =
             orientationMap xScaled yScaled orientation
     in
-        g []
+        g [ Attrs.class tachs.svgasteroid ]
             [ svgCircle index coords rScaled
             , svgText coords display
             ]

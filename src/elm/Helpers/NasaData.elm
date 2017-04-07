@@ -35,18 +35,9 @@ nasaUrl =
 
 
 
--- nasaUrl (Fail)
-
-
-nasaUrlFail : String
-nasaUrlFail =
-    "fail"
-
-
-
 -- buildNasaUrl: takes a formatted date ("YYYY-MM-DD") and returns a Url
 
 
 buildNasaUrl : String -> String
 buildNasaUrl date =
-    nasaUrlFail ++ date ++ "&api_key=" ++ apiKey
+    nasaUrl ++ date ++ "&api_key=" ++ apiKey

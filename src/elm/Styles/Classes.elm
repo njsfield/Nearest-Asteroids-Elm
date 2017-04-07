@@ -8,6 +8,7 @@ tachs =
     , date = "sans-serif washed-blue tracked-mega fw3"
     , svgtext = "f7 sans-serif"
     , svgtextcol = "rgb(130,130,130)"
+    , svgasteroid = "hovergrow"
     , nav = "flex justify-center"
     , navbutton = "bn pointer bg-transparent outline-0 washed-blue pa4 pb0 pt0"
     , navtext = "sans-serif w6 washed-blue tracked-mega fw3"

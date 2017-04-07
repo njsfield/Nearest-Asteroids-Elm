@@ -26,7 +26,13 @@ body {
 }
 
 .w6 {
-  width: 16rem;
+  width: 14rem;
+}
+
+.hovergrow:hover {
+  cursor: pointer;
+  transform-origin: 50% 50%;
+  transform: scale(2);  
 }
 
 /* MIN-MAX Markers */
