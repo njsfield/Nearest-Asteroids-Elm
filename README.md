@@ -1,8 +1,15 @@
 # Nearest Asteroids Elm
 
-A Visual Representation Of Todays Nearest Asteroids From Earth
+## Synopsis
+![Image Preview of Live Site](./preview.png)
 
-to get running locally:
+See live preview [here](https://njsfield.github.io/Nearest-Asteroids-Elm/)
+
+This app accesses NASA’s NeoWS API to retrieve nearest asteroids from earth based on today’s (or nearest days) data.
+
+## Install
+
+To get running locally:
 
 + `npm install` to install node modules
 + `npm run elm-install` to install elm packages
