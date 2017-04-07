@@ -47,13 +47,28 @@ mapValuesFromSetting setting asteroids =
             nameData <| List.map .name asteroids
 
         MinSize ->
-            scaleData <| List.map .minsize asteroids
+            scaleData sizeString <| List.map .minsize asteroids
 
         Speed ->
-            spreadData <| List.map .speed asteroids
+            spreadData speedString <| List.map .speed asteroids
 
         MissDistance ->
-            spreadData <| List.map .missdistance asteroids
+            spreadData missString <| List.map .missdistance asteroids
+
+
+sizeString : String -> String
+sizeString str =
+    str
+
+
+speedString : String -> String
+speedString str =
+    str
+
+
+missString : String -> String
+missString str =
+    str
 
 
 
@@ -105,7 +120,8 @@ nameData namelist =
 
 
 
-{- scaleData: takes a list of min size unitvalues.
+{- scaleData: takes a text formatting function,
+   a list of min size unitvalues.
    evenly distributes x values from 0 to 1.
    equally distributes y values as 0.5
    distributes r values in relation to other values,
@@ -114,11 +130,11 @@ nameData namelist =
 -}
 
 
-scaleData : List Unit -> List AsteroidSvgData
-scaleData unitlist =
+scaleData : (String -> String) -> List Unit -> List AsteroidSvgData
+scaleData formatter unitlist =
     let
         unitStringList =
-            List.map toString unitlist
+            List.map (toString >> formatter) unitlist
 
         ( indexes, scaleBy ) =
             prepData unitlist
@@ -137,7 +153,8 @@ scaleData unitlist =
 
 
 
-{- spreadData: takes a list of min size unitvalues.
+{- spreadData: takes a text formatting function,
+   a list of min size unitvalues.
    normalizes x values,
    equally distrbutes y values,
    sets r values
@@ -145,11 +162,11 @@ scaleData unitlist =
 -}
 
 
-spreadData : List Unit -> List AsteroidSvgData
-spreadData unitlist =
+spreadData : (String -> String) -> List Unit -> List AsteroidSvgData
+spreadData formatter unitlist =
     let
         unitStringList =
-            List.map toString unitlist
+            List.map (toString >> formatter) unitlist
 
         ( indexes, scaleBy ) =
             prepData unitlist
