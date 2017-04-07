@@ -130,9 +130,21 @@ prepareMinSizeData unitlist =
                 List.map (always 0.5) indexes
 
             rs =
-                List.map (always (1.0 / (scaleBy * 5))) indexes
+                scaleMinSize unitlist
         in
             List.map5 AsteroidSvgData unitStringList indexes xs ys rs
+
+
+scaleMinSize : List Unit -> List Unit
+scaleMinSize unitlist =
+    let
+        min =
+            Maybe.withDefault 0.0 <| List.minimum unitlist
+
+        max =
+            Maybe.withDefault 1.0 <| List.maximum unitlist
+    in
+        List.map (\x -> (x - min) / (max - min) |> (*) 0.05 |> (+) 0.05) unitlist
 
 
 
