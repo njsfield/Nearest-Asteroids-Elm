@@ -37,7 +37,6 @@ type alias Coord =
 
 {- Takes a setting and list of Asteroids. Then calls associative functions to build
    AsteroidSvgData (used to construct circle and text elements)
-   @TODO: build prepareMinSizeData, prepareSpeedData, and missDistanceData functions
 -}
 
 
@@ -48,15 +47,13 @@ mapValuesFromSetting setting asteroids =
             prepareNameData <| List.map .name asteroids
 
         MinSize ->
-            prepareMinSizeData <| List.map .minsize asteroids
+            prepareScaleData <| List.map .minsize asteroids
 
         Speed ->
-            -- @TODO: prepareSpeedData function
-            prepareNameData <| List.map (\x -> x.speed |> toString) asteroids
+            prepareSpreadData <| List.map .speed asteroids
 
         MissDistance ->
-            -- @TODO: missDistanceData function
-            prepareNameData <| List.map (\x -> x.missdistance |> toString) asteroids
+            prepareSpreadData <| List.map .missdistance asteroids
 
 
 
@@ -96,7 +93,7 @@ prepareNameData namelist =
 
 
 
-{- prepareMinSizeData: takes a list of min size unitvalues.
+{- prepareScaleData: takes a list of min size unitvalues.
    evenly distributes x values from 0 to 1.
    equally distributes y values as 0.5
    distributes r values in relation to other values,
@@ -105,8 +102,8 @@ prepareNameData namelist =
 -}
 
 
-prepareMinSizeData : List Unit -> List AsteroidSvgData
-prepareMinSizeData unitlist =
+prepareScaleData : List Unit -> List AsteroidSvgData
+prepareScaleData unitlist =
     if List.length unitlist == 1 then
         lonelyAsteroidData <| List.map toString unitlist
     else
@@ -132,6 +129,45 @@ prepareMinSizeData unitlist =
             rs =
                 normalize unitlist
                     |> List.map (\x -> x * 0.05 + 0.05)
+        in
+            List.map5 AsteroidSvgData unitStringList indexes xs ys rs
+
+
+
+{- prepareSpreadData: takes a list of min size unitvalues.
+   normalizes x values,
+   equally distrbutes y values,
+   sets r values
+   Adds an index int to each asteroid
+-}
+
+
+prepareSpreadData : List Unit -> List AsteroidSvgData
+prepareSpreadData unitlist =
+    if List.length unitlist == 1 then
+        lonelyAsteroidData <| List.map toString unitlist
+    else
+        let
+            unitStringList =
+                List.map toString unitlist
+
+            indexed =
+                List.indexedMap (,) unitlist
+
+            indexes =
+                List.map (\( index, _ ) -> index) indexed
+
+            scaleBy =
+                List.length unitlist - 1 |> toFloat
+
+            xs =
+                normalize unitlist
+
+            ys =
+                List.map (\x -> toFloat x / scaleBy) indexes
+
+            rs =
+                List.map (always (1.0 / (scaleBy * 5))) indexes
         in
             List.map5 AsteroidSvgData unitStringList indexes xs ys rs
 
