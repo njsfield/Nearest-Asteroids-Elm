@@ -57,6 +57,24 @@ mapValuesFromSetting setting asteroids =
 
 
 
+{- prepData: Takes a list, returns a tuple
+   containing a range list based on the list total, and a scaleBy float
+-}
+
+
+prepData : List a -> ( List Int, Float )
+prepData dataList =
+    let
+        scaleBy =
+            List.length dataList - 1
+
+        indexes =
+            List.range 0 scaleBy
+    in
+        ( indexes, toFloat scaleBy )
+
+
+
 {- nameData: takes a list of string name values.
    evenly distributes x values from 0 to 1.
    equally distributes y values as 0.5
@@ -68,14 +86,8 @@ mapValuesFromSetting setting asteroids =
 nameData : List Name -> List AsteroidSvgData
 nameData namelist =
     let
-        indexed =
-            List.indexedMap (,) namelist
-
-        indexes =
-            List.map (\( index, _ ) -> index) indexed
-
-        scaleBy =
-            List.length namelist - 1 |> toFloat
+        ( indexes, scaleBy ) =
+            prepData namelist
 
         xs =
             List.map (\x -> toFloat x / scaleBy) indexes
@@ -105,14 +117,8 @@ scaleData unitlist =
         unitStringList =
             List.map toString unitlist
 
-        indexed =
-            List.indexedMap (,) unitlist
-
-        indexes =
-            List.map (\( index, _ ) -> index) indexed
-
-        scaleBy =
-            List.length unitlist - 1 |> toFloat
+        ( indexes, scaleBy ) =
+            prepData unitlist
 
         xs =
             List.map (\x -> toFloat x / scaleBy) indexes
@@ -142,14 +148,8 @@ spreadData unitlist =
         unitStringList =
             List.map toString unitlist
 
-        indexed =
-            List.indexedMap (,) unitlist
-
-        indexes =
-            List.map (\( index, _ ) -> index) indexed
-
-        scaleBy =
-            List.length unitlist - 1 |> toFloat
+        ( indexes, scaleBy ) =
+            prepData unitlist
 
         xs =
             normalize unitlist
