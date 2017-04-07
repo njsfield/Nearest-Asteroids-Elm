@@ -1,6 +1,6 @@
 module.exports = {
   input: 'src/css/main.css',
-  output: 'public/style.min.css',
+  output: 'public/css/style.min.css',
   use: [
     'postcss-import',
     'autoprefixer',

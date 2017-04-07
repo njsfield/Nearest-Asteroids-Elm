@@ -18,9 +18,8 @@
   "scripts": {
     "elm-install": "elm-package install -y",
     "postinstall": "npm run elm-install",
-    "make": "node_modules/.bin/",
     "watch": "npm run watch:elm & npm run watch:css",
-    "watch:elm": "elm-live src/elm/Main.elm --output=public/main.js --dir=public --open --pushstate",
+    "watch:elm": "elm-live src/elm/Main.elm --output=public/js/app.js --open --pushstate",
     "watch:css": "postcss --watch --config ./postcss-config.js"
   },
   "repository": {
