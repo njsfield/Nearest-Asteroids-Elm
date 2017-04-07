@@ -49,4 +49,4 @@ nasaUrlFail =
 
 buildNasaUrl : String -> String
 buildNasaUrl date =
-    nasaUrlFail ++ date ++ "&api_key=" ++ apiKey
+    nasaUrl ++ date ++ "&api_key=" ++ apiKey

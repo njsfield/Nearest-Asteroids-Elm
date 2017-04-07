@@ -64,14 +64,17 @@ mapValuesFromSetting setting asteroids =
 
 prepData : List a -> ( List Int, Float )
 prepData dataList =
-    let
-        scaleBy =
-            List.length dataList - 1
+    if (List.length dataList == 1) then
+        ( [ 1 ], 2 )
+    else
+        let
+            scaleBy =
+                List.length dataList - 1
 
-        indexes =
-            List.range 0 scaleBy
-    in
-        ( indexes, toFloat scaleBy )
+            indexes =
+                List.range 0 scaleBy
+        in
+            ( indexes, toFloat scaleBy )
 
 
 
@@ -171,14 +174,17 @@ spreadData unitlist =
 
 normalize : List Unit -> List Unit
 normalize units =
-    let
-        min =
-            Maybe.withDefault 0.0 <| List.minimum units
+    if (List.length units == 1) then
+        [ 0.5 ]
+    else
+        let
+            min =
+                Maybe.withDefault 0.0 <| List.minimum units
 
-        max =
-            Maybe.withDefault 1.0 <| List.maximum units
-    in
-        List.map (\x -> (x - min) / (max - min)) units
+            max =
+                Maybe.withDefault 1.0 <| List.maximum units
+        in
+            List.map (\x -> (x - min) / (max - min)) units
 
 
 
