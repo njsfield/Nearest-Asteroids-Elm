@@ -22,14 +22,7 @@ formatDate rawdate =
 
 reverseDate : String -> String
 reverseDate =
-    let
-        dateReg =
-            "(\\d{4})-(\\d{2})-(\\d{2})"
-
-        resolver =
-            List.reverse >> List.map (Maybe.withDefault "") >> String.join "-"
-    in
-        replace All (regex dateReg) (\{ submatches } -> resolver submatches)
+    String.split "-" >> List.reverse >> String.join "-"
 
 
 
