@@ -11,16 +11,13 @@ formatFloat : Unit -> String
 formatFloat =
     let
         decReg =
-            "(\\d+\\.\\d{2})(\\d+)"
+            "\\d+(\\.\\d{2})?"
 
         tripReg =
             "(?=(?:\\d{3})+(?:\\.|$))"
 
-        andThenStringHead =
-            List.head >> Maybe.withDefault (Just "String") >> Maybe.withDefault ""
-
         snip =
-            replace (All) (regex decReg) (\{ submatches } -> andThenStringHead submatches)
+            find (All) (regex decReg) >> List.map .match >> List.head >> Maybe.withDefault ""
 
         format =
             split All (regex tripReg) >> String.join ","

@@ -10643,17 +10643,8 @@ var _user$project$Styles_Colours$Rgb = F4(
 	});
 
 var _user$project$Utils_FormatNumbers$formatFloat = function () {
-	var andThenStringHead = function (_p0) {
-		return A2(
-			_elm_lang$core$Maybe$withDefault,
-			'',
-			A2(
-				_elm_lang$core$Maybe$withDefault,
-				_elm_lang$core$Maybe$Just('String'),
-				_elm_lang$core$List$head(_p0)));
-	};
 	var tripReg = '(?=(?:\\d{3})+(?:\\.|$))';
-	var format = function (_p1) {
+	var format = function (_p0) {
 		return A2(
 			_elm_lang$core$String$join,
 			',',
@@ -10661,24 +10652,32 @@ var _user$project$Utils_FormatNumbers$formatFloat = function () {
 				_elm_lang$core$Regex$split,
 				_elm_lang$core$Regex$All,
 				_elm_lang$core$Regex$regex(tripReg),
-				_p1));
+				_p0));
 	};
-	var decReg = '(\\d+\\.\\d{2})(\\d+)';
-	var snip = A3(
-		_elm_lang$core$Regex$replace,
-		_elm_lang$core$Regex$All,
-		_elm_lang$core$Regex$regex(decReg),
-		function (_p2) {
-			var _p3 = _p2;
-			return andThenStringHead(_p3.submatches);
-		});
-	return function (_p4) {
+	var decReg = '\\d+(\\.\\d{2})?';
+	var snip = function (_p1) {
+		return A2(
+			_elm_lang$core$Maybe$withDefault,
+			'',
+			_elm_lang$core$List$head(
+				A2(
+					_elm_lang$core$List$map,
+					function (_) {
+						return _.match;
+					},
+					A3(
+						_elm_lang$core$Regex$find,
+						_elm_lang$core$Regex$All,
+						_elm_lang$core$Regex$regex(decReg),
+						_p1))));
+	};
+	return function (_p2) {
 		return format(
 			snip(
-				_elm_lang$core$Basics$toString(_p4)));
+				_elm_lang$core$Basics$toString(_p2)));
 	};
 }();
-var _user$project$Utils_FormatNumbers$kmString = function (_p5) {
+var _user$project$Utils_FormatNumbers$kmString = function (_p3) {
 	return A3(
 		_elm_lang$core$Basics$flip,
 		F2(
@@ -10686,9 +10685,9 @@ var _user$project$Utils_FormatNumbers$kmString = function (_p5) {
 				return A2(_elm_lang$core$Basics_ops['++'], x, y);
 			}),
 		'km',
-		_user$project$Utils_FormatNumbers$formatFloat(_p5));
+		_user$project$Utils_FormatNumbers$formatFloat(_p3));
 };
-var _user$project$Utils_FormatNumbers$kmsString = function (_p6) {
+var _user$project$Utils_FormatNumbers$kmsString = function (_p4) {
 	return A3(
 		_elm_lang$core$Basics$flip,
 		F2(
@@ -10696,7 +10695,7 @@ var _user$project$Utils_FormatNumbers$kmsString = function (_p6) {
 				return A2(_elm_lang$core$Basics_ops['++'], x, y);
 			}),
 		'/s',
-		_user$project$Utils_FormatNumbers$kmString(_p6));
+		_user$project$Utils_FormatNumbers$kmString(_p4));
 };
 
 var _user$project$Utils_SvgData$normalize = function (units) {
