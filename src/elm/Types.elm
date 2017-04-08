@@ -1,5 +1,7 @@
 module Types exposing (..)
 
+-- Model
+
 
 type alias Model =
     { date : String
@@ -38,6 +40,10 @@ type Orientation
 type ErrorMessage
     = Error String
     | None
+
+
+
+-- SVG Model
 
 
 type alias AsteroidSvgData =

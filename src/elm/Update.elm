@@ -1,7 +1,6 @@
 module Update exposing (..)
 
 import Types exposing (..)
-import Model exposing (..)
 import Data exposing (neoKeys, buildNasaUrl)
 import Utils.FormatDate exposing (formatDate)
 import Utils.ChangeSettings exposing (nextSetting, previousSetting)
@@ -37,7 +36,7 @@ update msg model =
             ( { model | asteroids = res, loading = False }, getWidth )
 
         AsteroidRequest (Err _) ->
-            ( { model | asteroidsErr = Error <| resultErrMessage model.date initialModel.date, loading = False }, getWidth )
+            ( { model | asteroidsErr = Error <| resultErrMessage model.date, loading = False }, getWidth )
 
         NextSetting ->
             { model | setting = (nextSetting model.setting) } ! []
@@ -77,9 +76,9 @@ processDateResult result =
             SetDate Nothing
 
 
-resultErrMessage : String -> String -> String
-resultErrMessage currentDate defaultDate =
-    "Unable to generate results for " ++ currentDate ++ ", here are results for " ++ defaultDate
+resultErrMessage : String -> String
+resultErrMessage currentDate =
+    "Unable to generate results for " ++ currentDate ++ ", displaying example data"
 
 
 getAsteroids : String -> Cmd Msg

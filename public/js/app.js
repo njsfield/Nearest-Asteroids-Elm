@@ -10171,19 +10171,6 @@ var _user$project$Types$Error = function (a) {
 	return {ctor: 'Error', _0: a};
 };
 
-var _user$project$Model$initialModel = {
-	date: '2017-03-02',
-	setting: _user$project$Types$Name,
-	orientation: _user$project$Types$Landscape,
-	asteroids: {
-		ctor: '::',
-		_0: {name: '(2017 BU6)', minsize: 2.34324e-2, speed: 0.234, missdistance: 2.3424153234e7},
-		_1: {ctor: '[]'}
-	},
-	asteroidsErr: _user$project$Types$None,
-	loading: true
-};
-
 var _user$project$Utils_FormatDate$monthToNumString = function (month) {
 	var _p0 = month;
 	switch (_p0.ctor) {
@@ -10368,16 +10355,12 @@ var _user$project$Utils_NasaDecoder$nasaDecoder = A2(
 		_elm_lang$core$Json_Decode$dict(
 			_elm_lang$core$Json_Decode$list(_user$project$Utils_NasaDecoder$asteroidDecoder))));
 
-var _user$project$Update$resultErrMessage = F2(
-	function (currentDate, defaultDate) {
-		return A2(
-			_elm_lang$core$Basics_ops['++'],
-			'Unable to generate results for ',
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				currentDate,
-				A2(_elm_lang$core$Basics_ops['++'], ', here are results for ', defaultDate)));
-	});
+var _user$project$Update$resultErrMessage = function (currentDate) {
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		'Unable to generate results for ',
+		A2(_elm_lang$core$Basics_ops['++'], currentDate, ', displaying example data'));
+};
 var _user$project$Update$setOrientation = F2(
 	function (w, model) {
 		return (_elm_lang$core$Native_Utils.cmp(w, 500) < 0) ? _elm_lang$core$Native_Utils.update(
@@ -10461,7 +10444,7 @@ var _user$project$Update$update = F2(
 							model,
 							{
 								asteroidsErr: _user$project$Types$Error(
-									A2(_user$project$Update$resultErrMessage, model.date, _user$project$Model$initialModel.date)),
+									_user$project$Update$resultErrMessage(model.date)),
 								loading: false
 							}),
 						_1: _user$project$Update$getWidth
@@ -11083,10 +11066,22 @@ var _user$project$View$view = function (_p0) {
 		});
 };
 
+var _user$project$Main$initialModel = {
+	date: '2017-03-02',
+	setting: _user$project$Types$Name,
+	orientation: _user$project$Types$Landscape,
+	asteroids: {
+		ctor: '::',
+		_0: {name: '(2017 BU6)', minsize: 2.34324e-2, speed: 0.234, missdistance: 2.3424153234e7},
+		_1: {ctor: '[]'}
+	},
+	asteroidsErr: _user$project$Types$None,
+	loading: true
+};
 var _user$project$Main$main = _elm_lang$html$Html$program(
 	{
 		update: _user$project$Update$update,
-		init: {ctor: '_Tuple2', _0: _user$project$Model$initialModel, _1: _user$project$Update$now},
+		init: {ctor: '_Tuple2', _0: _user$project$Main$initialModel, _1: _user$project$Update$now},
 		view: _user$project$View$view,
 		subscriptions: _user$project$Update$subscriptions
 	})();
