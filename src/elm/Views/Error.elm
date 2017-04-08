@@ -1,7 +1,6 @@
 module Views.Error exposing (errorHandler)
 
 import Types exposing (..)
-import Update exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Styles.Classes exposing (tachs)

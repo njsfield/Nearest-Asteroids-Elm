@@ -32,12 +32,12 @@ body {
 .hovergrow:hover {
   cursor: pointer;
   transform-origin: 50% 50%;
-  transform: scale(2);  
+  transform: scale(2);
 }
 
 /* MIN-MAX Markers */
 
-.minmax:before, 
+.minmax:before,
 .minmax:after {
   position: absolute;
   font-family: arial;
@@ -47,20 +47,35 @@ body {
 
 .minmax:before {
   content: "MIN";
-  top: -2em; right: initial; bottom: initial; left: -1.2em; 
+  top: -2em; right: initial; bottom: initial; left: -1.2em;
 }
+  @media screen and (min-width: 500px) {
+      .minmax:before {top: initial; right: initial; bottom: -2em; left: 0;}
+  }
 
 .minmax:after {
   content: "MAX";
-  top: initial; right: initial; bottom: -2em; left: -1.2em; 
+  top: initial; right: initial; bottom: -2em; left: -1.2em;
+}
+  @media screen and (min-width: 500px) {
+      .minmax:after {top: initial; right: 0; bottom: -2em; left: initial;}
+  }
+
+/* Loading Dots */
+
+.loadingdots {
+  position: absolute;
+  bottom: 0;
+  right: -.06em;
+  color: white;
+  display: inline-block;
+  width: 0em;
+  animation-name: widthgrow;
+  animation-duration: 1s;
+  animation-direction: reverse;
+  animation-iteration-count: infinite;
 }
 
-
-@media screen and (min-width: 500px) {
-
-    .minmax:before {top: initial; right: initial; bottom: -2em; left: 0;}
-
-    .minmax:after {top: initial; right: 0; bottom: -2em; left: initial;}
-
+@keyframes widthgrow {
+  100% {width: 1em;}
 }
-

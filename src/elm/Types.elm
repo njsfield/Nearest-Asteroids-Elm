@@ -1,5 +1,21 @@
 module Types exposing (..)
 
+import Http exposing (..)
+import Date exposing (Date)
+
+
+-- Msg
+
+
+type Msg
+    = AsteroidRequest (Result Http.Error AsteroidList)
+    | SetDate (Maybe Date)
+    | NextSetting
+    | PreviousSetting
+    | Resize Int
+
+
+
 -- Model
 
 

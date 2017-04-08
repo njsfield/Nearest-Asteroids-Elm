@@ -6,8 +6,14 @@ import Html.Attributes exposing (..)
 import Styles.Classes exposing (tachs)
 
 
-loadingView : Html msg
+-- loadingView: loading class provides ellipsis animation
+
+
+loadingView : Html Msg
 loadingView =
     div [ class tachs.main ]
-        [ div [ class tachs.loading ] [ text "loading..." ]
+        [ div [ class tachs.loading ]
+            [ text "loading"
+            , span [ class tachs.loadingdots ] [ text "..." ]
+            ]
         ]

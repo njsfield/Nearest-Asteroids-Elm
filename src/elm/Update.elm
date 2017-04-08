@@ -11,14 +11,6 @@ import Task
 import Window exposing (..)
 
 
-type Msg
-    = AsteroidRequest (Result Http.Error AsteroidList)
-    | SetDate (Maybe Date)
-    | NextSetting
-    | PreviousSetting
-    | Resize Int
-
-
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of

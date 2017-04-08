@@ -10160,6 +10160,17 @@ var _user$project$Types$AsteroidSvgData = F5(
 	function (a, b, c, d, e) {
 		return {display: a, index: b, x: c, y: d, r: e};
 	});
+var _user$project$Types$Resize = function (a) {
+	return {ctor: 'Resize', _0: a};
+};
+var _user$project$Types$PreviousSetting = {ctor: 'PreviousSetting'};
+var _user$project$Types$NextSetting = {ctor: 'NextSetting'};
+var _user$project$Types$SetDate = function (a) {
+	return {ctor: 'SetDate', _0: a};
+};
+var _user$project$Types$AsteroidRequest = function (a) {
+	return {ctor: 'AsteroidRequest', _0: a};
+};
 var _user$project$Types$MissDistance = {ctor: 'MissDistance'};
 var _user$project$Types$Speed = {ctor: 'Speed'};
 var _user$project$Types$MinSize = {ctor: 'MinSize'};
@@ -10355,12 +10366,38 @@ var _user$project$Utils_NasaDecoder$nasaDecoder = A2(
 		_elm_lang$core$Json_Decode$dict(
 			_elm_lang$core$Json_Decode$list(_user$project$Utils_NasaDecoder$asteroidDecoder))));
 
+var _user$project$Update$subscriptions = function (model) {
+	return _elm_lang$window$Window$resizes(
+		function (_p0) {
+			var _p1 = _p0;
+			return _user$project$Types$Resize(_p1.width);
+		});
+};
+var _user$project$Update$getAsteroids = function (date) {
+	return A2(
+		_elm_lang$http$Http$send,
+		_user$project$Types$AsteroidRequest,
+		A2(
+			_elm_lang$http$Http$get,
+			_user$project$Data$buildNasaUrl(date),
+			_user$project$Utils_NasaDecoder$nasaDecoder));
+};
 var _user$project$Update$resultErrMessage = function (currentDate) {
 	return A2(
 		_elm_lang$core$Basics_ops['++'],
 		'Unable to generate results for ',
 		A2(_elm_lang$core$Basics_ops['++'], currentDate, ', displaying example data'));
 };
+var _user$project$Update$processDateResult = function (result) {
+	var _p2 = result;
+	if (_p2.ctor === 'Ok') {
+		return _user$project$Types$SetDate(
+			_elm_lang$core$Maybe$Just(_p2._0));
+	} else {
+		return _user$project$Types$SetDate(_elm_lang$core$Maybe$Nothing);
+	}
+};
+var _user$project$Update$now = A2(_elm_lang$core$Task$attempt, _user$project$Update$processDateResult, _elm_lang$core$Date$now);
 var _user$project$Update$setOrientation = F2(
 	function (w, model) {
 		return (_elm_lang$core$Native_Utils.cmp(w, 500) < 0) ? _elm_lang$core$Native_Utils.update(
@@ -10369,44 +10406,7 @@ var _user$project$Update$setOrientation = F2(
 			model,
 			{orientation: _user$project$Types$Landscape});
 	});
-var _user$project$Update$Resize = function (a) {
-	return {ctor: 'Resize', _0: a};
-};
-var _user$project$Update$getWidth = A2(_elm_lang$core$Task$perform, _user$project$Update$Resize, _elm_lang$window$Window$width);
-var _user$project$Update$subscriptions = function (model) {
-	return _elm_lang$window$Window$resizes(
-		function (_p0) {
-			var _p1 = _p0;
-			return _user$project$Update$Resize(_p1.width);
-		});
-};
-var _user$project$Update$PreviousSetting = {ctor: 'PreviousSetting'};
-var _user$project$Update$NextSetting = {ctor: 'NextSetting'};
-var _user$project$Update$SetDate = function (a) {
-	return {ctor: 'SetDate', _0: a};
-};
-var _user$project$Update$processDateResult = function (result) {
-	var _p2 = result;
-	if (_p2.ctor === 'Ok') {
-		return _user$project$Update$SetDate(
-			_elm_lang$core$Maybe$Just(_p2._0));
-	} else {
-		return _user$project$Update$SetDate(_elm_lang$core$Maybe$Nothing);
-	}
-};
-var _user$project$Update$now = A2(_elm_lang$core$Task$attempt, _user$project$Update$processDateResult, _elm_lang$core$Date$now);
-var _user$project$Update$AsteroidRequest = function (a) {
-	return {ctor: 'AsteroidRequest', _0: a};
-};
-var _user$project$Update$getAsteroids = function (date) {
-	return A2(
-		_elm_lang$http$Http$send,
-		_user$project$Update$AsteroidRequest,
-		A2(
-			_elm_lang$http$Http$get,
-			_user$project$Data$buildNasaUrl(date),
-			_user$project$Utils_NasaDecoder$nasaDecoder));
-};
+var _user$project$Update$getWidth = A2(_elm_lang$core$Task$perform, _user$project$Types$Resize, _elm_lang$window$Window$width);
 var _user$project$Update$update = F2(
 	function (msg, model) {
 		var _p3 = msg;
@@ -10476,7 +10476,7 @@ var _user$project$Update$update = F2(
 		}
 	});
 
-var _user$project$Styles_Classes$tachs = {main: 'tc w-100 vh-100 flex flex-column items-center justify-center bg-dark-blue', svgcontainer: 'tc dib w-80 pv-5 mw8 ba b--washed-blue b--dotted br-0 bt-0 relative minmax', svg: 'ma-10 overflow-visible', date: 'sans-serif washed-blue tracked-mega fw3', svgtext: 'f7 sans-serif', svgtextcol: 'rgb(130,130,130)', svgasteroid: 'hovergrow', nav: 'flex justify-center', navbutton: 'bn pointer bg-transparent outline-0 washed-blue pa4 pb0 pt0', navtext: 'sans-serif w6 washed-blue tracked-mega pb2 fw3', error: 'sans-serif red', loading: 'sans-serif washed-blue'};
+var _user$project$Styles_Classes$tachs = {main: 'tc w-100 vh-100 flex flex-column items-center justify-center bg-dark-blue', svgcontainer: 'tc dib w-80 pv-5 mw8 ba b--washed-blue b--dotted br-0 bt-0 relative minmax', svg: 'ma-10 overflow-visible', date: 'sans-serif washed-blue tracked-mega fw3', svgtext: 'f7 sans-serif', svgtextcol: 'rgb(130,130,130)', svgasteroid: 'hovergrow', nav: 'flex justify-center', navbutton: 'bn pointer bg-transparent outline-0 washed-blue pa4 pb0 pt0', navtext: 'sans-serif w6 washed-blue tracked-mega pb2 fw3', error: 'sans-serif red', loading: 'sans-serif washed-blue relative', loadingdots: 'loadingdots'};
 
 var _user$project$Views_Error$errorHandler = function (errormessage) {
 	var _p0 = errormessage;
@@ -11009,61 +11009,30 @@ var _user$project$Views_Loading$loadingView = A2(
 			},
 			{
 				ctor: '::',
-				_0: _elm_lang$html$Html$text('loading...'),
-				_1: {ctor: '[]'}
+				_0: _elm_lang$html$Html$text('loading'),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$span,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class(_user$project$Styles_Classes$tachs.loadingdots),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('...'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
 			}),
 		_1: {ctor: '[]'}
 	});
 
 var _user$project$View$view = function (_p0) {
 	var _p1 = _p0;
-	var _p2 = _p1.setting;
-	return _elm_lang$core$Native_Utils.eq(_p1.loading, true) ? _user$project$Views_Loading$loadingView : A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class(_user$project$Styles_Classes$tachs.main),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A3(_user$project$Views_Nav$navigation, _user$project$Update$PreviousSetting, _p2, _user$project$Update$NextSetting),
-			_1: {
-				ctor: '::',
-				_0: _user$project$Views_Error$errorHandler(_p1.asteroidsErr),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$div,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class(_user$project$Styles_Classes$tachs.svgcontainer),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: A3(_user$project$Views_Svg$asteroidSvg, _p2, _p1.asteroids, _p1.orientation),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$h2,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class(_user$project$Styles_Classes$tachs.date),
-								_1: {ctor: '[]'}
-							},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text(_p1.date),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					}
-				}
-			}
-		});
+	return _user$project$Views_Loading$loadingView;
 };
 
 var _user$project$Main$initialModel = {
