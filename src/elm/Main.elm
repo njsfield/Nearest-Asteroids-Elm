@@ -6,6 +6,9 @@ import View exposing (..)
 import Html exposing (..)
 
 
+-- initialModel: Defaults on data/HTTP error.
+
+
 initialModel : Model
 initialModel =
     { date = "2017-03-02"
@@ -21,6 +24,10 @@ initialModel =
     , asteroidsErr = None
     , loading = True
     }
+
+
+
+-- main: The 'now' Cmd Msg initiates Update.
 
 
 main : Program Never Model Msg

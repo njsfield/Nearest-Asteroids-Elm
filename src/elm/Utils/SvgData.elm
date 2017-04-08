@@ -4,6 +4,9 @@ import Types exposing (..)
 import Utils.FormatNumbers exposing (..)
 
 
+-- mapValuesFromSetting: Coordinates what gets built to the AsteroidSvgData list.
+
+
 mapValuesFromSetting : Setting -> AsteroidList -> List AsteroidSvgData
 mapValuesFromSetting setting asteroids =
     case setting of
@@ -20,6 +23,10 @@ mapValuesFromSetting setting asteroids =
             spreadData kmString <| List.map .missdistance asteroids
 
 
+
+-- prepData: Provides a scaling value and a range list (used by all data functions).
+
+
 prepData : List a -> ( List Int, Float )
 prepData dataList =
     if (List.length dataList == 1) then
@@ -33,6 +40,10 @@ prepData dataList =
                 List.range 0 scaleBy
         in
             ( indexes, toFloat scaleBy )
+
+
+
+-- nameData: List (x: evenly spread acress, y: always 0.5, r: always same size relative to list total).
 
 
 nameData : List Name -> List AsteroidSvgData
@@ -51,6 +62,10 @@ nameData namelist =
             List.map (always (1.0 / (scaleBy * 5))) indexes
     in
         List.map5 AsteroidSvgData namelist indexes xs ys rs
+
+
+
+-- scaleData: List (x: evenly spread acress, y: always 0.5, r: noramlized to size units).
 
 
 scaleData : (Unit -> String) -> List Unit -> List AsteroidSvgData
@@ -75,6 +90,10 @@ scaleData formatter unitlist =
         List.map5 AsteroidSvgData unitStringList indexes xs ys rs
 
 
+
+-- spreadData: List (x: normalized against units, y: evenly spread, r: always same size relative to list total).
+
+
 spreadData : (Unit -> String) -> List Unit -> List AsteroidSvgData
 spreadData formatter unitlist =
     let
@@ -94,6 +113,10 @@ spreadData formatter unitlist =
             List.map (always (1.0 / (scaleBy * 5))) indexes
     in
         List.map5 AsteroidSvgData unitStringList indexes xs ys rs
+
+
+
+-- normalize: [1, 3, 12, 9] -> [ 0, 0.18, 1, 0.72 ] (between 0 & 1)
 
 
 normalize : List Unit -> List Unit

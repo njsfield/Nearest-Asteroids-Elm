@@ -1,5 +1,7 @@
 module Styles.Classes exposing (tachs)
 
+-- tachs: Tachyon classes composed for each HTML component.
+
 
 tachs =
     { main = "tc w-100 vh-100 flex flex-column items-center justify-center bg-dark-blue"

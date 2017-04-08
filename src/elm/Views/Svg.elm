@@ -10,6 +10,9 @@ import Styles.Classes exposing (tachs)
 import Utils.SvgData exposing (..)
 
 
+-- asteroidSvg: Build AsteroidSvgData lists from model, map to SVG coordinates.
+
+
 asteroidSvg : Setting -> List Asteroid -> Orientation -> Html Msg
 asteroidSvg setting asteroids orientation =
     let
@@ -38,6 +41,10 @@ asteroidSvg setting asteroids orientation =
             )
 
 
+
+-- orientationMap: Helper to flip X & Y values.
+
+
 orientationMap : a -> a -> Orientation -> ( a, a )
 orientationMap a b orientation =
     case orientation of
@@ -46,6 +53,10 @@ orientationMap a b orientation =
 
         Portrait ->
             ( b, a )
+
+
+
+-- datGroup: Scale AsteroidData, map to svg circles and add text elements to a g element.
 
 
 dataGroup : AsteroidSvgData -> Grid -> Orientation -> Svg.Svg msg
@@ -72,9 +83,17 @@ dataGroup { display, index, x, y, r } ( w, h ) orientation =
             ]
 
 
+
+-- svgCricle: Picks pastel color and maps x y and r values.
+
+
 svgCircle : Int -> Coord -> String -> Svg.Svg msg
 svgCircle index ( a, b ) rad =
     circle [ fill <| getPastel index, cx a, cy b, r rad ] []
+
+
+
+-- svgText: Displays Setting values, color retrieved from tach Classes.
 
 
 svgText : Coord -> String -> Svg.Svg msg

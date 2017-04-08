@@ -6,7 +6,7 @@ import Html.Attributes exposing (..)
 import Styles.Classes exposing (tachs)
 
 
--- loadingView: loading class provides ellipsis animation
+-- loadingView: Loading class provides ellipsis animation.
 
 
 loadingView : Html Msg

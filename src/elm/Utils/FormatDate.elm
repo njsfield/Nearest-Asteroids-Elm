@@ -3,6 +3,9 @@ module Utils.FormatDate exposing (formatDate)
 import Date exposing (Date)
 
 
+-- formatDate: Compose date for nase url query.
+
+
 formatDate : Date.Date -> String
 formatDate rawdate =
     (toString <| Date.year rawdate)
@@ -12,12 +15,20 @@ formatDate rawdate =
         ++ (dayToNumString (Date.day rawdate))
 
 
+
+-- dayToNumString: Pads zeros to day.
+
+
 dayToNumString : Int -> String
 dayToNumString day =
     if (day < 10) then
         "0" ++ toString day
     else
         toString day
+
+
+
+-- monthToNumString: Maps Date types to string integers.
 
 
 monthToNumString : Date.Month -> String

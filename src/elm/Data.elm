@@ -1,6 +1,6 @@
 module Data exposing (neoKeys, buildNasaUrl)
 
--- neoKeys: JSON Access Keys
+-- neoKeys: JSON Access Keys.
 
 
 neoKeys =
@@ -17,7 +17,7 @@ neoKeys =
 
 
 
--- apikey: Limited to 1000 searches per day
+-- apikey: Limited to 1000 searches per day.
 
 
 apiKey : String
@@ -26,7 +26,7 @@ apiKey =
 
 
 
--- nasaUrl: API allows for start date query
+-- nasaUrl: API allows for start date query.
 
 
 nasaUrl : String
@@ -35,7 +35,7 @@ nasaUrl =
 
 
 
--- buildNasaUrl: Called at runtime by Update
+-- buildNasaUrl: Called at runtime by Update.
 
 
 buildNasaUrl : String -> String

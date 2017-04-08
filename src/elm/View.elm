@@ -11,6 +11,9 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 
 
+-- view: Displays loading view before date & http requests resolved, then displays main app.
+
+
 view : Model -> Html Msg
 view { setting, asteroidsErr, asteroids, date, orientation, loading } =
     if (loading == True) then

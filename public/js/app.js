@@ -11032,7 +11032,53 @@ var _user$project$Views_Loading$loadingView = A2(
 
 var _user$project$View$view = function (_p0) {
 	var _p1 = _p0;
-	return _user$project$Views_Loading$loadingView;
+	var _p2 = _p1.setting;
+	return _elm_lang$core$Native_Utils.eq(_p1.loading, true) ? _user$project$Views_Loading$loadingView : A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class(_user$project$Styles_Classes$tachs.main),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A3(_user$project$Views_Nav$navigation, _user$project$Types$PreviousSetting, _p2, _user$project$Types$NextSetting),
+			_1: {
+				ctor: '::',
+				_0: _user$project$Views_Error$errorHandler(_p1.asteroidsErr),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class(_user$project$Styles_Classes$tachs.svgcontainer),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: A3(_user$project$Views_Svg$asteroidSvg, _p2, _p1.asteroids, _p1.orientation),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$h2,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class(_user$project$Styles_Classes$tachs.date),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(_p1.date),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
+				}
+			}
+		});
 };
 
 var _user$project$Main$initialModel = {

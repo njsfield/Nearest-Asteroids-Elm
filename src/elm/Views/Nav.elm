@@ -8,6 +8,9 @@ import Html.Events exposing (onClick)
 import Styles.Classes exposing (tachs)
 
 
+-- navigation: Map Msg to string display, provide onClick handlers for UI arrows.
+
+
 navigation : Msg -> Setting -> Msg -> Html Msg
 navigation prevSettingMsg setting nextSettingMsg =
     let

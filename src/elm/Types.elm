@@ -59,7 +59,7 @@ type ErrorMessage
 
 
 
--- SVG Model
+-- Svg Model
 
 
 type alias AsteroidSvgData =

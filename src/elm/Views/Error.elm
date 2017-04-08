@@ -6,6 +6,9 @@ import Html.Attributes exposing (..)
 import Styles.Classes exposing (tachs)
 
 
+-- errorHandler: Displayed under Setting in nav if present.
+
+
 errorHandler : ErrorMessage -> Html Msg
 errorHandler errormessage =
     case errormessage of

@@ -6,6 +6,9 @@ import Array exposing (..)
 import Maybe exposing (withDefault)
 
 
+-- Types
+
+
 type alias Swatches =
     Array RgbString
 
@@ -18,6 +21,10 @@ type alias Rgb =
     { red : Int, green : Int, blue : Int, alpha : Float }
 
 
+
+-- buildSwatches: Make HSL swatch array to index later.
+
+
 buildSwatches : Int -> Float -> Float -> Swatches
 buildSwatches total s l =
     List.range 0 total
@@ -25,6 +32,10 @@ buildSwatches total s l =
         |> List.map (\x -> hsl (degrees x) s l)
         |> List.map (\x -> rgbToString <| toRgb x)
         |> fromList
+
+
+
+-- rgbToString: Formatted for svg elements.
 
 
 rgbToString : Rgb -> String
@@ -38,9 +49,17 @@ rgbToString { red, blue, green } =
         ++ ")"
 
 
+
+-- pastelSwatches: 14 soft, low saturation colours.
+
+
 pastelSwatches : Swatches
 pastelSwatches =
     buildSwatches 14 0.7 0.9
+
+
+
+-- getPastel: Retrieve rgb colour from pastelSwatches array.
 
 
 getPastel : Int -> String

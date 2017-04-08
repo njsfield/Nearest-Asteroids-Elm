@@ -4,6 +4,9 @@ import Regex exposing (..)
 import Types exposing (..)
 
 
+-- formatFloat: 13424123.453453 -> 13,424,123.45
+
+
 formatFloat : Unit -> String
 formatFloat =
     let
@@ -26,9 +29,17 @@ formatFloat =
         toString >> snip >> format
 
 
+
+-- kmString: 13424123.453453 -> 13,424,123.45km
+
+
 kmString : Unit -> String
 kmString =
     formatFloat >> flip (++) "km"
+
+
+
+-- kmsString: 13424123.453453 -> 13,424,123.45km/s
 
 
 kmsString : Unit -> String
