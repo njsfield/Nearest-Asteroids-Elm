@@ -16,12 +16,11 @@ formatFloat =
         tripReg =
             "(?=(?:\\d{3})+(?:\\.|$))"
 
+        andThenStringHead =
+            List.head >> Maybe.withDefault (Just "String") >> Maybe.withDefault ""
+
         snip =
-            replace All
-                (regex decReg)
-                (\{ submatches } ->
-                    Maybe.withDefault "" <| Maybe.withDefault (Just "String") <| List.head submatches
-                )
+            replace (All) (regex decReg) (\{ submatches } -> andThenStringHead submatches)
 
         format =
             split All (regex tripReg) >> String.join ","
