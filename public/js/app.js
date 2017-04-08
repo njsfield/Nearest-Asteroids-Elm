@@ -10217,6 +10217,26 @@ var _user$project$Utils_FormatDate$dayToNumString = function (day) {
 		'0',
 		_elm_lang$core$Basics$toString(day)) : _elm_lang$core$Basics$toString(day);
 };
+var _user$project$Utils_FormatDate$reverseDate = function () {
+	var resolver = function (_p1) {
+		return A2(
+			_elm_lang$core$String$join,
+			'-',
+			A2(
+				_elm_lang$core$List$map,
+				_elm_lang$core$Maybe$withDefault(''),
+				_elm_lang$core$List$reverse(_p1)));
+	};
+	var dateReg = '(\\d{4})-(\\d{2})-(\\d{2})';
+	return A3(
+		_elm_lang$core$Regex$replace,
+		_elm_lang$core$Regex$All,
+		_elm_lang$core$Regex$regex(dateReg),
+		function (_p2) {
+			var _p3 = _p2;
+			return resolver(_p3.submatches);
+		});
+}();
 var _user$project$Utils_FormatDate$formatDate = function (rawdate) {
 	return A2(
 		_elm_lang$core$Basics_ops['++'],
@@ -11071,7 +11091,8 @@ var _user$project$View$view = function (_p0) {
 							},
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html$text(_p1.date),
+								_0: _elm_lang$html$Html$text(
+									_user$project$Utils_FormatDate$reverseDate(_p1.date)),
 								_1: {ctor: '[]'}
 							}),
 						_1: {ctor: '[]'}

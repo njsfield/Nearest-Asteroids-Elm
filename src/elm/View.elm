@@ -7,6 +7,7 @@ import Views.Nav exposing (navigation)
 import Views.Svg exposing (asteroidSvg)
 import Views.Loading exposing (loadingView)
 import Styles.Classes exposing (..)
+import Utils.FormatDate exposing (reverseDate)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
@@ -23,5 +24,5 @@ view { setting, asteroidsErr, asteroids, date, orientation, loading } =
             [ navigation PreviousSetting setting NextSetting
             , errorHandler asteroidsErr
             , div [ class tachs.svgcontainer ] [ asteroidSvg setting asteroids orientation ]
-            , h2 [ class tachs.date ] [ text date ]
+            , h2 [ class tachs.date ] [ text <| reverseDate date ]
             ]

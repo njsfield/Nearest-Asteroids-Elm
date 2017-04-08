@@ -1,6 +1,7 @@
-module Utils.FormatDate exposing (formatDate)
+module Utils.FormatDate exposing (formatDate, reverseDate)
 
 import Date exposing (Date)
+import Regex exposing (..)
 
 
 -- formatDate: Compose date for nase url query.
@@ -13,6 +14,22 @@ formatDate rawdate =
         ++ (monthToNumString (Date.month rawdate))
         ++ "-"
         ++ (dayToNumString (Date.day rawdate))
+
+
+
+-- reverseDate: reverse a previously string formatted date
+
+
+reverseDate : String -> String
+reverseDate =
+    let
+        dateReg =
+            "(\\d{4})-(\\d{2})-(\\d{2})"
+
+        resolver =
+            List.reverse >> List.map (Maybe.withDefault "") >> String.join "-"
+    in
+        replace All (regex dateReg) (\{ submatches } -> resolver submatches)
 
 
 
