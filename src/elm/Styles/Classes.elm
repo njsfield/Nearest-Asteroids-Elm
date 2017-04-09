@@ -1,11 +1,14 @@
-module Styles.Classes exposing (tachs)
+module Styles.Classes exposing (..)
+
+import Types exposing (..)
+
 
 -- tachs: Tachyon classes composed for each HTML component.
 
 
 tachs =
     { main = "tc w-100 vh-100 flex flex-column items-center justify-center bg-dark-blue"
-    , svgcontainer = "tc dib w-80 pv-5 mw8 ba b--washed-blue b--dotted br-0 bt-0 relative minmax"
+    , svgcontainer = "tc dib w-80 pv-5 mw8 relative minmax"
     , svg = "ma-10 overflow-visible"
     , date = "sans-serif washed-blue tracked-mega fw3"
     , svgtext = "f7 sans-serif"
@@ -18,3 +21,17 @@ tachs =
     , loading = "sans-serif washed-blue relative"
     , loadingdots = "loadingdots"
     }
+
+
+
+-- scaleSwitch: hide scale if Name displayed in view
+
+
+scaleSwitch : Setting -> String
+scaleSwitch setting =
+    case setting of
+        Name ->
+            " scaleoff"
+
+        _ ->
+            " scaleon"

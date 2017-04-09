@@ -37,7 +37,7 @@ update msg model =
             { model | setting = (nextSetting model.setting) } ! []
 
         PreviousSetting ->
-            { model | setting = (nextSetting model.setting) } ! []
+            { model | setting = (previousSetting model.setting) } ! []
 
         Resize w ->
             setOrientation w model ! []

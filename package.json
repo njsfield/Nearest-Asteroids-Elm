@@ -20,7 +20,7 @@
     "postinstall": "npm run elm-install",
     "watch": "npm run watch:elm & npm run watch:css",
     "make": "npm run make:elm & npm run watch:css",
-    "watch:elm": "elm-live src/elm/Main.elm --output=public/js/app.js --open --pushstate",
+    "watch:elm": "elm-live src/elm/Main.elm --output=public/js/app.js --debug --open --pushstate",
     "watch:css": "postcss --watch --config ./postcss-config.js",
     "make:elm": "elm-make src/elm/Main.elm --output=public/js/app.js --warn"
   },

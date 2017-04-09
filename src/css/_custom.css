@@ -38,12 +38,19 @@ body {
 
 /* MIN-MAX Markers */
 
+.minmax {
+  border-left: 1px dotted white;
+  border-bottom: 1px dotted white;
+  transition: all .3s ease;
+  border-opacity: 0;
+}
+
 .minmax:before,
 .minmax:after {
   position: absolute;
   font-family: arial;
   display: block;
-  color: #646464;
+  color: rgba(0,0,0,0);
 }
 
 .minmax:before {
@@ -61,6 +68,22 @@ body {
   @media screen and (min-width: 500px) {
       .minmax:after {top: initial; right: 0; bottom: -2em; left: initial;}
   }
+
+/* scaleSwitch */
+
+.scaleon {
+  border-color: rgba(240,240,240,1); 
+}
+
+.scaleon.minmax:before,
+.scaleon.minmax:after { color: #646464}
+
+.scaleoff {
+  border-color: rgba(0,0,0,0) 
+}
+
+.scaleoff.minmax:before,
+.scaleoff.minmax:after { color: rgba(0,0,0,0)}
 
 
 /* Loading Dots (animation) */

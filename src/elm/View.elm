@@ -23,6 +23,6 @@ view { setting, asteroidsErr, asteroids, date, orientation, loading } =
         div [ class tachs.main ]
             [ navigation PreviousSetting setting NextSetting
             , errorHandler asteroidsErr
-            , div [ class tachs.svgcontainer ] [ asteroidSvg setting asteroids orientation ]
+            , div [ class <| tachs.svgcontainer ++ (scaleSwitch setting) ] [ asteroidSvg setting asteroids orientation ]
             , h2 [ class tachs.date ] [ text <| reverseDate date ]
             ]
