@@ -28,7 +28,7 @@ type alias Rgb =
 buildSwatches : Int -> Float -> Float -> Swatches
 buildSwatches total s l =
     List.range 0 total
-        |> List.map (\x -> x * (360 // total) |> toFloat)
+        |> List.map (\x -> x * (360 // total * 2) |> toFloat)
         |> List.map (\x -> hsl (degrees x) s l)
         |> List.map (\x -> rgbToString <| toRgb x)
         |> fromList
@@ -55,7 +55,7 @@ rgbToString { red, blue, green } =
 
 pastelSwatches : Swatches
 pastelSwatches =
-    buildSwatches 14 0.7 0.9
+    buildSwatches 14 0.7 0.8
 
 
 

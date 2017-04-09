@@ -14593,11 +14593,11 @@ var _user$project$Styles_Colours$buildSwatches = F3(
 					A2(
 						_elm_lang$core$List$map,
 						function (x) {
-							return _elm_lang$core$Basics$toFloat(x * ((360 / total) | 0));
+							return _elm_lang$core$Basics$toFloat(x * (((360 / total) | 0) * 2));
 						},
 						A2(_elm_lang$core$List$range, 0, total)))));
 	});
-var _user$project$Styles_Colours$pastelSwatches = A3(_user$project$Styles_Colours$buildSwatches, 14, 0.7, 0.9);
+var _user$project$Styles_Colours$pastelSwatches = A3(_user$project$Styles_Colours$buildSwatches, 14, 0.7, 0.8);
 var _user$project$Styles_Colours$getPastel = function (index) {
 	return A2(
 		_elm_lang$core$Maybe$withDefault,
