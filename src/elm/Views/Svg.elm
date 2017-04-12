@@ -19,7 +19,7 @@ asteroidSvg setting asteroids orientation =
         ( x, y ) =
             case orientation of
                 Landscape ->
-                    ( 300, 100 )
+                    ( 300, 75 )
 
                 Portrait ->
                     ( 200, 275 )
@@ -72,7 +72,7 @@ dataGroup { display, index, x, y, r } ( w, h ) orientation =
             toString <| y * toFloat b
 
         rScaled =
-            toString <| round <| r * toFloat a
+            toString <| Basics.min 35 <| round <| r * toFloat a
 
         coords =
             orientationMap xScaled yScaled orientation

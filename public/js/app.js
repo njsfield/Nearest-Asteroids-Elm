@@ -10942,8 +10942,11 @@ var _user$project$Views_Svg$dataGroup = F3(
 			_p7.y * _elm_lang$core$Basics$toFloat(b));
 		var coords = A3(_user$project$Views_Svg$orientationMap, xScaled, yScaled, orientation);
 		var rScaled = _elm_lang$core$Basics$toString(
-			_elm_lang$core$Basics$round(
-				_p7.r * _elm_lang$core$Basics$toFloat(a)));
+			A2(
+				_elm_lang$core$Basics$min,
+				35,
+				_elm_lang$core$Basics$round(
+					_p7.r * _elm_lang$core$Basics$toFloat(a))));
 		return A2(
 			_elm_lang$svg$Svg$g,
 			{
@@ -10968,7 +10971,7 @@ var _user$project$Views_Svg$asteroidSvg = F3(
 		var _p10 = function () {
 			var _p11 = orientation;
 			if (_p11.ctor === 'Landscape') {
-				return {ctor: '_Tuple2', _0: 300, _1: 100};
+				return {ctor: '_Tuple2', _0: 300, _1: 75};
 			} else {
 				return {ctor: '_Tuple2', _0: 200, _1: 275};
 			}
