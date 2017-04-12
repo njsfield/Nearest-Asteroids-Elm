@@ -10944,7 +10944,7 @@ var _user$project$Views_Svg$dataGroup = F3(
 		var rScaled = _elm_lang$core$Basics$toString(
 			A2(
 				_elm_lang$core$Basics$min,
-				35,
+				25,
 				_elm_lang$core$Basics$round(
 					_p7.r * _elm_lang$core$Basics$toFloat(a))));
 		return A2(
