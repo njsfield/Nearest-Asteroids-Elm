@@ -10771,7 +10771,7 @@ var _user$project$Utils_SvgData$nameData = function (namelist) {
 		indexes);
 	var rs = A2(
 		_elm_lang$core$List$map,
-		_elm_lang$core$Basics$always(1.0 / (scaleBy * 5)),
+		_elm_lang$core$Basics$always(7.0e-2),
 		indexes);
 	return A6(_elm_lang$core$List$map5, _user$project$Types$AsteroidSvgData, namelist, indexes, xs, ys, rs);
 };
@@ -10813,7 +10813,7 @@ var _user$project$Utils_SvgData$spreadData = F2(
 			indexes);
 		var rs = A2(
 			_elm_lang$core$List$map,
-			_elm_lang$core$Basics$always(1.0 / (scaleBy * 5)),
+			_elm_lang$core$Basics$always(5.0e-2),
 			indexes);
 		var unitStringList = A2(_elm_lang$core$List$map, formatter, unitlist);
 		return A6(_elm_lang$core$List$map5, _user$project$Types$AsteroidSvgData, unitStringList, indexes, xs, ys, rs);
@@ -10942,11 +10942,8 @@ var _user$project$Views_Svg$dataGroup = F3(
 			_p7.y * _elm_lang$core$Basics$toFloat(b));
 		var coords = A3(_user$project$Views_Svg$orientationMap, xScaled, yScaled, orientation);
 		var rScaled = _elm_lang$core$Basics$toString(
-			A2(
-				_elm_lang$core$Basics$min,
-				25,
-				_elm_lang$core$Basics$round(
-					_p7.r * _elm_lang$core$Basics$toFloat(a))));
+			_elm_lang$core$Basics$round(
+				_p7.r * _elm_lang$core$Basics$toFloat(a)));
 		return A2(
 			_elm_lang$svg$Svg$g,
 			{

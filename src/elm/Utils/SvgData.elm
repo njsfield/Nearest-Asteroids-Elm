@@ -59,7 +59,7 @@ nameData namelist =
             List.map (always 0.5) indexes
 
         rs =
-            List.map (always (1.0 / (scaleBy * 5))) indexes
+            List.map (always 0.07) indexes
     in
         List.map5 AsteroidSvgData namelist indexes xs ys rs
 
@@ -110,7 +110,7 @@ spreadData formatter unitlist =
             List.map (\x -> toFloat x / scaleBy) indexes
 
         rs =
-            List.map (always (1.0 / (scaleBy * 5))) indexes
+            List.map (always 0.05) indexes
     in
         List.map5 AsteroidSvgData unitStringList indexes xs ys rs
 

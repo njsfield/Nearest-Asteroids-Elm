@@ -72,7 +72,7 @@ dataGroup { display, index, x, y, r } ( w, h ) orientation =
             toString <| y * toFloat b
 
         rScaled =
-            toString <| Basics.min 25 <| round <| r * toFloat a
+            toString <| round <| r * toFloat a
 
         coords =
             orientationMap xScaled yScaled orientation
